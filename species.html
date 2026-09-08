@@ -15,9 +15,9 @@
 <script src="shrimpina-sample-register.js?v=20260907-2"></script>
 <script src="shrimpina-research-data.js?v=20260907-3"></script>
 <script src="shrimpina-inat-media.js?v=20260907-2"></script>
-<script src="shrimpina-photo-library.js?v=20260902-1"></script>
-<script src="shrimpina-species-data.js?v=20260908-1"></script>
-<script src="profile-render.js?v=20260908-1"></script>
+<script src="shrimpina-photo-library.js?v=20260908-2"></script>
+<script src="shrimpina-species-data.js?v=20260908-2"></script>
+<script src="profile-render.js?v=20260908-2"></script>
 <script src="inat.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
@@ -106,7 +106,7 @@
   }
 </style>
 <link rel="stylesheet" href="exhibit.css?v=20260902-2">
-<link rel="stylesheet" href="shrimpina-record.css?v=20260908-2">
+<link rel="stylesheet" href="shrimpina-record.css?v=20260908-3">
 <link rel="stylesheet" href="shrimpina-research.css?v=20260907-10">
 <link rel="stylesheet" href="site-index.css?v=20260908-2">
 <script src="vendor/gsap/gsap.min.js"></script>
@@ -147,12 +147,19 @@ let s = requestedSample ? { ...(speciesTemplate || fallbackRecord) } : ALL_SPECI
 if (requestedSample && s) {
   const useExactStudy = exactSampleRecord && exactSampleRecord.code === requestedSample.code;
   const sampleMorphologyViews = typeof SHRIMPINA_SAMPLE_MORPHOLOGY !== 'undefined' ? SHRIMPINA_SAMPLE_MORPHOLOGY[requestedSample.code] : undefined;
-  const photos = useExactStudy && exactSampleRecord.photos?.length ? exactSampleRecord.photos : (requestedMedia?.photo ? [requestedMedia.photo] : (s.photos || []));
+  // A profile may inherit species-level writing and taxonomy, but never another
+  // specimen's photographs. Use only media tied to the requested SSAJ code.
+  const photos = useExactStudy && exactSampleRecord.photos?.length
+    ? exactSampleRecord.photos
+    : (requestedMedia?.photo ? [requestedMedia.photo] : []);
+  const photoLabels = useExactStudy && exactSampleRecord.photoLabels?.length
+    ? exactSampleRecord.photoLabels
+    : (requestedMedia?.photo ? ['iNaturalist observation'] : []);
   s = {
     ...s, id:requestedSample.code.toLowerCase(), code:requestedSample.code, sampleNumbers:[requestedSample.number], groupProject:'shrimpina',
     common:cleanSpecimenName(requestedSample.common), sci:requestedSample.sci,
     lat:requestedSample.site.includes('Woodneck') ? 41.5885 : 41.5958, lng:requestedSample.site.includes('Woodneck') ? -70.6462 : -70.6438,
-    photos, heroPhoto:photos[0] || s.heroPhoto, morphologyViews:sampleMorphologyViews || (useExactStudy ? exactSampleRecord.morphologyViews : undefined),
+    photos, photoLabels, heroPhoto:photos[0] || '', morphologyViews:sampleMorphologyViews || (useExactStudy ? exactSampleRecord.morphologyViews : undefined),
     refs:[`Shrimpina specimen register, ${requestedSample.code}, ${requestedSample.date}.`, ...(s.refs || []).filter(ref => !ref.includes('Shrimpina specimen'))]
   };
 }

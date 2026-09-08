@@ -99,9 +99,9 @@ const SHRIMPINA_SPECIES = [
     id:'ssaj35', code:'SSAJ35', sampleNumbers:[35], group:'crab', phylumKey:'arthropoda-crustacea', groupProject:'shrimpina',
     common:'Atlantic Blue Crab', sci:'Callinectes sapidus', phylum:'Arthropoda', cls:'Malacostraca', order:'Decapoda', family:'Portunidae', status:'Native', lat:41.5885, lng:-70.6462,
     morph:'A broad blue-green carapace with a long spine at each side, bright blue claws, and flattened paddle-shaped rear legs used for swimming.', eco:SHRIMPINA_REPORTS.blueCrab[2], ecologyReport:SHRIMPINA_REPORTS.blueCrab,
-    photos:['assets/shrimpina-specimens/ssaj34-atlantic-blue-crab.jpg'], heroPhoto:'assets/shrimpina-specimens/ssaj34-atlantic-blue-crab.jpg', pop:[['2026',1]], refs:['Shrimpina specimen log, SSAJ35, 2026.','NOAA Fisheries species profile: Blue Crab.']
+    photos:['assets/shrimpina-specimens/ssaj35-atlantic-blue-crab.jpg'], heroPhoto:'assets/shrimpina-specimens/ssaj35-atlantic-blue-crab.jpg', pop:[['2026',1]], refs:['Shrimpina specimen log, SSAJ35, 2026.','NOAA Fisheries species profile: Blue Crab.']
   },
-  {...SHRIMPINA_GREEN_CRAB, id:'ssaj34', code:'SSAJ34', sampleNumbers:[34], groupProject:'shrimpina', photos:['assets/shrimpina-specimens/ssaj35-european-green-crab.jpg'], heroPhoto:'assets/shrimpina-specimens/ssaj35-european-green-crab.jpg', pop:[['2026',1]], refs:['Shrimpina specimen log, SSAJ34, 2026.','Smithsonian NEMESIS species summary: Carcinus maenas.']},
+  {...SHRIMPINA_GREEN_CRAB, id:'ssaj34', code:'SSAJ34', sampleNumbers:[34], groupProject:'shrimpina', photos:['assets/shrimpina-specimens/ssaj34-european-green-crab.jpg'], heroPhoto:'assets/shrimpina-specimens/ssaj34-european-green-crab.jpg', pop:[['2026',1]], refs:['Shrimpina specimen log, SSAJ34, 2026.','Smithsonian NEMESIS species summary: Carcinus maenas.']},
   {
     id:'ssaj53', code:'SSAJ53', sampleNumbers:[53], group:'crab', phylumKey:'arthropoda-crustacea', groupProject:'shrimpina',
     common:'Longnose Spider Crab', sci:'Libinia dubia', phylum:'Arthropoda', cls:'Malacostraca', order:'Decapoda', family:'Epialtidae', status:'Native', lat:41.5958, lng:-70.6438,
@@ -195,14 +195,6 @@ SHRIMPINA_PHOTO_LIBRARY.forEach(entry => {
   record.photoLabels = entry.photos.map(photo => photo.label);
   record.heroPhoto = record.photos[0];
 });
-
-const SHRIMPINA_LADY_74 = SHRIMPINA_PHOTO_LIBRARY.find(entry => entry.sample === 'SSAJ74');
-if (SHRIMPINA_LADY_74 && !SHRIMPINA_SPECIES.some(species => species.code === 'SSAJ74')) {
-  const template = SHRIMPINA_PHOTO_TEMPLATES['Ocellate Lady Crab'];
-  SHRIMPINA_SPECIES.push({ ...template, id:'ssaj74', code:'SSAJ74', sampleNumbers:[74], callouts:undefined,
-    photos:SHRIMPINA_LADY_74.photos.map(photo => photo.src), photoLabels:SHRIMPINA_LADY_74.photos.map(photo => photo.label), heroPhoto:SHRIMPINA_LADY_74.photos[0].src,
-    refs:['Shrimpina photograph archive, SSAJ74, 2026.', ...(template.refs || []).slice(1)] });
-}
 
 const SHRIMPINA_LADY_33 = SHRIMPINA_SPECIES.find(species => species.code === 'SSAJ33');
 if (SHRIMPINA_LADY_33) {

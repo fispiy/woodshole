@@ -36,6 +36,7 @@ function loadConst(filename, name, context = {}) {
 }
 
 const register = loadConst('shrimpina-sample-register.js', 'SHRIMPINA_SAMPLE_REGISTER');
+const photoLibrary = loadConst('shrimpina-photo-library.js', 'SHRIMPINA_PHOTO_LIBRARY');
 const researchPath = path.join(root, 'shrimpina-research-data.js');
 const research = loadConst('shrimpina-research-data.js', 'SHRIMPINA_RESEARCH', {
   document:{ currentScript:{ src:pathToFileURL(researchPath).href } }
@@ -103,6 +104,24 @@ for (const item of mapManifest.records) {
   }
 }
 
+// Field photographs must remain specimen-specific. Species prose and taxonomy
+// may be shared, but an SSAJ profile must never inherit another record's media.
+for (const entry of photoLibrary) {
+  const exactSample = /^SSAJ\d+$/.test(entry.sample);
+  for (const photo of entry.photos) {
+    const filepath = path.join(root, photo.src);
+    check(fs.existsSync(filepath) && fs.statSync(filepath).size > 0, `${entry.sample}: missing field photograph ${photo.src}`);
+    if (exactSample) {
+      check(photo.src.toLowerCase().includes(`/${entry.sample.toLowerCase()}/`), `${entry.sample}: photograph belongs to a different specimen path: ${photo.src}`);
+    }
+    if (fs.existsSync(filepath)) {
+      const dimensions = imageDimensions(filepath);
+      check(dimensions.width > 0 && dimensions.height > 0, `${entry.sample}: unreadable field photograph ${photo.src}`);
+    }
+  }
+}
+check(!photoLibrary.some(entry => entry.sample === 'SSAJ74'), 'SSAJ74 must not use the rejected contact-sheet image as a specimen photograph');
+
 const film = research.researchMedia?.marshFilm;
 check(Boolean(film), 'Missing marsh film data');
 for (const mediaPath of [film?.src, film?.poster].filter(Boolean)) {
@@ -153,6 +172,9 @@ for (const filename of ['groups/shrimpina.html','journal.html','conditions.html'
 }
 const profileSource = fs.readFileSync(path.join(root, 'profile-render.js'), 'utf8');
 check(profileSource.includes('researchGuideHref(s)'), 'Specimen morphology is missing its Research Guide link');
+const specimenPageSource = fs.readFileSync(path.join(root, 'species.html'), 'utf8');
+check(!specimenPageSource.includes(': (s.photos || [])'), 'Specimen profiles can still inherit another record’s species-level photographs');
+check(specimenPageSource.includes("heroPhoto:photos[0] || ''"), 'Specimen profiles can still inherit another record’s hero photograph');
 
 if (failures.length) {
   console.error(`Shrimpina verification failed (${failures.length}):`);

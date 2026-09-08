@@ -209,10 +209,13 @@ function initMorphologyViewer(root, s) {
 
 function buildProfileHero(s) {
   if (s.morphologyViews && s.morphologyViews.length) return renderMorphologyViewer(s);
+  if (!s.heroPhoto) return `<div class="profile-photo-unavailable" role="status">
+    <span>Specimen media · ${s.code}</span>
+    <strong>No verified specimen photograph is available.</strong>
+    <p>This record remains in the archive without borrowing imagery from another specimen.</p>
+  </div>`;
   return `
-    ${s.heroPhoto
-      ? `<image-slot id="hero-${s.id}" shape="rect" src="${s.heroPhoto}" style="width:100%;height:100%"></image-slot>`
-      : `<image-slot id="hero-${s.id}" shape="rect" placeholder="Drop the labeled morphology photo" style="width:100%;height:100%"></image-slot>`}
+    <image-slot id="hero-${s.id}" shape="rect" src="${s.heroPhoto}" style="width:100%;height:100%"></image-slot>
     <span class="tape tl"></span><span class="tape tr"></span>
     ${s.groupProject === 'shrimpina' ? '' : renderCallouts(s)}
   `;

@@ -53,6 +53,11 @@ body.shrimpina-record-page{
 .shrimpina-record-page .profile-hero{box-sizing:border-box;width:calc(100% - 64px);height:min(56vw,660px);min-height:440px;margin:0 auto;overflow:hidden;background:#351b25}
 .shrimpina-record-page .profile-hero image-slot img{object-fit:contain!important;background:#351b25;filter:none}
 .shrimpina-record-page .profile-hero:has(.morphology-viewer){height:auto;min-height:0;background:transparent}
+.shrimpina-record-page .profile-hero:has(.profile-photo-unavailable){height:auto;min-height:0;border-color:rgba(74,32,44,.22);background:var(--shrimp-paper)}
+.shrimpina-record-page .profile-photo-unavailable{display:grid;gap:12px;padding:clamp(38px,7vw,78px);background:linear-gradient(120deg,rgba(239,141,157,.13),transparent 60%)}
+.shrimpina-record-page .profile-photo-unavailable span{color:#9f3049;font:700 9px/1.2 'DM Mono',monospace;letter-spacing:.09em;text-transform:uppercase}
+.shrimpina-record-page .profile-photo-unavailable strong{max-width:20ch;font:400 clamp(28px,4vw,48px)/1.05 'Newsreader',Georgia,serif;letter-spacing:-.025em}
+.shrimpina-record-page .profile-photo-unavailable p{max-width:56ch;margin:0;color:rgba(74,32,44,.7);font:400 16px/1.55 'Newsreader',Georgia,serif}
 .shrimpina-record-page .reveal-sec{margin:66px 0;padding-top:0;border-top:0}
 .shrimpina-record-page .reveal-sec,.shrimpina-record-page .profile-hero{scroll-margin-top:calc(var(--masthead-safe-offset) + 12px)}
 .shrimpina-record-page .sec-label{margin-bottom:24px}

@@ -46,23 +46,23 @@ const SHRIMPINA_PHOTO_LIBRARY = [
     "sample": "SSAJ35",
     "photos": [
       {
-        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj34/01-dorsal-flipped.jpg",
+        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj35/01-dorsal-flipped.jpg",
         "label": "Dorsal, flipped"
       },
       {
-        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj34/02-dorsal.jpg",
+        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj35/02-dorsal.jpg",
         "label": "Dorsal"
       },
       {
-        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj34/03-measurement.jpg",
+        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj35/03-measurement.jpg",
         "label": "Measurement"
       },
       {
-        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj34/04-underside.jpg",
+        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj35/04-underside.jpg",
         "label": "Underside"
       },
       {
-        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj34/05-front.jpg",
+        "src": "assets/shrimpina-photo-library/atlantic-blue-crab/ssaj35/05-front.jpg",
         "label": "Front"
       }
     ]
@@ -270,23 +270,23 @@ const SHRIMPINA_PHOTO_LIBRARY = [
     "sample": "SSAJ34",
     "photos": [
       {
-        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj35/01-second-view-side.jpg",
+        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj34/01-second-view-side.jpg",
         "label": "Second view, Side"
       },
       {
-        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj35/02-underside.jpg",
+        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj34/02-underside.jpg",
         "label": "Underside"
       },
       {
-        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj35/03-dorsal.jpg",
+        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj34/03-dorsal.jpg",
         "label": "Dorsal"
       },
       {
-        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj35/04-underside-detail.jpg",
+        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj34/04-underside-detail.jpg",
         "label": "Underside detail"
       },
       {
-        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj35/05-side.jpg",
+        "src": "assets/shrimpina-photo-library/european-green-crab/ssaj34/05-side.jpg",
         "label": "Side"
       }
     ]
@@ -753,14 +753,4 @@ const SHRIMPINA_PHOTO_LIBRARY = [
       }
     ]
   },
-  {
-    "animal": "Ocellate Lady Crab",
-    "sample": "SSAJ74",
-    "photos": [
-      {
-        "src": "assets/shrimpina-photo-library/ocellate-lady-crab/ssaj74/01-dorsal.jpg",
-        "label": "Dorsal"
-      }
-    ]
-  }
 ];
