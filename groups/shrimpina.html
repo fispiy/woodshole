@@ -128,7 +128,7 @@
   }
 </style>
 <link rel="stylesheet" href="../site-index.css?v=20260907-10">
-<link rel="stylesheet" href="../shrimpina.css?v=20260908-2">
+<link rel="stylesheet" href="../shrimpina.css?v=20260908-3">
 <link rel="stylesheet" href="../shrimpina-research.css?v=20260907-10">
 <script src="../site-index.js?v=20260907-5" defer></script>
 <link rel="stylesheet" href="../specimen-view.css?v=20260902-5">
@@ -605,7 +605,7 @@ const mapMarkers = mappedSamples.map(sample => {
       <span class="shrimpina-map-popup-fallback"${localPhoto ? ' hidden' : ''} aria-label="No photograph available">${sample.code}</span>
     </div>
     <div><small>${sample.code} · ${sample.site}</small><strong>${cleanCommonName(sample.common)}</strong><em>${sample.sci}</em><span>GPS accuracy ±${sample.accuracy} m</span><a href="../species.html?sample=${sample.code}">Open specimen →</a></div>
-  </article>`, { maxWidth:300, minWidth:240, className:'shrimpina-popup-shell' });
+  </article>`, { maxWidth:290, minWidth:290, className:'shrimpina-popup-shell' });
   marker.on('popupopen', event => {
     const popup = event.popup.getElement();
     const image = popup?.querySelector('[data-map-thumbnail]');
