@@ -485,4 +485,59 @@ Object.entries(SHRIMPINA_SAMPLE_MORPHOLOGY).forEach(([sample, views]) => {
   }));
 });
 
+const SHRIMPINA_SUPPLEMENTAL_TAXA = {
+  'Mercenaria mercenaria': {
+    id:'northern-quahog', code:'Species record', sampleNumbers:[], group:'mussel', phylumKey:'mollusca-bivalvia', groupProject:'shrimpina',
+    common:'Northern Quahog', sci:'Mercenaria mercenaria', phylum:'Mollusca', cls:'Bivalvia', order:'Venerida', family:'Veneridae', status:'Native',
+    morph:'No specimen-specific morphology description appears in the supplied project materials.', eco:'No specimen-specific ecology description appears in the supplied project materials.', ecologyReport:['No specimen-specific ecology description appears in the supplied project materials.'],
+    photos:[], heroPhoto:'', pop:[['2026',1]], refs:['Shrimpina specimen register, 2026.']
+  },
+  'Pagurus pollicaris': {
+    id:'flat-clawed-hermit', code:'Species record', sampleNumbers:[], group:'crab', phylumKey:'arthropoda-crustacea', groupProject:'shrimpina',
+    common:'Flat-Clawed Hermit Crab', sci:'Pagurus pollicaris', phylum:'Arthropoda', cls:'Malacostraca', order:'Decapoda', family:'Paguridae', status:'Native',
+    morph:'', eco:'', ecologyReport:[], photos:[], heroPhoto:'', pop:[['2026',3]], refs:['Shrimpina specimen register, 2026.']
+  },
+  'Anomia simplex': {
+    id:'common-jingle', code:'Species record', sampleNumbers:[], group:'mussel', phylumKey:'mollusca-bivalvia', groupProject:'shrimpina',
+    common:'Common Jingle', sci:'Anomia simplex', phylum:'Mollusca', cls:'Bivalvia', order:'Pectinida', family:'Anomiidae', status:'Native',
+    morph:'No specimen-specific morphology description appears in the supplied project materials.', eco:'No specimen-specific ecology description appears in the supplied project materials.', ecologyReport:['No specimen-specific ecology description appears in the supplied project materials.'],
+    photos:[], heroPhoto:'', pop:[['2026',1]], refs:['Shrimpina specimen register, 2026.']
+  },
+  'Diopatra cuprea': {
+    id:'plumed-worm', code:'Species record', sampleNumbers:[], group:'other', phylumKey:'annelida', groupProject:'shrimpina',
+    common:'Plumed Worm', sci:'Diopatra cuprea', phylum:'Annelida', cls:'Polychaeta', order:'Eunicida', family:'Onuphidae', status:'Native',
+    morph:'No specimen-specific morphology description appears in the supplied project materials.', eco:'No specimen-specific ecology description appears in the supplied project materials.', ecologyReport:['No specimen-specific ecology description appears in the supplied project materials.'],
+    photos:[], heroPhoto:'', pop:[['2026',2]], refs:['Shrimpina specimen register, 2026.']
+  },
+  'Clathria prolifera': {
+    id:'red-beard-sponge', code:'Species record', sampleNumbers:[], group:'other', phylumKey:'porifera', groupProject:'shrimpina',
+    common:'Red Beard Sponge', sci:'Clathria prolifera', phylum:'Porifera', cls:'Demospongiae', order:'Poecilosclerida', family:'Microcionidae', status:'Native',
+    morph:'No specimen-specific morphology description appears in the supplied project materials.', eco:'No specimen-specific ecology description appears in the supplied project materials.', ecologyReport:['No specimen-specific ecology description appears in the supplied project materials.'],
+    photos:[], heroPhoto:'', pop:[['2026',1]], refs:['Shrimpina specimen register, 2026.']
+  },
+  'Sporobolus alterniflorus': {
+    id:'saltmarsh-cordgrass', code:'Species record', sampleNumbers:[], group:'algae', phylumKey:'tracheophyta', groupProject:'shrimpina',
+    common:'Saltmarsh Cord Grass', sci:'Sporobolus alterniflorus', phylum:'Tracheophyta', cls:'Liliopsida', order:'Poales', family:'Poaceae', status:'Native',
+    morph:'No specimen-specific morphology description appears in the supplied project materials.', eco:'No specimen-specific ecology description appears in the supplied project materials.', ecologyReport:['No specimen-specific ecology description appears in the supplied project materials.'],
+    photos:[], heroPhoto:'', pop:[['2026',1]], refs:['Shrimpina specimen register, 2026.']
+  },
+  'pending:barnacles': {
+    id:'barnacles-pending', code:'Species record', sampleNumbers:[], group:'other', phylumKey:'arthropoda-crustacea', groupProject:'shrimpina',
+    common:'Barnacles', sci:'Identification pending', phylum:'Arthropoda', cls:'Thecostraca', order:'Identification pending', family:'Identification pending', status:'Identification pending',
+    morph:'Identification has not been resolved beyond barnacles in the supplied project materials.', eco:'Ecology is not assigned until the identification is resolved.', ecologyReport:['Ecology is not assigned until the identification is resolved.'],
+    photos:[], heroPhoto:'', pop:[['2026',1]], refs:['Shrimpina specimen register, 2026.']
+  },
+  'pending:unknown crab': {
+    id:'unknown-crab-pending', code:'Species record', sampleNumbers:[], group:'crab', phylumKey:'arthropoda-crustacea', groupProject:'shrimpina',
+    common:'Unknown Crab', sci:'Identification pending', phylum:'Arthropoda', cls:'Malacostraca', order:'Decapoda', family:'Identification pending', status:'Identification pending',
+    morph:'Identification has not been resolved beyond crab in the supplied project materials.', eco:'Ecology is not assigned until the identification is resolved.', ecologyReport:['Ecology is not assigned until the identification is resolved.'],
+    photos:[], heroPhoto:'', pop:[['2026',1]], refs:['Shrimpina specimen register, 2026.']
+  }
+};
+
+Object.entries(SHRIMPINA_SUPPLEMENTAL_TAXA).forEach(([key, taxon]) => {
+  if (key.startsWith('pending:') || SHRIMPINA_SPECIES.some(species => species.sci === taxon.sci)) return;
+  SHRIMPINA_SPECIES.push(taxon);
+});
+
 const ALL_SPECIES = [...SPECIES.filter(base => !SHRIMPINA_SPECIES.some(species => species.id === base.id)), ...SHRIMPINA_SPECIES];

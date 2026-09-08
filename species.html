@@ -16,8 +16,8 @@
 <script src="shrimpina-research-data.js?v=20260907-3"></script>
 <script src="shrimpina-inat-media.js?v=20260907-2"></script>
 <script src="shrimpina-photo-library.js?v=20260902-1"></script>
-<script src="shrimpina-species-data.js?v=20260907-3"></script>
-<script src="profile-render.js?v=20260907-4"></script>
+<script src="shrimpina-species-data.js?v=20260908-1"></script>
+<script src="profile-render.js?v=20260908-1"></script>
 <script src="inat.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
@@ -131,7 +131,11 @@ const requestedSample = requestedSampleCode ? SHRIMPINA_SAMPLE_REGISTER.find(ite
 const requestedMedia = requestedSample ? SHRIMPINA_INAT_MEDIA.find(item => item.code === requestedSample.code) : null;
 const cleanSpecimenName = name => name.replace(/ \((?:L|R|Female|Baby|tiny|big|dead)\)$/i, '').replace(/ - Baby$/i,'').replace(/ \d+$/,'');
 const exactSampleRecord = requestedSample ? SHRIMPINA_SPECIES.find(item => item.code === requestedSample.code) : null;
-const speciesTemplate = requestedSample ? (exactSampleRecord || SHRIMPINA_SPECIES.find(item => item.sci === requestedSample.sci) || SPECIES.find(item => item.sci === requestedSample.sci)) : null;
+const pendingTaxonKey = requestedSample ? `pending:${cleanSpecimenName(requestedSample.common).toLowerCase()}` : '';
+const supplementalTaxon = requestedSample && typeof SHRIMPINA_SUPPLEMENTAL_TAXA !== 'undefined'
+  ? (SHRIMPINA_SUPPLEMENTAL_TAXA[requestedSample.sci] || SHRIMPINA_SUPPLEMENTAL_TAXA[pendingTaxonKey])
+  : null;
+const speciesTemplate = requestedSample ? (exactSampleRecord || SHRIMPINA_SPECIES.find(item => item.sci === requestedSample.sci) || SPECIES.find(item => item.sci === requestedSample.sci) || supplementalTaxon) : null;
 const fallbackRecord = requestedSample ? {
   id:requestedSample.code.toLowerCase(), code:requestedSample.code, sampleNumbers:[requestedSample.number], group:'crab', phylumKey:'arthropoda-crustacea', groupProject:'shrimpina',
   common:cleanSpecimenName(requestedSample.common), sci:requestedSample.sci, phylum:'Not recorded', cls:'Not recorded', order:'Not recorded', family:'Not recorded', status:'Not assessed',

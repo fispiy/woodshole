@@ -2,6 +2,7 @@
   const colors = { crab:'#d96646', shrimp:'#f0a078', mussel:'#5c8d88', algae:'#9aae68', other:'#8a8177' };
   const labels = { crab:'Crabs & hermits', shrimp:'Shrimp', mussel:'Mollusks', algae:'Plants & algae', other:'Other' };
   const esc = value => String(value).replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+  const specimenProfileUrl = code => `species.html?sample=${encodeURIComponent(code)}`;
   const groupFor = sample => {
     const text = `${sample.common} ${sample.sci}`.toLowerCase();
     if (/crab|hermit|horseshoe/.test(text)) return 'crab';
@@ -51,7 +52,7 @@
     });
     data.forEach(s => {
       const icon=L.divIcon({className:'explorer-pin',html:`<span style="--pin:${colors[s.group]}">${s.code.replace('SSAJ','')}</span>`,iconSize:[38,38],iconAnchor:[19,19]});
-      const marker=L.marker([s.lat,s.lng],{icon,title:s.common}).addTo(map).on('click',()=>openRecord(s.id)); markers.set(s.id,marker);
+      const marker=L.marker([s.lat,s.lng],{icon,title:`Open ${s.code}: ${s.common}`}).addTo(map).on('click',()=>location.assign(specimenProfileUrl(s.code))); markers.set(s.id,marker);
     });
     ['Little Sippewissett Marsh','Wood Neck Beach'].forEach(name => {
       const records = data.filter(sample => sample.site === name);
@@ -81,17 +82,13 @@
     const sort=controls.sort.value; const sortKey={common:'common',scientific:'sci',group:'group',code:'code',site:'site'}[sort];
     visible.sort((a,b)=>String(a[sortKey]).localeCompare(String(b[sortKey])));
     document.querySelector('#mapCount').textContent=visible.length; document.querySelector('#resultCount').textContent=visible.length;
-    document.querySelector('#resultList').innerHTML=visible.map(s=>`<button class="result-row" type="button" data-id="${s.id}"><span class="code">${s.code}</span><span class="name">${s.common}</span><span class="scientific">${s.sci || 'Identification pending'}</span><span class="group"><i style="--pin:${colors[s.group]}"></i>${labels[s.group]}</span><span class="site">${s.site}<small>GPS accuracy ±${s.accuracy} m</small></span><span class="row-arrow" aria-hidden="true">→</span></button>`).join('');
+    document.querySelector('#resultList').innerHTML=visible.map(s=>`<a class="result-row" href="${specimenProfileUrl(s.code)}" data-id="${s.id}" aria-label="Open profile for ${esc(s.code)}, ${esc(s.common)}"><span class="code">${s.code}</span><span class="name">${s.common}</span><span class="scientific">${s.sci || 'Identification pending'}</span><span class="group"><i style="--pin:${colors[s.group]}"></i>${labels[s.group]}</span><span class="site">${s.site}<small>GPS accuracy ±${s.accuracy} m</small></span><span class="row-arrow" aria-hidden="true">→</span></a>`).join('');
     document.querySelector('#emptyState').hidden=visible.length!==0;
     const chips=[]; if(controls.search.value) chips.push(`Search: ${controls.search.value}`);
     Object.entries(controls).forEach(([k,c])=>{if(!['search','sort'].includes(k)&&c.value) chips.push(`${k}: ${c.options[c.selectedIndex].text}`)});
     document.querySelector('#activeFilters').innerHTML=chips.map(c=>`<span class="filter-chip">${esc(c)}</span>`).join('');
   }
-  function openRecord(id) {
-    location.href = `species.html?sample=${encodeURIComponent(id)}`;
-  }
   Object.values(controls).forEach(c=>c.addEventListener(c===controls.search?'input':'change',render));
   document.querySelector('#clearFilters').addEventListener('click',()=>{Object.entries(controls).forEach(([k,c])=>{if(k!=='sort')c.value=''});render()});
-  document.querySelector('#resultList').addEventListener('click',e=>{const row=e.target.closest('[data-id]');if(row)openRecord(row.dataset.id)});
   render();
 })();
