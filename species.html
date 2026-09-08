@@ -106,7 +106,7 @@
   }
 </style>
 <link rel="stylesheet" href="exhibit.css?v=20260902-2">
-<link rel="stylesheet" href="shrimpina-record.css?v=20260908-3">
+<link rel="stylesheet" href="shrimpina-record.css?v=20260908-4">
 <link rel="stylesheet" href="shrimpina-research.css?v=20260907-10">
 <link rel="stylesheet" href="site-index.css?v=20260908-2">
 <script src="vendor/gsap/gsap.min.js"></script>
@@ -184,9 +184,9 @@ if (!s) {
   const nextRecord = shrimpinaIndex >= 0 && shrimpinaIndex < shrimpinaRecords.length - 1 ? shrimpinaRecords[shrimpinaIndex + 1] : null;
   const specimenHref = record => requestedSample ? `species.html?sample=${record.code}` : `species.html?id=${record.id}`;
   const projectNavigation = isShrimpina ? `<nav class="shrimpina-record-nav" aria-label="Shrimpina specimen navigation">
-    <a class="record-back" href="groups/shrimpina.html?qa=samples#g-species"><span class="record-back-long">Shrimpina specimen archive</span><span class="record-back-short">Archive</span></a>
-    <span>${s.code}</span>
-    <div>${previousRecord ? `<a href="${specimenHref(previousRecord)}" aria-label="Previous specimen">Previous</a>` : '<i></i>'}${nextRecord ? `<a href="${specimenHref(nextRecord)}" aria-label="Next specimen">Next</a>` : '<i></i>'}</div>
+    <a class="record-back" href="groups/shrimpina.html?qa=samples#g-species"><span aria-hidden="true">←</span><span class="record-back-long">All specimens</span><span class="record-back-short">Archive</span></a>
+    <span class="record-current"><small>Specimen</small><b>${s.code}</b></span>
+    <div class="record-sequence">${previousRecord ? `<a href="${specimenHref(previousRecord)}" aria-label="Previous specimen, ${previousRecord.code}"><span aria-hidden="true">←</span><span class="record-direction">Previous</span><small>${previousRecord.code}</small></a>` : '<i aria-hidden="true"></i>'}${nextRecord ? `<a href="${specimenHref(nextRecord)}" aria-label="Next specimen, ${nextRecord.code}"><span class="record-direction">Next</span><small>${nextRecord.code}</small><span aria-hidden="true">→</span></a>` : '<i aria-hidden="true"></i>'}</div>
   </nav>` : '';
   const recordSectionNavigation = isShrimpina ? `<nav class="record-section-nav" aria-label="Specimen sections">
     <span>On this page</span><a href="#record-views">Images</a><a href="#record-morphology">Morphology</a><a href="#record-ecology">Ecology</a><a href="#record-dna">DNA analysis</a><a href="#record-observations">iNaturalist</a>

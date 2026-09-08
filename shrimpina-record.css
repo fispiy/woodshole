@@ -76,14 +76,23 @@ body.shrimpina-record-page{
 /* Primary specimen record hierarchy */
 .shrimpina-record-page #root{padding-top:calc(var(--masthead-safe-offset) - 14px)}
 .shrimpina-record-page .shrimpina-record-nav{
-  box-sizing:border-box;width:calc(100% - 64px);max-width:1180px;min-height:46px;margin:0 auto;padding:0 18px;
-  border:0;border-radius:10px;background:var(--shrimp-dark);color:var(--shrimp-cream);box-shadow:0 10px 28px rgba(74,32,44,.14)
+  box-sizing:border-box;width:calc(100% - 64px);max-width:1180px;min-height:62px;margin:0 auto;padding:7px 9px;
+  border:1px solid rgba(74,32,44,.15);border-radius:14px;background:rgba(255,243,234,.92);color:var(--shrimp-dark);box-shadow:0 12px 32px rgba(74,32,44,.07);backdrop-filter:blur(14px)
 }
 .shrimpina-record-page .record-back-short{display:none}
-.shrimpina-record-page .shrimpina-record-nav a,.shrimpina-record-page .shrimpina-record-nav>span{color:var(--shrimp-cream)}
-.shrimpina-record-page .shrimpina-record-nav>span{display:inline-flex;align-items:center;gap:8px;color:#ffc2ca}
-.shrimpina-record-page .shrimpina-record-nav>span::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--shrimp-pink)}
-.shrimpina-record-page .shrimpina-record-nav a:hover{border-bottom-color:var(--shrimp-pink)}
+.shrimpina-record-page .shrimpina-record-nav a{border:0!important;color:var(--shrimp-dark);text-decoration:none}
+.shrimpina-record-page .record-back{display:inline-flex;align-items:center;gap:10px;width:max-content;padding:11px 13px!important;border-radius:9px!important;color:#8f2c45!important;transition:background .16s ease,transform .16s ease}
+.shrimpina-record-page .record-back:hover{background:rgba(239,141,157,.15);transform:translateX(-1px)}
+.shrimpina-record-page .record-current{display:grid!important;grid-template-columns:auto auto;align-items:baseline;gap:8px;justify-self:center;padding:10px 15px;border-radius:9px;background:rgba(239,141,157,.18);color:var(--shrimp-dark)!important}
+.shrimpina-record-page .record-current::before{display:none!important}
+.shrimpina-record-page .record-current small{color:rgba(74,32,44,.55);font:600 7px/1 'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.shrimpina-record-page .record-current b{color:#9f3049;font:700 11px/1 'DM Mono',monospace;letter-spacing:.08em}
+.shrimpina-record-page .record-sequence{display:flex!important;justify-content:end!important;gap:6px!important}
+.shrimpina-record-page .record-sequence>a{display:grid;grid-template-columns:auto auto;gap:3px 7px;align-items:center;min-width:76px;padding:8px 10px!important;border-radius:8px!important;color:rgba(74,32,44,.78)!important;transition:background .16s ease,color .16s ease}
+.shrimpina-record-page .record-sequence>a:first-of-type{grid-template-columns:auto auto}.shrimpina-record-page .record-sequence>a:last-of-type{text-align:right}
+.shrimpina-record-page .record-sequence>a:hover{background:var(--shrimp-dark);color:var(--shrimp-cream)!important}
+.shrimpina-record-page .record-sequence .record-direction{font:600 8px/1 'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
+.shrimpina-record-page .record-sequence small{grid-column:2;color:inherit;font:500 7px/1 'DM Mono',monospace;opacity:.58}.shrimpina-record-page .record-sequence>a:last-of-type small{grid-column:1}
 
 .shrimpina-record-page .record-section-nav{
   box-sizing:border-box;display:flex;align-items:center;gap:5px;width:calc(100% - 64px);max-width:1180px;margin:12px auto 26px;padding:7px;
@@ -139,8 +148,13 @@ body.shrimpina-record-page{
   .shrimpina-record-page .reveal-sec{margin:62px 0}
 }
 @media(max-width:420px){
-  .shrimpina-record-page .shrimpina-record-nav{gap:9px;padding-inline:11px}
-  .shrimpina-record-page .shrimpina-record-nav>div{gap:10px}
+  .shrimpina-record-page .shrimpina-record-nav{gap:7px;padding:6px}
+  .shrimpina-record-page .record-back{gap:6px;padding:10px 8px!important}
+  .shrimpina-record-page .record-current{gap:5px;padding:10px 8px}
+  .shrimpina-record-page .record-current small,.shrimpina-record-page .record-direction{display:none}
+  .shrimpina-record-page .record-sequence{gap:3px!important}
+  .shrimpina-record-page .record-sequence>a{display:flex;gap:5px;min-width:0;padding:10px 7px!important}
+  .shrimpina-record-page .record-sequence small{font-size:7px}
   .shrimpina-record-page .record-section-nav a{padding-inline:10px;font-size:8px}
   .shrimpina-record-page .class-tags .tag b{font-size:13px}
 }
