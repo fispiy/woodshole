@@ -753,4 +753,14 @@ const SHRIMPINA_PHOTO_LIBRARY = [
       }
     ]
   },
+  {
+    "animal": "Ocellate Lady Crab",
+    "sample": "SSAJ74",
+    "photos": [
+      {
+        "src": "assets/shrimpina-photo-library/ocellate-lady-crab/ssaj74/01-measurement.png",
+        "label": "Dorsal measurement"
+      }
+    ]
+  },
 ];

@@ -120,7 +120,10 @@ for (const entry of photoLibrary) {
     }
   }
 }
-check(!photoLibrary.some(entry => entry.sample === 'SSAJ74'), 'SSAJ74 must not use the rejected contact-sheet image as a specimen photograph');
+const ladyCrab74 = photoLibrary.find(entry => entry.sample === 'SSAJ74');
+check(ladyCrab74?.photos.length === 1, 'SSAJ74 must have exactly one verified specimen photograph');
+check(ladyCrab74?.photos[0]?.src.endsWith('/ssaj74/01-measurement.png'), 'SSAJ74 must use its verified ruler photograph');
+check(!photoLibrary.some(entry => entry.photos.some(photo => photo.src.endsWith('/ssaj74/01-dorsal.jpg'))), 'SSAJ74 must not use the rejected contact-sheet image');
 
 const film = research.researchMedia?.marshFilm;
 check(Boolean(film), 'Missing marsh film data');
