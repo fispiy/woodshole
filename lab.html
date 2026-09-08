@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Laboratory: Shrimpina</title>
-<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="site-index.css?v=20260908-12"><link rel="stylesheet" href="shrimpina.css?v=20260907-6"><link rel="stylesheet" href="shrimpina-research.css?v=20260908-1">
-<script src="shrimpina-research-data.js?v=20260907-3"></script><script src="profile-render.js?v=20260907-4"></script><script src="site-index.js?v=20260908-6" defer></script>
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="site-index.css?v=20260908-12"><link rel="stylesheet" href="shrimpina.css?v=20260907-6"><link rel="stylesheet" href="shrimpina-research.css?v=20260908-3">
+<script src="shrimpina-research-data.js?v=20260907-3"></script><script src="profile-render.js?v=20260907-4"></script><script src="site-index.js?v=20260908-7" defer></script>
 </head>
 <body class="has-site-index shrimpina-site">
 <site-index data-root="." data-current="lab" data-brand="shrimpina"></site-index>
@@ -19,11 +19,95 @@
     <figure><a href="assets/shrimpina-research/comparisons/invasive-crabs-comparison.png" target="_blank" rel="noopener"><img src="assets/shrimpina-research/comparisons/invasive-crabs-comparison.png" alt="Comparison of European Green and Asian Shore Crabs" loading="lazy"></a><figcaption><strong>Invasive Crabs</strong><span>Open full resolution ↗</span></figcaption></figure>
   </div>
 </section>
+<section class="lab-evolution-atlas" aria-labelledby="lab-evolution-title">
+  <header><span class="research-eyebrow">Animalia → Decapoda</span><h2 id="lab-evolution-title">Evolutionary Tree</h2></header>
+  <div class="evolution-tree" id="labEvolutionTree"></div>
+</section>
+<section class="lab-taxonomy-atlas" aria-labelledby="lab-taxonomy-title">
+  <header><span class="research-eyebrow">Decapoda detail</span><h2 id="lab-taxonomy-title">Crab classification</h2><p>5 families · 8 genera · 9 species</p></header>
+  <div class="taxonomy-tree" id="labTaxonomyTree"></div>
+</section>
 <main class="lab-research-layout"><nav class="dna-selector" id="dnaSelector" aria-label="Choose a specimen"><span>Analyzed specimens</span></nav><div class="lab-dna-list" id="dnaList"></div></main>
 <section class="lab-summary"><span class="research-eyebrow">Final genetic conclusions</span><h2>Across the samples</h2><article class="specimen-dna-source"><div class="research-text-block" data-research-kind="dna" data-research-pages="86,87,88"><p>Loading the verbatim project conclusions…</p></div></article></section>
 <section class="lab-summary"><span class="research-eyebrow">Cross-species comparisons</span><h2>Alignments &amp; phylogenetic trees</h2><article class="specimen-dna-source"><div class="research-text-block" data-research-kind="dna" data-research-pages="89,90,91"><p>Loading the original comparison figures…</p></div></article></section>
 <footer class="site-footer"><div>Woods Hole Shrimpina Project: student field survey, 2026.</div><div><a href="groups/shrimpina.html">Shrimpina Home</a> · <a href="index.html">MBL Home</a></div></footer>
 <script>
+const evolutionHierarchy={label:'Animalia',tone:'root',children:[
+  {label:'Deuterostomia',tone:'context',children:[{label:'Chordata',tone:'context',children:[
+    {label:'Aves',example:'Birds · beak example',tone:'bird'},
+    {label:'Actinopterygii',example:'Northern Pipefish',tone:'context'}
+  ]}]},
+  {label:'Protostomia',tone:'context',children:[
+    {label:'Lophotrochozoa',tone:'context',children:[
+      {label:'Annelida',example:'Plumed Worm',tone:'context'},
+      {label:'Mollusca',example:'Periwinkles · mussels · clams',tone:'context'}
+    ]},
+    {label:'Ecdysozoa',tone:'arthropod',children:[
+      {label:'Nematoda',example:'Roundworms',tone:'context'},
+      {label:'Arthropoda',tone:'arthropod',children:[
+        {label:'Chelicerata',example:'Atlantic Horseshoe Crab',tone:'arthropod'},
+        {label:'Mandibulata',tone:'crab-path',children:[
+          {label:'Myriapoda',example:'Centipedes · millipedes',tone:'arthropod'},
+          {label:'Pancrustacea',tone:'crab-path',children:[
+            {label:'Hexapoda',example:'Insects',tone:'arthropod'},
+            {label:'Altocrustacea',tone:'crab-path',children:[{label:'Communostraca',tone:'crab-path',children:[{label:'Malacostraca',tone:'crab-path',children:[{label:'Decapoda',tone:'decapod',children:[
+              {label:'Caridea',example:'Shrimp',tone:'decapod'},
+              {label:'Anomura',example:'Hermit crabs',tone:'anomura'},
+              {label:'Brachyura',example:'True crabs',tone:'brachyura'}
+            ]}]}]}]}
+          ]}
+        ]}
+      ]}
+    ]}
+  ]}
+]};
+const evolutionWidth=1600,evolutionLeaves=[];
+const collectEvolutionLeaves=node=>node.children?.length?node.children.forEach(collectEvolutionLeaves):evolutionLeaves.push(node);collectEvolutionLeaves(evolutionHierarchy);
+const evolutionHeight=980,evolutionDepthStep=78;
+evolutionLeaves.forEach((leaf,index)=>{leaf.x=86+index*((evolutionWidth-172)/(evolutionLeaves.length-1));});
+const positionEvolution=(node,depth=0)=>{node.y=55+depth*evolutionDepthStep;node.children?.forEach(child=>positionEvolution(child,depth+1));if(node.children?.length)node.x=node.children.reduce((sum,child)=>sum+child.x,0)/node.children.length;};positionEvolution(evolutionHierarchy);
+const evolutionEdges=[];const collectEvolutionEdges=node=>(node.children||[]).forEach(child=>{const middleY=node.y+(child.y-node.y)*.5;evolutionEdges.push(`<path class="evolution-edge evolution-edge-${child.tone}" d="M ${node.x} ${node.y+20} V ${middleY} H ${child.x} V ${child.y-20}"/>`);collectEvolutionEdges(child);});collectEvolutionEdges(evolutionHierarchy);
+const evolutionNodes=[];const collectEvolutionNodes=node=>{evolutionNodes.push(`<g class="evolution-node evolution-node-${node.tone}" transform="translate(${node.x} ${node.y})"><rect x="-56" y="-${node.example?27:19}" width="112" height="${node.example?54:38}" rx="${node.example?7:4}"/><text text-anchor="middle" y="${node.example?-4:4}">${escapeResearchText(node.label)}</text>${node.example?`<text class="evolution-example" text-anchor="middle" y="15">${escapeResearchText(node.example)}</text>`:''}</g>`);node.children?.forEach(collectEvolutionNodes);};collectEvolutionNodes(evolutionHierarchy);
+const evolutionTree=document.getElementById('labEvolutionTree');
+evolutionTree.innerHTML=`<div class="evolution-diagram"><div class="evolution-scroll-region is-fit" tabindex="0" aria-label="Evolutionary tree, fitted to show the complete hierarchy"><div class="evolution-stage-wrap"><svg class="evolution-stage" viewBox="0 0 ${evolutionWidth} ${evolutionHeight}" role="img" aria-labelledby="evolution-svg-title"><title id="evolution-svg-title">Evolutionary Tree</title><g>${evolutionEdges.join('')}</g><g>${evolutionNodes.join('')}</g></svg></div></div><div class="evolution-view-controls"><span class="evolution-view-status">Complete tree</span><button class="evolution-fit-toggle" type="button" aria-pressed="false">View detail</button></div></div>`;
+const evolutionScroller=evolutionTree.querySelector('.evolution-scroll-region'),evolutionStage=evolutionTree.querySelector('.evolution-stage'),evolutionWrap=evolutionTree.querySelector('.evolution-stage-wrap'),evolutionToggle=evolutionTree.querySelector('.evolution-fit-toggle'),evolutionStatus=evolutionTree.querySelector('.evolution-view-status');let evolutionDetailed=false;
+const sizeEvolution=()=>{const scale=evolutionDetailed?1:Math.min(1,evolutionScroller.clientWidth/evolutionWidth);evolutionStage.style.width=`${evolutionWidth*scale}px`;evolutionStage.style.height=`${evolutionHeight*scale}px`;evolutionWrap.style.width=`${evolutionWidth*scale}px`;evolutionWrap.style.height=`${evolutionHeight*scale}px`;evolutionWrap.style.marginInline=evolutionDetailed?'0':'auto';if(!evolutionDetailed)evolutionScroller.scrollLeft=0;};
+evolutionToggle.addEventListener('click',()=>{evolutionDetailed=!evolutionDetailed;evolutionScroller.classList.toggle('is-fit',!evolutionDetailed);evolutionToggle.setAttribute('aria-pressed',String(evolutionDetailed));evolutionToggle.textContent=evolutionDetailed?'Fit complete tree':'View detail';evolutionStatus.textContent=evolutionDetailed?'Full-size detail · scroll horizontally':'Complete tree';sizeEvolution();});new ResizeObserver(sizeEvolution).observe(evolutionScroller);
+
+const taxonomy=SHRIMPINA_RESEARCH.taxonomyTree;
+const taxonomySlug=value=>String(value).normalize('NFKD').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase();
+const taxonomyHref=scientific=>scientific==='Tumidotheres maculatus'?`research.html#species-${scientific.replace(/\W+/g,'-')}`:`groups/shrimpina.html?species=${encodeURIComponent(scientific)}#g-species`;
+const taxonomyHierarchy={
+  id:`lab-phylum-${taxonomySlug(taxonomy.phylum)}`,rank:'Phylum',label:taxonomy.phylum,children:[{
+    id:`lab-class-${taxonomySlug(taxonomy.className)}`,rank:'Class',label:taxonomy.className,children:[{
+      id:`lab-order-${taxonomySlug(taxonomy.order)}`,rank:'Order',label:taxonomy.order,
+      children:taxonomy.branches.map(branch=>({
+        id:`lab-infraorder-${taxonomySlug(branch.name)}`,rank:'Infraorder',label:branch.name,note:branch.note,tone:taxonomySlug(branch.name),
+        children:branch.families.map(family=>({
+          id:`lab-family-${taxonomySlug(family.name)}`,rank:'Family',label:family.name,tone:taxonomySlug(branch.name),
+          children:family.genera.map(genus=>({
+            id:`lab-genus-${taxonomySlug(genus.name)}`,rank:'Genus',label:genus.name,tone:taxonomySlug(branch.name),
+            children:genus.species.map(([common,scientific])=>({
+              id:`lab-species-${taxonomySlug(scientific)}`,rank:'Species',label:common,scientific,tone:taxonomySlug(branch.name),href:taxonomyHref(scientific)
+            }))
+          }))
+        }))
+      }))
+    }]
+  }]
+};
+const taxonomyWidth=1360,taxonomyHeight=700,taxonomyLevels=[48,118,188,286,386,486,598],taxonomyLeaves=[];
+const collectTaxonomyLeaves=node=>node.children?.length?node.children.forEach(collectTaxonomyLeaves):taxonomyLeaves.push(node);collectTaxonomyLeaves(taxonomyHierarchy);
+taxonomyLeaves.forEach((leaf,index)=>{leaf.x=104+index*((taxonomyWidth-208)/(taxonomyLeaves.length-1));});
+const positionTaxonomy=(node,depth=0,parentTone='root')=>{node.y=taxonomyLevels[depth];node.tone||=parentTone;node.children?.forEach(child=>positionTaxonomy(child,depth+1,node.tone));if(node.children?.length)node.x=node.children.reduce((sum,child)=>sum+child.x,0)/node.children.length;};positionTaxonomy(taxonomyHierarchy);
+const taxonomyEdges=[];const collectTaxonomyEdges=node=>(node.children||[]).forEach(child=>{const middleY=node.y+(child.y-node.y)*.52;taxonomyEdges.push(`<path class="taxonomy-edge taxonomy-edge-${child.tone}" d="M ${node.x.toFixed(2)} ${node.y+20} V ${middleY.toFixed(2)} H ${child.x.toFixed(2)} V ${child.y-20}"/>`);collectTaxonomyEdges(child);});collectTaxonomyEdges(taxonomyHierarchy);
+const taxonomyMarkup=node=>`<li>${node.href?`<a class="taxonomy-node taxonomy-node-species taxonomy-tone-${node.tone}" id="${node.id}" href="${node.href}" style="--node-x:${node.x}px;--node-y:${node.y}px" aria-label="${escapeResearchText(node.label)}, ${escapeResearchText(node.scientific)}"><strong>${escapeResearchText(node.label)}</strong><i>${escapeResearchText(node.scientific)}</i></a>`:`<span class="taxonomy-node taxonomy-node-${node.rank.toLowerCase()} taxonomy-tone-${node.tone}" id="${node.id}" style="--node-x:${node.x}px;--node-y:${node.y}px"><strong>${escapeResearchText(node.label)}</strong>${node.note?`<i>${escapeResearchText(node.note)}</i>`:''}</span>`}${node.children?.length?`<ol>${node.children.map(taxonomyMarkup).join('')}</ol>`:''}</li>`;
+const taxonomyGuides=taxonomyLevels.map((y,index)=>`<g class="taxonomy-rank-guide"><line x1="22" y1="${y}" x2="1338" y2="${y}"/><text x="22" y="${y-11}">${['Phylum','Class','Order','Infraorder','Family','Genus','Species'][index]}</text></g>`).join('');
+document.getElementById('labTaxonomyTree').innerHTML=`<div class="taxonomy-diagram"><div class="taxonomy-scroll-region is-fit" tabindex="0" aria-label="Taxonomic family tree, fitted to show the complete hierarchy"><div class="taxonomy-stage-wrap"><div class="taxonomy-stage" style="--tree-width:${taxonomyWidth}px;--tree-height:${taxonomyHeight}px"><svg class="taxonomy-connectors" viewBox="0 0 ${taxonomyWidth} ${taxonomyHeight}" aria-hidden="true" focusable="false">${taxonomyGuides}<g>${taxonomyEdges.join('')}</g></svg><ol class="taxonomy-node-layer" aria-label="Taxonomic hierarchy from Arthropoda to the nine crab species">${taxonomyMarkup(taxonomyHierarchy)}</ol></div></div></div><div class="taxonomy-view-controls"><span class="tree-view-status">Complete tree</span><button class="taxonomy-fit-toggle" type="button" aria-pressed="false">View detail</button></div><p class="tree-summary">${escapeResearchText(taxonomy.summary)}</p></div>`;
+const taxonomyTree=document.getElementById('labTaxonomyTree'),taxonomyScroller=taxonomyTree.querySelector('.taxonomy-scroll-region'),taxonomyStage=taxonomyTree.querySelector('.taxonomy-stage'),taxonomyStageWrap=taxonomyTree.querySelector('.taxonomy-stage-wrap'),taxonomyToggle=taxonomyTree.querySelector('.taxonomy-fit-toggle'),taxonomyStatus=taxonomyTree.querySelector('.tree-view-status');let taxonomyDetailed=false;
+const sizeTaxonomy=()=>{const scale=taxonomyDetailed?1:Math.min(1,taxonomyScroller.clientWidth/taxonomyWidth);taxonomyStage.style.transform=`scale(${scale})`;taxonomyStageWrap.style.width=`${taxonomyWidth*scale}px`;taxonomyStageWrap.style.height=`${taxonomyHeight*scale}px`;taxonomyStageWrap.style.marginInline=taxonomyDetailed?'0':'auto';if(!taxonomyDetailed)taxonomyScroller.scrollLeft=0;};
+taxonomyToggle.addEventListener('click',()=>{taxonomyDetailed=!taxonomyDetailed;taxonomyScroller.classList.toggle('is-fit',!taxonomyDetailed);taxonomyToggle.setAttribute('aria-pressed',String(taxonomyDetailed));taxonomyToggle.textContent=taxonomyDetailed?'Fit complete tree':'View detail';taxonomyStatus.textContent=taxonomyDetailed?'Full-size detail · scroll horizontally':'Complete tree';taxonomyScroller.setAttribute('aria-label',taxonomyDetailed?'Scrollable full-size taxonomic family tree':'Taxonomic family tree, fitted to show the complete hierarchy');sizeTaxonomy();if(taxonomyDetailed)taxonomyScroller.scrollLeft=Math.max(0,taxonomyHierarchy.x-taxonomyScroller.clientWidth/2);});new ResizeObserver(sizeTaxonomy).observe(taxonomyScroller);
+
 const entries=Object.values(SHRIMPINA_RESEARCH.dnaBySample);
 const selector=document.getElementById('dnaSelector');const list=document.getElementById('dnaList');
 selector.insertAdjacentHTML('beforeend',entries.map(item=>`<button type="button" data-sample="${item.code}" aria-pressed="false">${item.code} · ${item.common}</button>`).join(''));

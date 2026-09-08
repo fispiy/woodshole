@@ -38,7 +38,6 @@
           ${navGroup('shrimpina', 'groups/shrimpina.html', 'Shrimpina', [
             { value:'groups/shrimpina.html', label:'Project overview' },
             { value:'groups/shrimpina.html#g-species', label:'Specimen archive' },
-            { value:'research.html', label:'Research guide' },
             { value:'journal.html', label:'Field journal' },
             { value:'conditions.html', label:'Field conditions' },
             { value:'lab.html', label:'Laboratory' }
@@ -64,7 +63,6 @@
                 ${link('observations', 'observations.html', 'Observations')}
                 ${link('shrimpina', 'groups/shrimpina.html', 'Shrimpina project')}
                 ${link('archive', 'groups/shrimpina.html#g-species', 'Specimen archive')}
-                ${link('research', 'research.html', 'Research guide')}
                 ${link('journal', 'journal.html', 'Field journal')}
                 ${link('conditions', 'conditions.html', 'Field conditions')}
                 ${link('lab', 'lab.html', 'Laboratory')}

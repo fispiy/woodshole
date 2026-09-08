@@ -156,6 +156,7 @@ for (const mediaPath of [film?.src, film?.poster].filter(Boolean)) {
 
 const overviewSource = fs.readFileSync(path.join(root, 'groups/shrimpina.html'), 'utf8');
 const guideSource = fs.readFileSync(path.join(root, 'research.html'), 'utf8');
+const labSource = fs.readFileSync(path.join(root, 'lab.html'), 'utf8');
 check(!overviewSource.includes('id="g-comparisons"'), 'Overview still contains the comparison section');
 check(!overviewSource.includes('comparisonTables'), 'Overview still renders comparison tables');
 check(overviewSource.includes('class="phylogeny-branch'), 'Overview is missing the SVG phylogeny branches');
@@ -166,6 +167,11 @@ check(overviewSource.includes('<h2>Final Phylogeny Tree</h2>'), 'Overview is mis
 check(overviewSource.includes('id="phylogenyTree"'), 'Overview is missing the final phylogeny renderer');
 check(guideSource.includes('SHRIMPINA_RESEARCH.comparisons[0]') && guideSource.includes('SHRIMPINA_RESEARCH.comparisons[2]'), 'Research Guide does not render all comparison groups');
 check(guideSource.includes("scientific.replace(/\\W+/g,'-')"), 'Research Guide is missing scientific-name anchors');
+for (const lineage of ['Animalia','Deuterostomia','Protostomia','Lophotrochozoa','Ecdysozoa','Arthropoda','Pancrustacea','Malacostraca','Decapoda','Caridea','Anomura','Brachyura']) {
+  check(labSource.includes(`label:'${lineage}'`), `Laboratory evolutionary context is missing ${lineage}`);
+}
+check(labSource.includes('id="labEvolutionTree"'), 'Laboratory is missing the expanded evolutionary tree');
+check(labSource.includes('id="labTaxonomyTree"'), 'Laboratory is missing the detailed crab classification tree');
 
 const branches = research.taxonomyTree.branches;
 const families = new Set(branches.flatMap(branch => branch.families.map(family => family.name)));
