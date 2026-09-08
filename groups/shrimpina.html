@@ -128,7 +128,7 @@
   }
 </style>
 <link rel="stylesheet" href="../site-index.css?v=20260907-10">
-<link rel="stylesheet" href="../shrimpina.css?v=20260908-1">
+<link rel="stylesheet" href="../shrimpina.css?v=20260908-2">
 <link rel="stylesheet" href="../shrimpina-research.css?v=20260907-10">
 <script src="../site-index.js?v=20260907-5" defer></script>
 <link rel="stylesheet" href="../specimen-view.css?v=20260902-5">
@@ -499,22 +499,42 @@ const specimenRow = sample => {
       <span class="archive-place">${sample.date}<small>${sample.site}</small></span>
       <strong>Open specimen</strong>
     </a>
-    ${sample.record ? `<a class="archive-inat" href="${sample.record}" target="_blank" rel="noopener">iNaturalist <span>#${observationId}</span></a>` : '<span class="archive-inat is-empty">No iNaturalist link</span>'}
+    <a class="archive-inat" href="${sample.record}" target="_blank" rel="noopener">iNaturalist <span>#${observationId}</span></a>
   </article>`;
 };
 
+const cataloguedSpecimen = sample => `<a class="archive-catalogued-specimen" href="../species.html?sample=${sample.code}">
+  <b>${sample.code}</b>
+  <span>${sample.date}</span>
+  <small>${sample.site}</small>
+</a>`;
+
 const archiveGroup = taxon => {
   const samples = sampleRegister.filter(sample => taxonKey(sample) === taxon.key);
-  const records = samples.filter(sample => sample.record).length;
+  const linked = samples.filter(sample => sample.record);
+  const catalogued = samples.filter(sample => !sample.record);
+  const records = linked.length;
   const lead = samples.map(sample => iNaturalistByCode.get(sample.code)?.photo || photographedSamples.get(sample.number)?.photo).find(Boolean);
   return `<details class="archive-group">
     <summary>
       <span class="archive-group-thumb">${lead ? `<img src="${lead}" alt="" loading="lazy">` : ''}</span>
       <span class="archive-group-name"><b>${taxon.common}</b><i>${taxon.sci}</i></span>
-      <span class="archive-group-count"><b>${samples.length}</b> specimen${samples.length === 1 ? '' : 's'}<small>${records} iNaturalist record${records === 1 ? '' : 's'}</small></span>
+      <span class="archive-group-count"><b>${samples.length}</b> specimen${samples.length === 1 ? '' : 's'}<small>${records} linked observation${records === 1 ? '' : 's'}</small></span>
       <span class="archive-group-toggle" aria-hidden="true"></span>
     </summary>
-    <div class="archive-specimen-list">${samples.map(specimenRow).join('')}</div>
+    <div class="archive-specimen-list">
+      ${linked.length ? `<section class="archive-linked-records" aria-label="Linked iNaturalist observations">
+        <div class="archive-subhead"><h4>Linked observations</h4><span>${linked.length} of ${samples.length}</span></div>
+        <div class="archive-linked-grid">${linked.map(specimenRow).join('')}</div>
+      </section>` : ''}
+      ${catalogued.length ? `<section class="archive-catalogued" aria-label="Specimens without separate iNaturalist observations">
+        <div class="archive-catalogued-copy">
+          <h4>${linked.length ? 'Additional catalogued specimens' : 'Catalogued specimens'}</h4>
+          <p>${linked.length ? 'These specimens are in the project register but do not have separate iNaturalist observations.' : 'No separate iNaturalist observations are linked in the supplied project register.'}</p>
+        </div>
+        <div class="archive-catalogued-grid">${catalogued.map(cataloguedSpecimen).join('')}</div>
+      </section>` : ''}
+    </div>
   </details>`;
 };
 
