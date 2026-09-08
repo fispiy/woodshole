@@ -120,6 +120,17 @@ const SHRIMPINA_RESEARCH = (() => {
         ]}
       ]
     },
+    taxonomyEcology: {
+      'Ovalipes ocellatus': { zone:'Tidal water', invasive:false },
+      'Callinectes sapidus': { zone:'Tidal water', invasive:false },
+      'Carcinus maenas': { zone:'Intertidal', invasive:true },
+      'Minuca pugnax': { zone:'Intertidal', invasive:false },
+      'Leptuca pugilator': { zone:'Intertidal', invasive:false },
+      'Hemigrapsus sanguineus': { zone:'Intertidal', invasive:true },
+      'Tumidotheres maculatus': { zone:'Tidal water', invasive:false },
+      'Pagurus pollicaris': { zone:'Tidal water', invasive:false },
+      'Pagurus longicarpus': { zone:'Intertidal', invasive:false }
+    },
     phylogenyTree: {
       title:'Final Version of Phylogeny Tree',
       outgroup:'Marsh Grass Shrimp',

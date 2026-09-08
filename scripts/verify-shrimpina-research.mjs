@@ -197,6 +197,15 @@ check(genera.size === 8, `Expected 8 taxonomy genera, found ${genera.size}`);
 check(treeSpecies.length === 9, `Expected 9 taxonomy species, found ${treeSpecies.length}`);
 check(treeSpecies.map(species => species[1]).join('|') === expectedTreeSpecies.join('|'), 'Taxonomy species order does not match PDF page 35');
 check(research.taxonomyTree.summary === "Within the Decapods, we've identified 5 families and 8 genera across 9 species", 'Taxonomy summary does not match PDF page 35');
+check(Object.keys(research.taxonomyEcology || {}).length === 9, 'Taxonomy ecology must cover all 9 displayed crab species');
+for (const scientific of expectedTreeSpecies) {
+  const ecology = research.taxonomyEcology?.[scientific];
+  check(Boolean(ecology), `${scientific}: missing taxonomy ecology label`);
+  check(['Intertidal','Tidal water','Land'].includes(ecology?.zone), `${scientific}: invalid taxonomy habitat zone`);
+}
+check(research.taxonomyEcology['Carcinus maenas']?.invasive === true, 'European Green Crab must be marked invasive');
+check(research.taxonomyEcology['Hemigrapsus sanguineus']?.invasive === true, 'Asian Shore Crab must be marked invasive');
+check(Object.entries(research.taxonomyEcology).filter(([,value]) => value.invasive).length === 2, 'Only the two project invasive crab species should be marked invasive');
 
 const phylogenyLeaves = [];
 const collectPhylogenyLeaves = node => node.children?.length ? node.children.forEach(collectPhylogenyLeaves) : phylogenyLeaves.push(node);
