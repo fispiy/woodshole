@@ -71,6 +71,12 @@ body.shrimpina-site .theme-cursor,body.shrimpina-record-page .theme-cursor { --c
   .site-masthead-panel { top:51px; right:-1px; width:min(320px,calc(100vw - 36px)); max-height:calc(100vh - 96px); overflow:auto; }
   .site-masthead-menu>summary { padding-inline:12px; }
 }
+@media(min-width:861px) and (max-width:1120px) {
+  .home-page .site-masthead-inner { grid-template-columns:190px minmax(0,1fr); }
+  .home-page .site-masthead-primary { display:flex; }
+  .home-page .site-masthead-menu { display:none; }
+  .home-page .site-nav-group>a { padding-inline:9px; font-size:9px; }
+}
 @media(max-width:420px) {
   :root { --masthead-safe-offset:84px; }
   .site-masthead { top:8px; padding:0 8px; }
