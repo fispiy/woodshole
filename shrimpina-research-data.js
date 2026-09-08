@@ -120,6 +120,47 @@ const SHRIMPINA_RESEARCH = (() => {
         ]}
       ]
     },
+    phylogenyTree: {
+      title:'Final Version of Phylogeny Tree',
+      outgroup:'Marsh Grass Shrimp',
+      root:{ x:82, children:[
+        { x:300, tone:'crab', children:[
+          { x:500, children:[
+            { x:620, children:[
+              { x:715, children:[
+                { code:'SSAJ51', common:'Long-Clawed Hermit Crab' },
+                { code:'SSAJ39', common:'Long-Clawed Hermit Crab' }
+              ]},
+              { code:'SSAJ36', common:'Long-Clawed Hermit Crab' },
+              { code:'SSAJ13', common:'Long-Clawed Hermit Crab' },
+              { code:'SSAJ48', common:'Long-Clawed Hermit Crab' }
+            ]},
+            { code:'SSAJ43', common:'Long-Clawed Hermit Crab' }
+          ]},
+          { x:500, children:[
+            { x:680, children:[
+              { code:'SSAJ52', common:'Longnose Spider Crab' },
+              { code:'SSAJ53', common:'Longnose Spider Crab' }
+            ]},
+            { code:'SSAJ27', common:'Asian Shore Crab' }
+          ]}
+        ]},
+        { x:300, tone:'fiddler', children:[
+          { x:560, children:[
+            { x:700, children:[
+              { code:'SSAJ55', common:'Sand Fiddler Crab' },
+              { code:'SSAJ54', common:'Sand Fiddler Crab' }
+            ]},
+            { code:'SSAJ67', common:'Sand Fiddler Crab' }
+          ]},
+          { x:530, children:[
+            { code:'SSAJ21', common:'Mud Fiddler Crab' },
+            { code:'SSAJ20', common:'Mud Fiddler Crab' }
+          ]}
+        ]},
+        { common:'Marsh Grass Shrimp', outgroup:true, tone:'outgroup' }
+      ]}
+    },
     dnaBySample: {
       SSAJ13:dna('SSAJ13','Long-Clawed Hermit Crab',39,42),
       SSAJ20:dna('SSAJ20','Atlantic Marsh Fiddler Crab',43,45),

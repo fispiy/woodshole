@@ -136,11 +136,12 @@ const overviewSource = fs.readFileSync(path.join(root, 'groups/shrimpina.html'),
 const guideSource = fs.readFileSync(path.join(root, 'research.html'), 'utf8');
 check(!overviewSource.includes('id="g-comparisons"'), 'Overview still contains the comparison section');
 check(!overviewSource.includes('comparisonTables'), 'Overview still renders comparison tables');
-check(overviewSource.includes('class="taxonomy-connectors"'), 'Overview is missing the SVG taxonomy connectors');
-check(overviewSource.includes('class="taxonomy-node-layer"'), 'Overview is missing the semantic taxonomy node hierarchy');
-check(overviewSource.includes('class="taxonomy-fit-toggle"'), 'Overview is missing the fit/detail tree control');
+check(overviewSource.includes('class="phylogeny-branch'), 'Overview is missing the SVG phylogeny branches');
+check(overviewSource.includes('class="phylogeny-leaf'), 'Overview is missing the linked phylogeny terminals');
+check(overviewSource.includes('aria-label="Scrollable final specimen phylogeny"'), 'Overview is missing accessible phylogeny navigation');
 check(!overviewSource.includes('class="tree-row"'), 'Overview still contains the deprecated table-like taxonomy rows');
-check(overviewSource.includes('<h2>Taxonomic Family Tree</h2>'), 'Overview is missing the taxonomic tree heading');
+check(overviewSource.includes('<h2>Final Phylogeny Tree</h2>'), 'Overview is missing the final phylogeny heading');
+check(overviewSource.includes('id="phylogenyTree"'), 'Overview is missing the final phylogeny renderer');
 check(guideSource.includes('SHRIMPINA_RESEARCH.comparisons[0]') && guideSource.includes('SHRIMPINA_RESEARCH.comparisons[2]'), 'Research Guide does not render all comparison groups');
 check(guideSource.includes("scientific.replace(/\\W+/g,'-')"), 'Research Guide is missing scientific-name anchors');
 
@@ -168,6 +169,14 @@ check(genera.size === 8, `Expected 8 taxonomy genera, found ${genera.size}`);
 check(treeSpecies.length === 9, `Expected 9 taxonomy species, found ${treeSpecies.length}`);
 check(treeSpecies.map(species => species[1]).join('|') === expectedTreeSpecies.join('|'), 'Taxonomy species order does not match PDF page 35');
 check(research.taxonomyTree.summary === "Within the Decapods, we've identified 5 families and 8 genera across 9 species", 'Taxonomy summary does not match PDF page 35');
+
+const phylogenyLeaves = [];
+const collectPhylogenyLeaves = node => node.children?.length ? node.children.forEach(collectPhylogenyLeaves) : phylogenyLeaves.push(node);
+collectPhylogenyLeaves(research.phylogenyTree.root);
+const expectedPhylogenyCodes = ['SSAJ51','SSAJ39','SSAJ36','SSAJ13','SSAJ48','SSAJ43','SSAJ52','SSAJ53','SSAJ27','SSAJ55','SSAJ54','SSAJ67','SSAJ21','SSAJ20'];
+check(JSON.stringify(phylogenyLeaves.filter(leaf => leaf.code).map(leaf => leaf.code)) === JSON.stringify(expectedPhylogenyCodes), 'Final phylogeny terminals do not match the supplied tree');
+check(phylogenyLeaves.at(-1)?.common === 'Marsh Grass Shrimp' && phylogenyLeaves.at(-1)?.outgroup, 'Final phylogeny is missing the Marsh Grass Shrimp outgroup');
+for (const code of expectedPhylogenyCodes) check(register.some(sample => sample.code === code), `Final phylogeny references missing register specimen ${code}`);
 
 for (const filename of ['groups/shrimpina.html','journal.html','conditions.html','lab.html']) {
   const source = fs.readFileSync(path.join(root, filename), 'utf8');

@@ -43,6 +43,18 @@
 .shrimpina-site .taxonomy-view-controls{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:11px 2px;color:rgba(74,32,44,.57);font:600 8px/1.3 'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase}.shrimpina-site .taxonomy-fit-toggle{padding:4px 0;border:0;border-bottom:1px solid currentColor;background:transparent;color:#a9324d;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit}.shrimpina-site .taxonomy-fit-toggle:hover,.shrimpina-site .taxonomy-fit-toggle:focus-visible{color:var(--shrimp-dark);outline:none}
 .shrimpina-site .tree-summary{position:relative;box-sizing:border-box;width:100%;margin:0;padding:16px 0 0 28px;border:0;border-top:1px solid rgba(74,32,44,.18);background:transparent;color:rgba(74,32,44,.72);text-align:left;font:500 12px/1.5 'DM Mono',monospace}.shrimpina-site .tree-summary::before{position:absolute;top:21px;left:2px;width:14px;height:2px;background:var(--shrimp-cooked,#eb6f7e);content:''}
 
+/* Final specimen-level phylogeny */
+.shrimpina-site .phylogeny-tree{width:100%;margin-top:30px}
+.shrimpina-site .phylogeny-figure{margin:0;overflow:hidden;border:1px solid rgba(74,32,44,.16);border-radius:16px;background:rgba(255,250,246,.78);box-shadow:0 18px 48px rgba(74,32,44,.06)}
+.shrimpina-site .phylogeny-scroll{width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-inline:contain;scrollbar-color:rgba(74,32,44,.34) transparent}
+.shrimpina-site .phylogeny-scroll:focus-visible{outline:2px solid #a9324d;outline-offset:-4px}
+.shrimpina-site .phylogeny-scroll svg{display:block;width:100%;min-width:980px;height:auto;padding:24px 18px 12px;box-sizing:border-box}
+.shrimpina-site .phylogeny-root,.shrimpina-site .phylogeny-branch{fill:none;stroke:rgba(74,32,44,.74);stroke-width:2;stroke-linecap:square;vector-effect:non-scaling-stroke}
+.shrimpina-site .phylogeny-crab{stroke:#7e4056}.shrimpina-site .phylogeny-fiddler{stroke:#c65d6e}.shrimpina-site .phylogeny-outgroup{stroke:#9b7d8f}
+.shrimpina-site .phylogeny-leaf text{fill:var(--shrimp-dark);font:500 17px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}.shrimpina-site .phylogeny-leaf .phylogeny-code{fill:#9f3049;font-family:'DM Mono',monospace;font-size:14px}
+.shrimpina-site a.phylogeny-leaf{text-decoration:none;cursor:pointer}.shrimpina-site a.phylogeny-leaf:hover text,.shrimpina-site a.phylogeny-leaf:focus text{fill:#a9324d;text-decoration:underline;text-underline-offset:5px}.shrimpina-site a.phylogeny-leaf:focus{outline:none}
+.shrimpina-site .phylogeny-figure figcaption{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 18px;border-top:1px solid rgba(74,32,44,.14);color:rgba(74,32,44,.58);font:600 8px/1.35 'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+
 /* Overview rhythm around the field-site film and collection map */
 .shrimpina-site #g-map .marsh-film{margin:0 0 clamp(48px,5vw,66px)}.shrimpina-site #g-map .marsh-film figcaption{margin-bottom:20px}.shrimpina-site #g-map .marsh-film-frame{max-width:1180px;box-shadow:0 18px 48px rgba(74,32,44,.14)}.shrimpina-site #g-map .collection-map-heading{margin-top:0}
 
@@ -53,6 +65,6 @@
 .species-source-actions{margin:0;padding:4px 28px 10px}.species-source-actions a{color:#a9324d;font:600 8px/1.3 'DM Mono',monospace;letter-spacing:.07em;text-decoration:none;text-transform:uppercase}.species-source-actions a:hover,.species-source-actions a:focus-visible{text-decoration:underline;text-underline-offset:4px}
 .research-guide-link{margin:30px 0 0}.research-guide-link a{display:inline-flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid currentColor;color:var(--shrimp-dark,#4a202c);font:600 9px/1.3 'DM Mono',monospace;letter-spacing:.08em;text-decoration:none;text-transform:uppercase}.research-guide-link a:hover,.research-guide-link a:focus-visible{color:#a9324d}
 .research-guide-footer{padding:42px max(32px,calc((100vw - 1180px)/2));display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;border-top:1px solid rgba(74,32,44,.22);color:rgba(74,32,44,.72);font:600 9px/1.5 'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
-@media(max-width:900px){.research-guide-header{grid-template-columns:1fr}.research-guide-nav{top:74px}.shrimpina-site .taxonomy-tree{margin-top:28px}.shrimpina-site #g-map .marsh-film{margin-bottom:48px}}
+@media(max-width:900px){.research-guide-header{grid-template-columns:1fr}.research-guide-nav{top:74px}.shrimpina-site .taxonomy-tree{margin-top:28px}.shrimpina-site #g-map .marsh-film{margin-bottom:48px}.shrimpina-site .phylogeny-scroll svg{width:980px;min-width:980px}.shrimpina-site .phylogeny-figure figcaption{align-items:flex-start;flex-direction:column;gap:5px}}
 @media(max-width:600px){.research-guide{padding-inline:18px}.research-guide-header{gap:20px}.research-guide-section>header{align-items:flex-start;flex-direction:column}}
 @media(max-width:560px){.taxonomy-deck{align-items:flex-start;flex-direction:column;gap:8px}}

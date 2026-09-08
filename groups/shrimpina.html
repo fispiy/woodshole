@@ -14,7 +14,7 @@
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="../species-data.js?v=20260902-4"></script>
 <script src="../shrimpina-sample-register.js?v=20260907-2"></script>
-<script src="../shrimpina-research-data.js?v=20260907-3"></script>
+<script src="../shrimpina-research-data.js?v=20260908-4"></script>
 <script src="../shrimpina-observation-locations.js?v=20260904-1"></script>
 <script src="../shrimpina-inat-media.js?v=20260907-2"></script>
 <script src="../shrimpina-photo-library.js?v=20260902-1"></script>
@@ -128,8 +128,8 @@
   }
 </style>
 <link rel="stylesheet" href="../site-index.css?v=20260907-10">
-<link rel="stylesheet" href="../shrimpina.css?v=20260908-3">
-<link rel="stylesheet" href="../shrimpina-research.css?v=20260907-10">
+<link rel="stylesheet" href="../shrimpina.css?v=20260908-4">
+<link rel="stylesheet" href="../shrimpina-research.css?v=20260908-11">
 <script src="../site-index.js?v=20260907-5" defer></script>
 <link rel="stylesheet" href="../specimen-view.css?v=20260902-5">
 </head>
@@ -148,7 +148,7 @@
   <nav class="toc" id="toc">
     <p class="toc-title">Project index</p>
     <a href="#g-question" class="active"><span class="num">01</span><span><b>Question</b><small>Main facing question</small></span></a>
-    <a href="#g-family"><span class="num">02</span><span><b>Taxonomic tree</b><small>5 families, 8 genera</small></span></a>
+    <a href="#g-family"><span class="num">02</span><span><b>Phylogeny tree</b><small>14 specimens + outgroup</small></span></a>
     <a href="#g-map"><span class="num">03</span><span><b>Collection sites</b><small>Map and key</small></span></a>
     <a href="#g-species"><span class="num">04</span><span><b>Specimens</b><small>Photos, morphology, ecology</small></span></a>
     <a href="#g-genes"><span class="num">05</span><span><b>DNA</b><small>14 analyzed specimens</small></span></a>
@@ -160,9 +160,9 @@
       <span class="research-eyebrow">OFFICIAL QUESTION.</span><h2 id="officialQuestion"></h2>
     </section>
     <section class="g-sec" id="g-family">
-      <span class="research-eyebrow">Taxonomic classification</span><h2>Taxonomic Family Tree</h2>
-      <p class="taxonomy-deck"><span>Classification · 5 families · 8 genera · 9 species</span><a href="../lab.html">DNA phylogenies <span aria-hidden="true">→</span></a></p>
-      <div class="taxonomy-tree" id="taxonomyTree"></div>
+      <span class="research-eyebrow">Genetic relationships</span><h2>Final Phylogeny Tree</h2>
+      <p class="taxonomy-deck"><span>14 SSAJ specimens · Marsh Grass Shrimp outgroup</span><a href="../lab.html">Open laboratory evidence <span aria-hidden="true">→</span></a></p>
+      <div class="phylogeny-tree" id="phylogenyTree"></div>
     </section>
     <section class="g-sec" id="g-map">
       <div id="marshFilm"></div>
@@ -245,100 +245,44 @@ if (marshFilm) {
     <div class="marsh-film-frame"><video controls playsinline preload="metadata" poster="${SHRIMPINA_RESEARCH.assetUrl(marshFilm.poster)}" aria-label="${escapeResearchText(marshFilm.title)} field-site film"><source src="${SHRIMPINA_RESEARCH.assetUrl(marshFilm.src)}" type="video/mp4">Your browser cannot play this video. <a href="${SHRIMPINA_RESEARCH.assetUrl(marshFilm.src)}">Open the MP4 file.</a></video></div>
   </figure>`;
 }
-const tree = SHRIMPINA_RESEARCH.taxonomyTree;
-const treeSlug = value => String(value).normalize('NFKD').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').toLowerCase();
-const speciesHref = scientific => scientific === 'Tumidotheres maculatus'
-  ? `../research.html#species-${scientific.replace(/\W+/g, '-')}`
-  : `shrimpina.html?species=${encodeURIComponent(scientific)}#g-species`;
-const taxonomyHierarchy = {
-  id:`phylum-${treeSlug(tree.phylum)}`, rank:'Phylum', label:tree.phylum, children:[{
-    id:`class-${treeSlug(tree.className)}`, rank:'Class', label:tree.className, children:[{
-      id:`order-${treeSlug(tree.order)}`, rank:'Order', label:tree.order,
-      children:tree.branches.map(branch => ({
-        id:`infraorder-${treeSlug(branch.name)}`, rank:'Infraorder', label:branch.name, note:branch.note, tone:treeSlug(branch.name),
-        children:branch.families.map(family => ({
-          id:`family-${treeSlug(family.name)}`, rank:'Family', label:family.name, tone:treeSlug(branch.name),
-          children:family.genera.map(genus => ({
-            id:`genus-${treeSlug(genus.name)}`, rank:'Genus', label:genus.name, tone:treeSlug(branch.name),
-            children:genus.species.map(([common,scientific]) => ({
-              id:`species-${treeSlug(scientific)}`, rank:'Species', label:common, scientific, tone:treeSlug(branch.name), href:speciesHref(scientific)
-            }))
-          }))
-        }))
-      }))
-    }]
-  }]
+const phylogeny = SHRIMPINA_RESEARCH.phylogenyTree;
+const phylogenyLeaves = [];
+const inheritPhylogenyTone = (node,tone='crab') => {
+  node.tone ||= tone;
+  if (node.children?.length) node.children.forEach(child => inheritPhylogenyTone(child,node.tone));
+  else phylogenyLeaves.push(node);
 };
-const treeWidth = 1360;
-const treeHeight = 700;
-const levelY = [48,118,188,286,386,486,598];
-const leaves = [];
-const collectLeaves = node => node.children?.length ? node.children.forEach(collectLeaves) : leaves.push(node);
-collectLeaves(taxonomyHierarchy);
-leaves.forEach((leaf,index) => { leaf.x = 104 + index * ((treeWidth - 208) / (leaves.length - 1)); });
-const positionTree = (node,depth=0,parentTone='root') => {
-  node.depth = depth;
-  node.y = levelY[depth];
-  node.tone ||= parentTone;
-  node.children?.forEach(child => positionTree(child,depth + 1,node.tone));
-  if (node.children?.length) node.x = node.children.reduce((sum,child) => sum + child.x,0) / node.children.length;
+inheritPhylogenyTone(phylogeny.root);
+phylogenyLeaves.forEach((leaf,index) => { leaf.y = 58 + index * 62; });
+const positionPhylogeny = node => {
+  node.children?.forEach(positionPhylogeny);
+  if (node.children?.length) node.y = node.children.reduce((sum,child) => sum + child.y,0) / node.children.length;
 };
-positionTree(taxonomyHierarchy);
-const edges = [];
-const collectEdges = node => (node.children || []).forEach(child => {
-  const middleY = node.y + (child.y - node.y) * .52;
-  edges.push(`<path class="taxonomy-edge taxonomy-edge-${child.tone}" d="M ${node.x.toFixed(2)} ${node.y + 20} V ${middleY.toFixed(2)} H ${child.x.toFixed(2)} V ${child.y - 20}"/>`);
-  collectEdges(child);
-});
-collectEdges(taxonomyHierarchy);
-const hierarchyMarkup = node => `<li>${node.href
-  ? `<a class="taxonomy-node taxonomy-node-species taxonomy-tone-${node.tone}" id="${node.id}" href="${node.href}" style="--node-x:${node.x}px;--node-y:${node.y}px" aria-label="${escapeResearchText(node.label)}, ${escapeResearchText(node.scientific)}"><strong>${escapeResearchText(node.label)}</strong><i>${escapeResearchText(node.scientific)}</i></a>`
-  : `<span class="taxonomy-node taxonomy-node-${node.rank.toLowerCase()} taxonomy-tone-${node.tone}" id="${node.id}" style="--node-x:${node.x}px;--node-y:${node.y}px"><strong>${escapeResearchText(node.label)}</strong>${node.note ? `<i>${escapeResearchText(node.note)}</i>` : ''}</span>`}
-  ${node.children?.length ? `<ol>${node.children.map(hierarchyMarkup).join('')}</ol>` : ''}</li>`;
-const rankGuides = levelY.map((y,index) => `<g class="taxonomy-rank-guide"><line x1="22" y1="${y}" x2="1338" y2="${y}"/><text x="22" y="${y - 11}">${['Phylum','Class','Order','Infraorder','Family','Genus','Species'][index]}</text></g>`).join('');
-document.getElementById('taxonomyTree').innerHTML = `<div class="taxonomy-diagram">
-  <div class="taxonomy-scroll-region is-fit" tabindex="0" aria-label="Taxonomic family tree, fitted to show the complete hierarchy">
-    <div class="taxonomy-stage-wrap">
-      <div class="taxonomy-stage" style="--tree-width:${treeWidth}px;--tree-height:${treeHeight}px">
-        <svg class="taxonomy-connectors" viewBox="0 0 ${treeWidth} ${treeHeight}" aria-hidden="true" focusable="false">${rankGuides}<g>${edges.join('')}</g></svg>
-        <ol class="taxonomy-node-layer" aria-label="Taxonomic hierarchy from Arthropoda to the nine crab species">${hierarchyMarkup(taxonomyHierarchy)}</ol>
-      </div>
-    </div>
+positionPhylogeny(phylogeny.root);
+const phylogenyLines = [];
+const leafX = 850;
+const drawPhylogeny = (node,parent=null) => {
+  if (parent) phylogenyLines.push(`<path class="phylogeny-branch phylogeny-${node.tone}" d="M ${parent.x} ${node.y} H ${node.children?.length ? node.x : leafX}"/>`);
+  if (node.children?.length) {
+    phylogenyLines.push(`<path class="phylogeny-branch phylogeny-${node.tone}" d="M ${node.x} ${node.children[0].y} V ${node.children.at(-1).y}"/>`);
+    node.children.forEach(child => drawPhylogeny(child,node));
+  }
+};
+drawPhylogeny(phylogeny.root);
+const phylogenyLabels = phylogenyLeaves.map(leaf => leaf.code
+  ? `<a class="phylogeny-leaf phylogeny-leaf-${leaf.tone}" href="../species.html?sample=${leaf.code}" aria-label="Open ${escapeResearchText(leaf.common)}, ${leaf.code}"><text x="870" y="${leaf.y + 5}"><tspan>${escapeResearchText(leaf.common)}</tspan><tspan class="phylogeny-code"> (${leaf.code})</tspan></text></a>`
+  : `<g class="phylogeny-leaf phylogeny-leaf-${leaf.tone}"><text x="870" y="${leaf.y + 5}">${escapeResearchText(leaf.common)}</text></g>`).join('');
+document.getElementById('phylogenyTree').innerHTML = `<figure class="phylogeny-figure">
+  <div class="phylogeny-scroll" tabindex="0" aria-label="Scrollable final specimen phylogeny">
+    <svg viewBox="0 0 1280 980" role="img" aria-labelledby="phylogeny-title phylogeny-desc">
+      <title id="phylogeny-title">${escapeResearchText(phylogeny.title)}</title>
+      <desc id="phylogeny-desc">Genetic relationship tree for fourteen SSAJ crab specimens with Marsh Grass Shrimp as the outgroup.</desc>
+      <path class="phylogeny-root" d="M 28 ${phylogeny.root.y} H ${phylogeny.root.x}"/>
+      ${phylogenyLines.join('')}${phylogenyLabels}
+    </svg>
   </div>
-  <div class="taxonomy-view-controls"><span class="tree-view-status">Complete tree</span><button class="taxonomy-fit-toggle" type="button" aria-pressed="false">View detail</button></div>
-  <p class="tree-summary">${escapeResearchText(tree.summary)}</p>
-</div>`;
-const taxonomyTreeElement = document.getElementById('taxonomyTree');
-const taxonomyScroller = document.querySelector('.taxonomy-scroll-region');
-const taxonomyStage = document.querySelector('.taxonomy-stage');
-const taxonomyStageWrap = document.querySelector('.taxonomy-stage-wrap');
-const taxonomyFitToggle = document.querySelector('.taxonomy-fit-toggle');
-const taxonomyViewStatus = document.querySelector('.tree-view-status');
-let taxonomyDetailed = false;
-const sizeTaxonomy = () => {
-  if (window.innerWidth > 900) {
-    const left = taxonomyTreeElement.getBoundingClientRect().left;
-    taxonomyTreeElement.style.width = `${Math.min(treeWidth,Math.max(640,window.innerWidth - left - 32))}px`;
-  } else taxonomyTreeElement.style.removeProperty('width');
-  const scale = taxonomyDetailed ? 1 : Math.min(1,taxonomyScroller.clientWidth / treeWidth);
-  taxonomyStage.style.transform = `scale(${scale})`;
-  taxonomyStageWrap.style.width = `${treeWidth * scale}px`;
-  taxonomyStageWrap.style.height = `${treeHeight * scale}px`;
-  taxonomyStageWrap.style.marginInline = taxonomyDetailed ? '0' : 'auto';
-  if (!taxonomyDetailed) taxonomyScroller.scrollLeft = 0;
-};
-taxonomyFitToggle.addEventListener('click',() => {
-  taxonomyDetailed = !taxonomyDetailed;
-  taxonomyScroller.classList.toggle('is-fit',!taxonomyDetailed);
-  taxonomyFitToggle.setAttribute('aria-pressed',String(taxonomyDetailed));
-  taxonomyFitToggle.textContent = taxonomyDetailed ? 'Fit complete tree' : 'View detail';
-  taxonomyViewStatus.textContent = taxonomyDetailed ? 'Full-size detail · scroll horizontally' : 'Complete tree';
-  taxonomyScroller.setAttribute('aria-label',taxonomyDetailed ? 'Scrollable full-size taxonomic family tree' : 'Taxonomic family tree, fitted to show the complete hierarchy');
-  sizeTaxonomy();
-  if (taxonomyDetailed) taxonomyScroller.scrollLeft = Math.max(0,taxonomyHierarchy.x - taxonomyScroller.clientWidth / 2);
-});
-new ResizeObserver(sizeTaxonomy).observe(taxonomyScroller);
-requestAnimationFrame(sizeTaxonomy);
+  <figcaption><span>Final specimen phylogeny</span><span>Choose an SSAJ label to open its record</span></figcaption>
+</figure>`;
 /* Historical hand-written records are retained only as source notes. The live archive
    below is generated from the current specimen register and photograph library. */
 const originalSpecimenRecords = [
