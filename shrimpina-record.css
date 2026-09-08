@@ -5,7 +5,7 @@ body.shrimpina-record-page{
   color:var(--shrimp-dark);background-color:var(--shrimp-cream);background-image:none
 }
 .shrimpina-record-page a{color:#8f2c45}
-.shrimpina-record-page .shrimpina-record-nav{position:sticky;z-index:120;top:0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;min-height:56px;padding:0 max(24px,5vw);border-top:3px solid var(--shrimp-pink);border-bottom:1px solid rgba(74,32,44,.24);background:rgba(255,243,234,.96);box-shadow:0 8px 24px rgba(74,32,44,.035);backdrop-filter:blur(12px);font:700 10px/1 'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+.shrimpina-record-page .shrimpina-record-nav{position:relative;z-index:120;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:18px;min-height:46px;padding:0 max(24px,5vw);border-top:3px solid var(--shrimp-pink);border-bottom:1px solid rgba(74,32,44,.24);background:rgba(255,243,234,.96);box-shadow:0 8px 24px rgba(74,32,44,.035);font:700 10px/1 'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
 .shrimpina-record-page .shrimpina-record-nav a{padding:7px 0;color:var(--shrimp-dark);text-decoration:none}.shrimpina-record-page .shrimpina-record-nav>a{justify-self:start}.shrimpina-record-page .shrimpina-record-nav>span{justify-self:center;color:#9f3049}.shrimpina-record-page .shrimpina-record-nav>div{display:flex;justify-content:end;gap:22px}.shrimpina-record-page .shrimpina-record-nav a:hover{border-bottom:1px solid}
 .shrimpina-record-page .breadcrumb{max-width:1180px;padding-top:34px;color:rgba(74,32,44,.68);font:500 9px/1.4 'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
 .shrimpina-record-page .record-section-nav{display:flex;align-items:center;gap:0;width:calc(100% - 40px);max-width:1180px;margin:20px auto 30px;border-block:1px solid rgba(74,32,44,.3);overflow-x:auto;scrollbar-width:thin}.shrimpina-record-page .record-section-nav span,.shrimpina-record-page .record-section-nav a{flex:0 0 auto;padding:12px 15px;border-right:1px solid rgba(74,32,44,.22);font:600 8px/1 'DM Mono',monospace;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;white-space:nowrap}.shrimpina-record-page .record-section-nav span{padding-left:0;color:rgba(74,32,44,.55)}.shrimpina-record-page .record-section-nav a:hover{background:var(--shrimp-pink);color:var(--shrimp-dark)}
@@ -54,7 +54,7 @@ body.shrimpina-record-page{
 .shrimpina-record-page .profile-hero image-slot img{object-fit:contain!important;background:#351b25;filter:none}
 .shrimpina-record-page .profile-hero:has(.morphology-viewer){height:auto;min-height:0;background:transparent}
 .shrimpina-record-page .reveal-sec{margin:66px 0;padding-top:0;border-top:0}
-.shrimpina-record-page .reveal-sec,.shrimpina-record-page .profile-hero{scroll-margin-top:190px}
+.shrimpina-record-page .reveal-sec,.shrimpina-record-page .profile-hero{scroll-margin-top:calc(var(--masthead-safe-offset) + 12px)}
 .shrimpina-record-page .sec-label{margin-bottom:24px}
 .shrimpina-record-page .sec-label h3{font-size:clamp(30px,3vw,42px)}
 .shrimpina-record-page .stitch-divider{display:none!important}
@@ -66,16 +66,15 @@ body.shrimpina-record-page{
 .shrimpina-record-page .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
 .shrimpina-record-page #speciesMap{max-width:none;height:420px}
 .shrimpina-record-page .obs-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:1px}
-@media(max-width:760px){.shrimpina-record-page .shrimpina-record-nav{top:0;grid-template-columns:1fr auto}.shrimpina-record-page .shrimpina-record-nav>span{display:none}.shrimpina-record-page .record-section-nav{margin-inline:18px}.shrimpina-record-page .profile-hero{height:62vh;min-height:420px}.shrimpina-record-page .profile-hero:has(.morphology-viewer){height:auto;min-height:0}.morphology-viewer-head{align-items:flex-start;flex-direction:column}.morphology-viewer-stage,.morphology-viewer-stage:has(.morphology-key-wrap[hidden]){grid-template-columns:1fr;min-height:0}.morphology-tabs{display:flex;grid-row:1;gap:0;max-height:none;padding:0 12px;overflow-x:auto;overflow-y:hidden;border-right:0;border-bottom:1px solid rgba(74,32,44,.25)}.morphology-tabs button{flex:0 0 auto;width:auto;padding:14px 12px;border-left:0;border-bottom:2px solid transparent}.morphology-tabs button[aria-selected="true"]{border-bottom-color:var(--shrimp-dark);transform:none}.morphology-figure{grid-row:2;border-right:0;border-bottom:1px solid rgba(74,32,44,.3)}.morphology-image-wrap{min-height:430px;padding:12px}.morphology-key-wrap{grid-row:3;padding:20px}.shrimpina-record-page .profile-body{padding-top:48px}.shrimpina-record-page .profile-body.profile-intro{padding-bottom:4px}.shrimpina-record-page .class-tags{grid-template-columns:1fr 1fr}.shrimpina-record-page .class-tags .tag:nth-child(2){border-right:0}.shrimpina-record-page .class-tags .tag:nth-child(-n+2){border-bottom:1px solid rgba(74,32,44,.25)}.shrimpina-record-page .profile-ecology-report{grid-template-columns:1fr}.shrimpina-record-page .profile-ecology-report li,.shrimpina-record-page .profile-ecology-report li:nth-child(even){min-height:0;padding:24px 0!important;border-right:0!important}.shrimpina-record-page .gallery-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.shrimpina-record-page .shrimpina-record-nav{grid-template-columns:minmax(0,1fr) auto auto;gap:12px}.shrimpina-record-page .record-section-nav{margin-inline:18px}.shrimpina-record-page .profile-hero{height:62vh;min-height:420px}.shrimpina-record-page .profile-hero:has(.morphology-viewer){height:auto;min-height:0}.morphology-viewer-head{align-items:flex-start;flex-direction:column}.morphology-viewer-stage,.morphology-viewer-stage:has(.morphology-key-wrap[hidden]){grid-template-columns:1fr;min-height:0}.morphology-tabs{display:flex;grid-row:1;gap:0;max-height:none;padding:0 12px;overflow-x:auto;overflow-y:hidden;border-right:0;border-bottom:1px solid rgba(74,32,44,.25)}.morphology-tabs button{flex:0 0 auto;width:auto;padding:14px 12px;border-left:0;border-bottom:2px solid transparent}.morphology-tabs button[aria-selected="true"]{border-bottom-color:var(--shrimp-dark);transform:none}.morphology-figure{grid-row:2;border-right:0;border-bottom:1px solid rgba(74,32,44,.3)}.morphology-image-wrap{min-height:430px;padding:12px}.morphology-key-wrap{grid-row:3;padding:20px}.shrimpina-record-page .profile-body{padding-top:48px}.shrimpina-record-page .profile-body.profile-intro{padding-bottom:4px}.shrimpina-record-page .class-tags{grid-template-columns:1fr 1fr}.shrimpina-record-page .class-tags .tag:nth-child(2){border-right:0}.shrimpina-record-page .class-tags .tag:nth-child(-n+2){border-bottom:1px solid rgba(74,32,44,.25)}.shrimpina-record-page .profile-ecology-report{grid-template-columns:1fr}.shrimpina-record-page .profile-ecology-report li,.shrimpina-record-page .profile-ecology-report li:nth-child(even){min-height:0;padding:24px 0!important;border-right:0!important}.shrimpina-record-page .gallery-grid{grid-template-columns:1fr}}
 @media(max-width:520px){.shrimpina-record-page .profile-body h1{font-size:42px!important}.shrimpina-record-page .profile-body,.shrimpina-record-page .profile-hero{width:calc(100% - 36px)}.shrimpina-record-page .record-section-nav{width:calc(100% - 36px)}.shrimpina-record-page .profile-hero{min-height:360px}.shrimpina-record-page .profile-ecology-report li{grid-template-columns:28px minmax(0,1fr)!important;gap:12px}}
-@media(max-width:760px){.shrimpina-record-page .shrimpina-record-nav{top:0}}
-
 /* Primary specimen record hierarchy */
-.shrimpina-record-page #root{padding-top:90px}
+.shrimpina-record-page #root{padding-top:calc(var(--masthead-safe-offset) - 14px)}
 .shrimpina-record-page .shrimpina-record-nav{
-  box-sizing:border-box;width:calc(100% - 64px);max-width:1180px;min-height:52px;margin:0 auto;padding:0 18px;
+  box-sizing:border-box;width:calc(100% - 64px);max-width:1180px;min-height:46px;margin:0 auto;padding:0 18px;
   border:0;border-radius:10px;background:var(--shrimp-dark);color:var(--shrimp-cream);box-shadow:0 10px 28px rgba(74,32,44,.14)
 }
+.shrimpina-record-page .record-back-short{display:none}
 .shrimpina-record-page .shrimpina-record-nav a,.shrimpina-record-page .shrimpina-record-nav>span{color:var(--shrimp-cream)}
 .shrimpina-record-page .shrimpina-record-nav>span{display:inline-flex;align-items:center;gap:8px;color:#ffc2ca}
 .shrimpina-record-page .shrimpina-record-nav>span::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--shrimp-pink)}
@@ -120,8 +119,11 @@ body.shrimpina-record-page{
 .shrimpina-record-page .sec-label h3{padding:0;font-size:clamp(34px,4vw,48px);letter-spacing:-.025em}
 
 @media(max-width:760px){
-  .shrimpina-record-page #root{padding-top:82px}
-  .shrimpina-record-page .shrimpina-record-nav{top:82px;width:calc(100% - 36px);padding:0 14px}
+  .shrimpina-record-page .shrimpina-record-nav{width:calc(100% - 36px);padding:0 14px}
+  .shrimpina-record-page .record-back-long{display:none}
+  .shrimpina-record-page .record-back-short{display:inline}
+  .shrimpina-record-page .shrimpina-record-nav>span{display:inline-flex}
+  .shrimpina-record-page .shrimpina-record-nav>div{gap:14px}
   .shrimpina-record-page .record-section-nav{width:calc(100% - 36px);margin:10px 18px 20px;padding:6px}
   .shrimpina-record-page .record-section-nav span{display:none}
   .shrimpina-record-page .record-section-nav a{padding:10px 12px}
@@ -132,8 +134,8 @@ body.shrimpina-record-page{
   .shrimpina-record-page .reveal-sec{margin:62px 0}
 }
 @media(max-width:420px){
-  .shrimpina-record-page #root{padding-top:70px}
-  .shrimpina-record-page .shrimpina-record-nav{top:70px}
+  .shrimpina-record-page .shrimpina-record-nav{gap:9px;padding-inline:11px}
+  .shrimpina-record-page .shrimpina-record-nav>div{gap:10px}
   .shrimpina-record-page .record-section-nav a{padding-inline:10px;font-size:8px}
   .shrimpina-record-page .class-tags .tag b{font-size:13px}
 }

@@ -106,9 +106,9 @@
   }
 </style>
 <link rel="stylesheet" href="exhibit.css?v=20260902-2">
-<link rel="stylesheet" href="shrimpina-record.css?v=20260907-3">
+<link rel="stylesheet" href="shrimpina-record.css?v=20260908-2">
 <link rel="stylesheet" href="shrimpina-research.css?v=20260907-10">
-<link rel="stylesheet" href="site-index.css?v=20260907-10">
+<link rel="stylesheet" href="site-index.css?v=20260908-2">
 <script src="vendor/gsap/gsap.min.js"></script>
 <script src="vendor/gsap/ScrollTrigger.min.js"></script>
 <script src="site-index.js?v=20260907-5" defer></script>
@@ -177,7 +177,7 @@ if (!s) {
   const nextRecord = shrimpinaIndex >= 0 && shrimpinaIndex < shrimpinaRecords.length - 1 ? shrimpinaRecords[shrimpinaIndex + 1] : null;
   const specimenHref = record => requestedSample ? `species.html?sample=${record.code}` : `species.html?id=${record.id}`;
   const projectNavigation = isShrimpina ? `<nav class="shrimpina-record-nav" aria-label="Shrimpina specimen navigation">
-    <a class="record-back" href="groups/shrimpina.html?qa=samples#g-species">Shrimpina specimen archive</a>
+    <a class="record-back" href="groups/shrimpina.html?qa=samples#g-species"><span class="record-back-long">Shrimpina specimen archive</span><span class="record-back-short">Archive</span></a>
     <span>${s.code}</span>
     <div>${previousRecord ? `<a href="${specimenHref(previousRecord)}" aria-label="Previous specimen">Previous</a>` : '<i></i>'}${nextRecord ? `<a href="${specimenHref(nextRecord)}" aria-label="Next specimen">Next</a>` : '<i></i>'}</div>
   </nav>` : '';
@@ -212,6 +212,16 @@ if (!s) {
   `;
   initMorphologyViewer(root, s);
   initResearchBlocks(root);
+  if (location.hash) {
+    const alignRequestedSection = () => {
+      const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (!target) return;
+      const mastheadOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--masthead-safe-offset')) || 104;
+      window.scrollTo({ top:target.getBoundingClientRect().top + window.scrollY - mastheadOffset - 12, behavior:'instant' });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(alignRequestedSection));
+    window.addEventListener('load', () => window.setTimeout(alignRequestedSection, 400), { once:true });
+  }
 
   const smap = L.map('speciesMap', { zoomControl: false, attributionControl: true, scrollWheelZoom: false }).setView([s.lat, s.lng], 16);
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {

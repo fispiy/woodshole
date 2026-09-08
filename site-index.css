@@ -43,7 +43,7 @@ site-index { position:relative; z-index:2400; display:block; }
 .site-masthead-panel>small { display:block; margin-top:20px; color:color-mix(in srgb,var(--index-ink) 50%,transparent); font:500 7px/1.4 'DM Mono',monospace; letter-spacing:.08em; text-transform:uppercase; }
 
 site-index.is-shrimpina { --index-paper:#fff0e9; --index-ink:#4a202c; --index-line:rgba(74,32,44,.18); --index-accent:#df6678; }
-.shrimpina-record-page .shrimpina-record-nav { top:calc(var(--masthead-safe-offset) - 14px); }
+.shrimpina-record-page .shrimpina-record-nav { top:auto; }
 
 .theme-cursor { --cursor-ring:#0f3532; --cursor-dot:#b85338; position:fixed; z-index:20000; left:0; top:0; width:0; height:0; pointer-events:none; opacity:0; transform:translate3d(var(--cursor-x,-60px),var(--cursor-y,-60px),0); transition:opacity .18s ease; }
 .theme-cursor.is-visible { opacity:1; }
