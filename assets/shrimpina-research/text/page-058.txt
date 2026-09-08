@@ -1,0 +1,25 @@
+SSAJ 48: Long-Clawed Hermit Crab
+Scientific Name: Pagurus longicarpus
+Location Found: Woodneck Beach, Falmouth, MA, USA
+
+Consensus Sequence:
+
+
+
+
+Number of bp: 590
+
+Comparison to Other Organisms:
+
+
+
+
+Collection Details:
+1 → June 29, 2016, Virginia
+​      Mismatch count: 2, G to A at position 166, A to C at position 598
+
+2 → 1997-1998, Nova Scotia
+​     Mismatch count: 2, G to A at position 166, G to A at position 367
+
+3 → August 27, 2016, Maine
+

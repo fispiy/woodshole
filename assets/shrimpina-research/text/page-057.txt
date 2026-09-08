@@ -1,0 +1,8 @@
+Detailed Analysis:
+Position 166 → G to A
+Position 193 → T to C
+Position 358 → A to G
+Position 367 → G to A
+Position 445 → G to A
+Position 598 → A to C
+

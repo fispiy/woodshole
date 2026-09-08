@@ -1,0 +1,12 @@
+5 → August 31, 2016, Virginia
+​     Mismatch count: 1 (T switch to C at position 83)
+
+Detailed Analysis:
+We can see a single nucleotide change at position 83, T → C, for one of the specimens that our
+sample is being compared to. The other 3 have no mismatches at this particular locus.
+
+
+
+
+Analysis 2
+

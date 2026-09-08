@@ -1,0 +1,23 @@
+Number of bp: 631
+
+Comparison to Other Organisms:
+Analysis 1: Using only same species
+
+
+
+
+Collection Details:
+1 → November 30, 2012, Virginia
+​       Mismatch count: 5, C to A at position 44, C to T at position 110, T to C at position 131, T
+to C at position 258
+
+2 → December 2, 2014, Maryland
+​       Mismatch count: 6, C to A at position 44, C to T at position 110, C to T at position 131, T
+to C at position 258, G to A at position 442
+
+3 → No clear information available about origin
+​      Mismatch count: 5, C to G at position 44, C to T at position 104, A to G at position 479,
+C to T at position 611
+
+4 → June 5, 2013, Virginia
+

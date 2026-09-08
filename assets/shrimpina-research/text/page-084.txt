@@ -1,0 +1,4 @@
+Detailed Analysis:
+At position 492, our specimen has a shift from C to T. This is a mutation that has not previously
+been seen in published literature.
+

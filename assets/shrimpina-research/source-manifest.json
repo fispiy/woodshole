@@ -1,0 +1,1035 @@
+{
+  "source": {
+    "file": "/Users/johnsellers/Downloads/Crabies .pdf",
+    "pageCount": 91
+  },
+  "notes": "Native PDF image objects extracted with pdfimages. smask entries are retained for provenance and are not displayed as figures.",
+  "figures": [
+    {
+      "page": 35,
+      "sequence": 0,
+      "type": "image",
+      "width": 2048,
+      "height": 1506,
+      "objectId": "100 0",
+      "extractedFile": null
+    },
+    {
+      "page": 35,
+      "sequence": 1,
+      "type": "smask",
+      "width": 2048,
+      "height": 1506,
+      "objectId": "100 0",
+      "extractedFile": null
+    },
+    {
+      "page": 39,
+      "sequence": 2,
+      "type": "image",
+      "width": 1374,
+      "height": 488,
+      "objectId": "111 0",
+      "extractedFile": "dna/page-039-000.png"
+    },
+    {
+      "page": 39,
+      "sequence": 3,
+      "type": "image",
+      "width": 2048,
+      "height": 471,
+      "objectId": "112 0",
+      "extractedFile": "dna/page-039-001.png"
+    },
+    {
+      "page": 40,
+      "sequence": 4,
+      "type": "image",
+      "width": 1196,
+      "height": 1218,
+      "objectId": "118 0",
+      "extractedFile": "dna/page-040-000.png"
+    },
+    {
+      "page": 41,
+      "sequence": 5,
+      "type": "image",
+      "width": 1300,
+      "height": 564,
+      "objectId": "122 0",
+      "extractedFile": "dna/page-041-000.png"
+    },
+    {
+      "page": 42,
+      "sequence": 6,
+      "type": "image",
+      "width": 1772,
+      "height": 418,
+      "objectId": "133 0",
+      "extractedFile": "dna/page-042-000.png"
+    },
+    {
+      "page": 42,
+      "sequence": 7,
+      "type": "image",
+      "width": 1768,
+      "height": 820,
+      "objectId": "134 0",
+      "extractedFile": "dna/page-042-001.png"
+    },
+    {
+      "page": 42,
+      "sequence": 8,
+      "type": "image",
+      "width": 1756,
+      "height": 420,
+      "objectId": "135 0",
+      "extractedFile": "dna/page-042-002.png"
+    },
+    {
+      "page": 43,
+      "sequence": 9,
+      "type": "image",
+      "width": 1800,
+      "height": 680,
+      "objectId": "138 0",
+      "extractedFile": "dna/page-043-000.png"
+    },
+    {
+      "page": 43,
+      "sequence": 10,
+      "type": "image",
+      "width": 1720,
+      "height": 426,
+      "objectId": "139 0",
+      "extractedFile": "dna/page-043-001.png"
+    },
+    {
+      "page": 44,
+      "sequence": 11,
+      "type": "image",
+      "width": 1780,
+      "height": 226,
+      "objectId": "145 0",
+      "extractedFile": "dna/page-044-000.png"
+    },
+    {
+      "page": 44,
+      "sequence": 12,
+      "type": "image",
+      "width": 1762,
+      "height": 230,
+      "objectId": "146 0",
+      "extractedFile": "dna/page-044-001.png"
+    },
+    {
+      "page": 44,
+      "sequence": 13,
+      "type": "image",
+      "width": 1810,
+      "height": 690,
+      "objectId": "147 0",
+      "extractedFile": "dna/page-044-002.png"
+    },
+    {
+      "page": 45,
+      "sequence": 14,
+      "type": "image",
+      "width": 1662,
+      "height": 546,
+      "objectId": "150 0",
+      "extractedFile": "dna/page-045-000.png"
+    },
+    {
+      "page": 45,
+      "sequence": 15,
+      "type": "image",
+      "width": 1574,
+      "height": 260,
+      "objectId": "151 0",
+      "extractedFile": "dna/page-045-001.png"
+    },
+    {
+      "page": 46,
+      "sequence": 16,
+      "type": "image",
+      "width": 1572,
+      "height": 272,
+      "objectId": "159 0",
+      "extractedFile": "dna/page-046-000.png"
+    },
+    {
+      "page": 46,
+      "sequence": 17,
+      "type": "image",
+      "width": 1568,
+      "height": 268,
+      "objectId": "160 0",
+      "extractedFile": "dna/page-046-001.png"
+    },
+    {
+      "page": 46,
+      "sequence": 18,
+      "type": "image",
+      "width": 1798,
+      "height": 540,
+      "objectId": "161 0",
+      "extractedFile": "dna/page-046-002.png"
+    },
+    {
+      "page": 46,
+      "sequence": 19,
+      "type": "image",
+      "width": 1472,
+      "height": 460,
+      "objectId": "162 0",
+      "extractedFile": "dna/page-046-003.png"
+    },
+    {
+      "page": 47,
+      "sequence": 20,
+      "type": "image",
+      "width": 1576,
+      "height": 448,
+      "objectId": "165 0",
+      "extractedFile": "dna/page-047-000.png"
+    },
+    {
+      "page": 47,
+      "sequence": 21,
+      "type": "image",
+      "width": 1572,
+      "height": 242,
+      "objectId": "166 0",
+      "extractedFile": "dna/page-047-001.png"
+    },
+    {
+      "page": 48,
+      "sequence": 22,
+      "type": "image",
+      "width": 1326,
+      "height": 514,
+      "objectId": "173 0",
+      "extractedFile": "dna/page-048-000.png"
+    },
+    {
+      "page": 48,
+      "sequence": 23,
+      "type": "image",
+      "width": 1640,
+      "height": 690,
+      "objectId": "174 0",
+      "extractedFile": "dna/page-048-001.png"
+    },
+    {
+      "page": 49,
+      "sequence": 24,
+      "type": "image",
+      "width": 1754,
+      "height": 414,
+      "objectId": "181 0",
+      "extractedFile": "dna/page-049-000.png"
+    },
+    {
+      "page": 50,
+      "sequence": 25,
+      "type": "image",
+      "width": 1784,
+      "height": 820,
+      "objectId": "188 0",
+      "extractedFile": "dna/page-050-000.png"
+    },
+    {
+      "page": 50,
+      "sequence": 26,
+      "type": "image",
+      "width": 1762,
+      "height": 422,
+      "objectId": "189 0",
+      "extractedFile": "dna/page-050-001.png"
+    },
+    {
+      "page": 50,
+      "sequence": 27,
+      "type": "image",
+      "width": 1394,
+      "height": 418,
+      "objectId": "190 0",
+      "extractedFile": "dna/page-050-002.png"
+    },
+    {
+      "page": 51,
+      "sequence": 28,
+      "type": "image",
+      "width": 1798,
+      "height": 640,
+      "objectId": "193 0",
+      "extractedFile": "dna/page-051-000.png"
+    },
+    {
+      "page": 51,
+      "sequence": 29,
+      "type": "image",
+      "width": 1306,
+      "height": 538,
+      "objectId": "194 0",
+      "extractedFile": "dna/page-051-001.png"
+    },
+    {
+      "page": 52,
+      "sequence": 30,
+      "type": "image",
+      "width": 1878,
+      "height": 440,
+      "objectId": "202 0",
+      "extractedFile": "dna/page-052-000.png"
+    },
+    {
+      "page": 53,
+      "sequence": 31,
+      "type": "image",
+      "width": 1888,
+      "height": 874,
+      "objectId": "208 0",
+      "extractedFile": "dna/page-053-000.png"
+    },
+    {
+      "page": 53,
+      "sequence": 32,
+      "type": "image",
+      "width": 1886,
+      "height": 434,
+      "objectId": "209 0",
+      "extractedFile": "dna/page-053-001.png"
+    },
+    {
+      "page": 53,
+      "sequence": 33,
+      "type": "image",
+      "width": 1796,
+      "height": 636,
+      "objectId": "210 0",
+      "extractedFile": "dna/page-053-002.png"
+    },
+    {
+      "page": 54,
+      "sequence": 34,
+      "type": "image",
+      "width": 1478,
+      "height": 492,
+      "objectId": "213 0",
+      "extractedFile": "dna/page-054-000.png"
+    },
+    {
+      "page": 55,
+      "sequence": 35,
+      "type": "image",
+      "width": 1884,
+      "height": 404,
+      "objectId": "223 0",
+      "extractedFile": "dna/page-055-000.png"
+    },
+    {
+      "page": 55,
+      "sequence": 36,
+      "type": "image",
+      "width": 1880,
+      "height": 400,
+      "objectId": "224 0",
+      "extractedFile": "dna/page-055-001.png"
+    },
+    {
+      "page": 55,
+      "sequence": 37,
+      "type": "image",
+      "width": 1876,
+      "height": 394,
+      "objectId": "225 0",
+      "extractedFile": "dna/page-055-002.png"
+    },
+    {
+      "page": 55,
+      "sequence": 38,
+      "type": "image",
+      "width": 1868,
+      "height": 394,
+      "objectId": "226 0",
+      "extractedFile": "dna/page-055-003.png"
+    },
+    {
+      "page": 56,
+      "sequence": 39,
+      "type": "image",
+      "width": 1600,
+      "height": 668,
+      "objectId": "229 0",
+      "extractedFile": "dna/page-056-000.png"
+    },
+    {
+      "page": 57,
+      "sequence": 40,
+      "type": "image",
+      "width": 1870,
+      "height": 440,
+      "objectId": "240 0",
+      "extractedFile": "dna/page-057-000.png"
+    },
+    {
+      "page": 57,
+      "sequence": 41,
+      "type": "image",
+      "width": 1866,
+      "height": 868,
+      "objectId": "241 0",
+      "extractedFile": "dna/page-057-001.png"
+    },
+    {
+      "page": 57,
+      "sequence": 42,
+      "type": "image",
+      "width": 1870,
+      "height": 448,
+      "objectId": "242 0",
+      "extractedFile": "dna/page-057-002.png"
+    },
+    {
+      "page": 58,
+      "sequence": 43,
+      "type": "image",
+      "width": 1798,
+      "height": 634,
+      "objectId": "245 0",
+      "extractedFile": "dna/page-058-000.png"
+    },
+    {
+      "page": 58,
+      "sequence": 44,
+      "type": "image",
+      "width": 1608,
+      "height": 642,
+      "objectId": "246 0",
+      "extractedFile": "dna/page-058-001.png"
+    },
+    {
+      "page": 59,
+      "sequence": 45,
+      "type": "image",
+      "width": 1880,
+      "height": 432,
+      "objectId": "252 0",
+      "extractedFile": "dna/page-059-000.png"
+    },
+    {
+      "page": 60,
+      "sequence": 46,
+      "type": "image",
+      "width": 1884,
+      "height": 868,
+      "objectId": "260 0",
+      "extractedFile": "dna/page-060-000.png"
+    },
+    {
+      "page": 60,
+      "sequence": 47,
+      "type": "image",
+      "width": 1890,
+      "height": 438,
+      "objectId": "261 0",
+      "extractedFile": "dna/page-060-001.png"
+    },
+    {
+      "page": 61,
+      "sequence": 48,
+      "type": "image",
+      "width": 1804,
+      "height": 636,
+      "objectId": "264 0",
+      "extractedFile": "dna/page-061-000.png"
+    },
+    {
+      "page": 61,
+      "sequence": 49,
+      "type": "image",
+      "width": 1616,
+      "height": 658,
+      "objectId": "265 0",
+      "extractedFile": "dna/page-061-001.png"
+    },
+    {
+      "page": 62,
+      "sequence": 50,
+      "type": "image",
+      "width": 1888,
+      "height": 438,
+      "objectId": "272 0",
+      "extractedFile": "dna/page-062-000.png"
+    },
+    {
+      "page": 63,
+      "sequence": 51,
+      "type": "image",
+      "width": 1878,
+      "height": 866,
+      "objectId": "279 0",
+      "extractedFile": "dna/page-063-000.png"
+    },
+    {
+      "page": 63,
+      "sequence": 52,
+      "type": "image",
+      "width": 1888,
+      "height": 442,
+      "objectId": "280 0",
+      "extractedFile": "dna/page-063-001.png"
+    },
+    {
+      "page": 64,
+      "sequence": 53,
+      "type": "image",
+      "width": 1798,
+      "height": 678,
+      "objectId": "283 0",
+      "extractedFile": "dna/page-064-000.png"
+    },
+    {
+      "page": 64,
+      "sequence": 54,
+      "type": "image",
+      "width": 1702,
+      "height": 522,
+      "objectId": "284 0",
+      "extractedFile": "dna/page-064-001.png"
+    },
+    {
+      "page": 65,
+      "sequence": 55,
+      "type": "image",
+      "width": 1882,
+      "height": 340,
+      "objectId": "291 0",
+      "extractedFile": "dna/page-065-000.png"
+    },
+    {
+      "page": 65,
+      "sequence": 56,
+      "type": "image",
+      "width": 1882,
+      "height": 320,
+      "objectId": "292 0",
+      "extractedFile": "dna/page-065-001.png"
+    },
+    {
+      "page": 66,
+      "sequence": 57,
+      "type": "image",
+      "width": 1874,
+      "height": 618,
+      "objectId": "296 0",
+      "extractedFile": "dna/page-066-000.png"
+    },
+    {
+      "page": 66,
+      "sequence": 58,
+      "type": "image",
+      "width": 1872,
+      "height": 618,
+      "objectId": "297 0",
+      "extractedFile": "dna/page-066-001.png"
+    },
+    {
+      "page": 66,
+      "sequence": 59,
+      "type": "image",
+      "width": 1858,
+      "height": 308,
+      "objectId": "298 0",
+      "extractedFile": "dna/page-066-002.png"
+    },
+    {
+      "page": 67,
+      "sequence": 60,
+      "type": "image",
+      "width": 1438,
+      "height": 426,
+      "objectId": "301 0",
+      "extractedFile": "dna/page-067-000.png"
+    },
+    {
+      "page": 68,
+      "sequence": 61,
+      "type": "image",
+      "width": 1188,
+      "height": 1170,
+      "objectId": "309 0",
+      "extractedFile": "dna/page-068-000.png"
+    },
+    {
+      "page": 69,
+      "sequence": 62,
+      "type": "image",
+      "width": 1180,
+      "height": 1164,
+      "objectId": "312 0",
+      "extractedFile": "dna/page-069-000.png"
+    },
+    {
+      "page": 69,
+      "sequence": 63,
+      "type": "image",
+      "width": 1182,
+      "height": 212,
+      "objectId": "313 0",
+      "extractedFile": "dna/page-069-001.png"
+    },
+    {
+      "page": 70,
+      "sequence": 64,
+      "type": "image",
+      "width": 1804,
+      "height": 768,
+      "objectId": "316 0",
+      "extractedFile": "dna/page-070-000.png"
+    },
+    {
+      "page": 70,
+      "sequence": 65,
+      "type": "image",
+      "width": 1678,
+      "height": 514,
+      "objectId": "317 0",
+      "extractedFile": "dna/page-070-001.png"
+    },
+    {
+      "page": 71,
+      "sequence": 66,
+      "type": "image",
+      "width": 1562,
+      "height": 290,
+      "objectId": "323 0",
+      "extractedFile": "dna/page-071-000.png"
+    },
+    {
+      "page": 71,
+      "sequence": 67,
+      "type": "image",
+      "width": 1560,
+      "height": 272,
+      "objectId": "324 0",
+      "extractedFile": "dna/page-071-001.png"
+    },
+    {
+      "page": 72,
+      "sequence": 68,
+      "type": "image",
+      "width": 1582,
+      "height": 526,
+      "objectId": "329 0",
+      "extractedFile": "dna/page-072-000.png"
+    },
+    {
+      "page": 72,
+      "sequence": 69,
+      "type": "image",
+      "width": 1576,
+      "height": 522,
+      "objectId": "330 0",
+      "extractedFile": "dna/page-072-001.png"
+    },
+    {
+      "page": 72,
+      "sequence": 70,
+      "type": "image",
+      "width": 1172,
+      "height": 270,
+      "objectId": "331 0",
+      "extractedFile": "dna/page-072-002.png"
+    },
+    {
+      "page": 73,
+      "sequence": 71,
+      "type": "image",
+      "width": 1656,
+      "height": 552,
+      "objectId": "334 0",
+      "extractedFile": "dna/page-073-000.png"
+    },
+    {
+      "page": 73,
+      "sequence": 72,
+      "type": "image",
+      "width": 1574,
+      "height": 318,
+      "objectId": "335 0",
+      "extractedFile": "dna/page-073-001.png"
+    },
+    {
+      "page": 73,
+      "sequence": 73,
+      "type": "image",
+      "width": 1570,
+      "height": 294,
+      "objectId": "336 0",
+      "extractedFile": "dna/page-073-002.png"
+    },
+    {
+      "page": 73,
+      "sequence": 74,
+      "type": "image",
+      "width": 1574,
+      "height": 598,
+      "objectId": "337 0",
+      "extractedFile": "dna/page-073-003.png"
+    },
+    {
+      "page": 74,
+      "sequence": 75,
+      "type": "image",
+      "width": 1570,
+      "height": 576,
+      "objectId": "340 0",
+      "extractedFile": "dna/page-074-000.png"
+    },
+    {
+      "page": 74,
+      "sequence": 76,
+      "type": "image",
+      "width": 1554,
+      "height": 302,
+      "objectId": "341 0",
+      "extractedFile": "dna/page-074-001.png"
+    },
+    {
+      "page": 74,
+      "sequence": 77,
+      "type": "image",
+      "width": 1804,
+      "height": 686,
+      "objectId": "342 0",
+      "extractedFile": "dna/page-074-002.png"
+    },
+    {
+      "page": 75,
+      "sequence": 78,
+      "type": "image",
+      "width": 1656,
+      "height": 428,
+      "objectId": "345 0",
+      "extractedFile": "dna/page-075-000.png"
+    },
+    {
+      "page": 76,
+      "sequence": 79,
+      "type": "image",
+      "width": 1588,
+      "height": 942,
+      "objectId": "351 0",
+      "extractedFile": "dna/page-076-000.png"
+    },
+    {
+      "page": 76,
+      "sequence": 80,
+      "type": "image",
+      "width": 1556,
+      "height": 760,
+      "objectId": "352 0",
+      "extractedFile": "dna/page-076-001.png"
+    },
+    {
+      "page": 77,
+      "sequence": 81,
+      "type": "image",
+      "width": 1798,
+      "height": 686,
+      "objectId": "355 0",
+      "extractedFile": "dna/page-077-000.png"
+    },
+    {
+      "page": 77,
+      "sequence": 82,
+      "type": "image",
+      "width": 1660,
+      "height": 528,
+      "objectId": "356 0",
+      "extractedFile": "dna/page-077-001.png"
+    },
+    {
+      "page": 78,
+      "sequence": 83,
+      "type": "image",
+      "width": 1562,
+      "height": 1032,
+      "objectId": "364 0",
+      "extractedFile": "dna/page-078-000.png"
+    },
+    {
+      "page": 79,
+      "sequence": 84,
+      "type": "image",
+      "width": 1568,
+      "height": 274,
+      "objectId": "367 0",
+      "extractedFile": "dna/page-079-000.png"
+    },
+    {
+      "page": 79,
+      "sequence": 85,
+      "type": "image",
+      "width": 1560,
+      "height": 1028,
+      "objectId": "368 0",
+      "extractedFile": "dna/page-079-001.png"
+    },
+    {
+      "page": 80,
+      "sequence": 86,
+      "type": "image",
+      "width": 1800,
+      "height": 612,
+      "objectId": "371 0",
+      "extractedFile": "dna/page-080-000.png"
+    },
+    {
+      "page": 80,
+      "sequence": 87,
+      "type": "image",
+      "width": 1604,
+      "height": 406,
+      "objectId": "372 0",
+      "extractedFile": "dna/page-080-001.png"
+    },
+    {
+      "page": 81,
+      "sequence": 88,
+      "type": "image",
+      "width": 1882,
+      "height": 232,
+      "objectId": "378 0",
+      "extractedFile": "dna/page-081-000.png"
+    },
+    {
+      "page": 81,
+      "sequence": 89,
+      "type": "image",
+      "width": 1876,
+      "height": 214,
+      "objectId": "379 0",
+      "extractedFile": "dna/page-081-001.png"
+    },
+    {
+      "page": 81,
+      "sequence": 90,
+      "type": "image",
+      "width": 1870,
+      "height": 234,
+      "objectId": "380 0",
+      "extractedFile": "dna/page-081-002.png"
+    },
+    {
+      "page": 81,
+      "sequence": 91,
+      "type": "image",
+      "width": 1802,
+      "height": 644,
+      "objectId": "381 0",
+      "extractedFile": "dna/page-081-003.png"
+    },
+    {
+      "page": 82,
+      "sequence": 92,
+      "type": "image",
+      "width": 1636,
+      "height": 452,
+      "objectId": "384 0",
+      "extractedFile": "dna/page-082-000.png"
+    },
+    {
+      "page": 82,
+      "sequence": 93,
+      "type": "image",
+      "width": 1564,
+      "height": 230,
+      "objectId": "385 0",
+      "extractedFile": "dna/page-082-001.png"
+    },
+    {
+      "page": 82,
+      "sequence": 94,
+      "type": "image",
+      "width": 1566,
+      "height": 242,
+      "objectId": "386 0",
+      "extractedFile": "dna/page-082-002.png"
+    },
+    {
+      "page": 83,
+      "sequence": 95,
+      "type": "image",
+      "width": 1564,
+      "height": 234,
+      "objectId": "393 0",
+      "extractedFile": "dna/page-083-000.png"
+    },
+    {
+      "page": 83,
+      "sequence": 96,
+      "type": "image",
+      "width": 1794,
+      "height": 682,
+      "objectId": "394 0",
+      "extractedFile": "dna/page-083-001.png"
+    },
+    {
+      "page": 83,
+      "sequence": 97,
+      "type": "image",
+      "width": 1660,
+      "height": 516,
+      "objectId": "395 0",
+      "extractedFile": "dna/page-083-002.png"
+    },
+    {
+      "page": 84,
+      "sequence": 98,
+      "type": "image",
+      "width": 1564,
+      "height": 1042,
+      "objectId": "398 0",
+      "extractedFile": "dna/page-084-000.png"
+    },
+    {
+      "page": 84,
+      "sequence": 99,
+      "type": "image",
+      "width": 1566,
+      "height": 264,
+      "objectId": "399 0",
+      "extractedFile": "dna/page-084-001.png"
+    },
+    {
+      "page": 85,
+      "sequence": 100,
+      "type": "image",
+      "width": 1580,
+      "height": 1032,
+      "objectId": "402 0",
+      "extractedFile": "dna/page-085-000.png"
+    },
+    {
+      "page": 86,
+      "sequence": 101,
+      "type": "image",
+      "width": 1622,
+      "height": 888,
+      "objectId": "405 0",
+      "extractedFile": "dna/page-086-000.png"
+    },
+    {
+      "page": 86,
+      "sequence": 102,
+      "type": "image",
+      "width": 1670,
+      "height": 578,
+      "objectId": "406 0",
+      "extractedFile": "dna/page-086-001.png"
+    },
+    {
+      "page": 87,
+      "sequence": 103,
+      "type": "image",
+      "width": 1660,
+      "height": 538,
+      "objectId": "409 0",
+      "extractedFile": "dna/page-087-000.png"
+    },
+    {
+      "page": 87,
+      "sequence": 104,
+      "type": "image",
+      "width": 1670,
+      "height": 604,
+      "objectId": "410 0",
+      "extractedFile": "dna/page-087-001.png"
+    },
+    {
+      "page": 88,
+      "sequence": 105,
+      "type": "image",
+      "width": 1656,
+      "height": 552,
+      "objectId": "334 0",
+      "extractedFile": "dna/page-088-000.png"
+    },
+    {
+      "page": 88,
+      "sequence": 106,
+      "type": "image",
+      "width": 1622,
+      "height": 502,
+      "objectId": "413 0",
+      "extractedFile": "dna/page-088-001.png"
+    },
+    {
+      "page": 89,
+      "sequence": 107,
+      "type": "image",
+      "width": 1504,
+      "height": 476,
+      "objectId": "416 0",
+      "extractedFile": "dna/page-089-000.png"
+    },
+    {
+      "page": 89,
+      "sequence": 108,
+      "type": "image",
+      "width": 1682,
+      "height": 902,
+      "objectId": "417 0",
+      "extractedFile": "dna/page-089-001.png"
+    },
+    {
+      "page": 90,
+      "sequence": 109,
+      "type": "image",
+      "width": 1648,
+      "height": 846,
+      "objectId": "420 0",
+      "extractedFile": "dna/page-090-000.png"
+    },
+    {
+      "page": 90,
+      "sequence": 110,
+      "type": "image",
+      "width": 1464,
+      "height": 548,
+      "objectId": "421 0",
+      "extractedFile": "dna/page-090-001.png"
+    },
+    {
+      "page": 91,
+      "sequence": 111,
+      "type": "image",
+      "width": 1560,
+      "height": 1362,
+      "objectId": "424 0",
+      "extractedFile": "dna/page-091-000.png"
+    },
+    {
+      "page": 91,
+      "sequence": 112,
+      "type": "image",
+      "width": 2048,
+      "height": 1063,
+      "objectId": "425 0",
+      "extractedFile": "dna/page-091-001.png"
+    },
+    {
+      "page": 91,
+      "sequence": 113,
+      "type": "smask",
+      "width": 2048,
+      "height": 1063,
+      "objectId": "425 0",
+      "extractedFile": "dna/page-091-002.png"
+    }
+  ]
+}

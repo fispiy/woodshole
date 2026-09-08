@@ -1,0 +1,19 @@
+{
+  "source": "/Users/johnsellers/Downloads/Shrimpina Slides.pptx",
+  "policy": "Only student-labeled morphology views are included. Labels are preserved as rendered in the deck and are not generated or rewritten.",
+  "specimens": [
+    {"sample":"SSAJ1","slide":12,"speakerNote":"SSAJ1","sourceMedia":["image96.png","image92.png"],"outputs":["ssaj1-hermit-crab-measured-lateral-labeled.png","ssaj1-hermit-crab-ventral-labeled.png"]},
+    {"sample":"SSAJ6","slide":13,"speakerNote":"SSAJ6","sourceMedia":["image92.png","image93.png","image106.png"],"outputs":["ssaj6-hermit-crab-labeled.png","ssaj6-hermit-crab-ruler.png"]},
+    {"sample":"SSAJ8","slide":14,"speakerNote":"SSAJ8","sourceMedia":["image102.png","image97.png"],"outputs":["ssaj8-hermit-crab-labeled.png","ssaj8-hermit-crab-ruler.png"]},
+    {"sample":"SSAJ13","slide":15,"speakerNote":"SSAJ13","sourceMedia":["image99.png"],"outputs":["ssaj13-hermit-crab-labeled.png","ssaj13-hermit-crab-ruler.png"]},
+    {"sample":"SSAJ14","slide":17,"speakerNote":"SSAJ14","sourceMedia":["image98.png","image131.jpg"],"outputs":["ssaj14-grass-shrimp-ruler-labeled.png","ssaj14-grass-shrimp-close-labeled.png"]},
+    {"sample":"SSAJ15","slide":18,"speakerNote":"SSAJ15","sourceMedia":["image101.png","image107.png"],"outputs":["ssaj15-grass-shrimp-ruler.png","ssaj15-grass-shrimp-labeled.png"]},
+    {"sample":"SSAJ16","slide":19,"speakerNote":"SSAJ16","sourceMedia":["image103.png","image115.png"],"outputs":["ssaj16-grass-shrimp-close-labeled.png","ssaj16-grass-shrimp-ruler-labeled.png"]},
+    {"sample":"SSAJ17","slide":20,"speakerNote":"SSAJ17","sourceMedia":["image105.png","image104.png"],"outputs":["ssaj17-grass-shrimp-ruler.png","ssaj17-grass-shrimp-close-labeled.png"]},
+    {"sample":"SSAJ21","slide":25,"speakerNote":"SSAJ21","sourceMedia":["image113.png","image112.png"],"outputs":[{"file":"ssaj21-marsh-fiddler-crab-labeled.png","crop":"1260x840+0+40","dimensions":"1260x840"},{"file":"ssaj21-marsh-fiddler-propodus-labeled.png","crop":"570x530+1110+120","dimensions":"570x530"}]},
+    {"sample":"SSAJ27","slide":11,"speakerNote":"SSAJ27","sourceMedia":["image88.png","image94.png"],"outputs":["ssaj27-asian-shore-crab-dorsal-labeled-v2.png","ssaj27-asian-shore-crab-ventral-labeled-v2.png"]},
+    {"sample":"SSAJ33","slide":7,"speakerNote":"SSAJ33","sourceMedia":["image91.png","image90.png"],"outputs":["ssaj33-lady-crab-dorsal-labeled.png","ssaj33-lady-crab-ventral-labeled.png"]},
+    {"sample":"SSAJ34","slide":10,"speakerNote":"Greene crab","mappingBasis":"European Green Crab species identity and sole matching register record","sourceMedia":["image85.png","image87.png"],"outputs":[{"file":"ssaj34-european-green-crab-dorsal-labeled.png","crop":"1600x650+0+25","dimensions":"1600x650"},{"file":"ssaj34-european-green-crab-ventral-labeled.png","crop":"1080x633+720+380","dimensions":"1080x633"}]},
+    {"sample":"SSAJ35","slide":27,"speakerNote":"SSAJ35","sourceMedia":["image133.png","image122.png","image135.png"],"outputs":[{"file":"ssaj35-atlantic-blue-crab-ventral-labeled.png","crop":"820x540+0+30","dimensions":"820x540"},{"file":"ssaj35-atlantic-blue-crab-ruler.png","crop":"500x470+1300+25","dimensions":"500x470"},{"file":"ssaj35-atlantic-blue-crab-dorsal-labeled.png","crop":"1010x583+790+430","dimensions":"1010x583"}]}
+  ]
+}

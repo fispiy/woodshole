@@ -1,0 +1,24 @@
+Detailed Analysis:
+We can see a single nucleotide change at position 72, G → A, for one of the specimens that our
+sample is being compared to. The other 3 have no mismatches at this particular locus. We can see
+a single nucleotide change at position 487, A → G, for one of the specimens that our sample is
+being compared to. The other 3 have no mismatches at this particular locus. We can see a single
+nucleotide change at position 499, A → G, for one of the specimens that our sample is being
+compared to. The other 3 have no mismatches at this particular locus.
+
+
+
+
+SSAJ 21: Atlantic Marsh Fiddler Crab
+Scientific Name: Minuca pugnax
+Location Found: Little Sippewissett Marsh, Falmouth, MA, USA
+
+Consensus Sequence:
+
+
+
+
+Number of bp: 628
+
+Comparison to Other Organisms:
+

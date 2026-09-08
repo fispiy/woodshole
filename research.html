@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+<title>Research Guide: Shrimpina</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="site-index.css?v=20260907-10">
+<link rel="stylesheet" href="shrimpina.css?v=20260907-6">
+<link rel="stylesheet" href="shrimpina-research.css?v=20260907-10">
+<script src="shrimpina-research-data.js?v=20260907-3"></script>
+<script src="profile-render.js?v=20260907-4"></script>
+<script src="site-index.js?v=20260907-5" defer></script>
+</head>
+<body class="has-site-index shrimpina-site">
+<site-index data-root="." data-current="research" data-brand="shrimpina"></site-index>
+<nav class="shrimpina-subnav" aria-label="Shrimpina pages"><a href="groups/shrimpina.html">Overview</a><a href="research.html" aria-current="page">Research Guide</a><a href="journal.html">Field Journal</a><a href="conditions.html">Field Conditions</a><a href="lab.html">Laboratory</a></nav>
+
+<main class="research-guide">
+  <header class="research-guide-header">
+    <div><span class="research-eyebrow">Crabies · comparative research</span><h1>Research Guide</h1></div>
+    <p>The project’s original comparison tables and complete species notes, organized separately from the collection overview.</p>
+  </header>
+
+  <nav class="research-guide-nav" aria-label="Research Guide sections">
+    <a href="#fiddler-crabs">Fiddler Crabs</a><a href="#hermit-crabs">Hermit Crabs</a><a href="#invasive-crabs">Invasive Crabs</a><a href="#species-notes">Species Notes</a>
+  </nav>
+
+  <section class="research-guide-section" id="fiddler-crabs"><header><div><span class="research-eyebrow">Comparison 01</span><h2>Fiddler Crabs</h2></div></header><div id="comparisonFiddler"></div></section>
+  <section class="research-guide-section" id="hermit-crabs"><header><div><span class="research-eyebrow">Comparison 02</span><h2>Hermit Crabs</h2></div></header><div id="comparisonHermit"></div></section>
+  <section class="research-guide-section" id="invasive-crabs"><header><div><span class="research-eyebrow">Comparison 03</span><h2>Invasive Crabs</h2></div></header><div id="comparisonInvasive"></div></section>
+  <section class="research-guide-section species-source-guide" id="species-notes"><header><div><span class="research-eyebrow">Crabies · pages 8–29</span><h2>Species Notes</h2></div><p>Select a species to read the project text.</p></header><div id="speciesGuide"></div></section>
+</main>
+
+<footer class="site-footer research-guide-footer"><div>Woods Hole Shrimpina Project: student field survey, 2026.</div><div><a href="groups/shrimpina.html">Overview</a> · <a href="groups/shrimpina.html#g-species">Specimens</a> · <a href="lab.html">Laboratory</a></div></footer>
+
+<script>
+const comparisonCard = comparison => `<article class="comparison-card"><h3>${escapeResearchText(comparison.title)}</h3><div><table><thead><tr>${comparison.columns.map(column => `<th scope="col">${escapeResearchText(column)}</th>`).join('')}</tr></thead><tbody>${comparison.rows.map(row => `<tr>${row.map((cell,index) => index === 0 ? `<th scope="row">${escapeResearchText(cell)}</th>` : `<td>${escapeResearchText(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></article>`;
+document.getElementById('comparisonFiddler').innerHTML = comparisonCard(SHRIMPINA_RESEARCH.comparisons[0]);
+document.getElementById('comparisonHermit').innerHTML = comparisonCard(SHRIMPINA_RESEARCH.comparisons[1]);
+document.getElementById('comparisonInvasive').innerHTML = comparisonCard(SHRIMPINA_RESEARCH.comparisons[2]);
+
+const speciesAnchor = scientific => `species-${scientific.replace(/\W+/g,'-')}`;
+document.getElementById('speciesGuide').innerHTML = Object.entries(SHRIMPINA_RESEARCH.speciesNotes).map(([scientific,note]) => `<details class="species-source-item" id="${speciesAnchor(scientific)}"><summary><span><b>${escapeResearchText(note.common)}</b><i>${escapeResearchText(scientific)}</i></span><em>${note.comparativeOnly ? 'Comparative guide only' : 'Open species notes'}</em></summary>${note.comparativeOnly ? '' : `<p class="species-source-actions"><a href="groups/shrimpina.html?species=${encodeURIComponent(scientific)}#g-species">Browse matching specimens ↗</a></p>`}<div class="research-text-block species-source" data-research-kind="species" data-research-section="description" data-research-pages="${note.pages.join(',')}"><p>Loading the verbatim species description…</p></div><div class="research-text-block species-source" data-research-kind="species" data-research-section="ecology" data-research-pages="${note.pages.join(',')}"><p>Loading the verbatim species notes…</p></div></details>`).join('');
+const revealLinkedSpecies = () => { const target = document.getElementById(decodeURIComponent(location.hash.slice(1))); if (target?.matches('details')) target.open = true; };
+window.addEventListener('hashchange', revealLinkedSpecies);
+revealLinkedSpecies();
+initResearchBlocks(document);
+</script>
+</body>
+</html>

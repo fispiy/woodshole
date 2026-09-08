@@ -1,0 +1,42 @@
+                           Species we have collected
+
+CRABS
+  1.​ Long-Clawed Hermit Crabs
+  2.​ Flat-Clawed Hermit Crabs
+  3.​ Lady Crabs
+  4.​ Atlantic Blue Crab
+  5.​ Mud Fiddler Crabs
+  6.​ Sand Fiddler Crabs
+  7.​ Asian Shore Crabs
+  8.​ European Green Crabs
+  9.​ Spider Crabs
+  10.​Squatted Pea Crab
+
+OUTLIERS
+  1.​ Shrimp
+  2.​ Snails
+  3.​ Horseshoe Crab (technically an Arachnid)
+  4.​ Clams
+  5.​ Oysters
+  6.​ Mussles
+  7.​ Deadman's Fingers
+  8.​ Sea Lettuce
+  9.​ Northern Pipefish
+
+Links to maps of total organisms observed from our course:
+   1)​ Asian Shore Crab → two are points of lady crab, remove those
+   2)​ Atlantic Blue Crab
+   3)​ Atlantic Horseshoe Crab
+   4)​ Atlantic Ribbed Mussels
+   5)​ Eastern Grass Shrimp
+   6)​ Eastern Oyster → includes Eastern Oyster Drill, remove those
+   7)​ European Green Crab
+   8)​ Green Fleece/Dead Man’s Fingers
+   9)​ Long-Clawed Hermit Crab → some flat-claw included, remove those
+   10)​ Longnose Spider Crab
+   11)​ Marsh Fiddler Crab
+   12)​ Northern Pipefish
+   13)​ Northern Quahog
+   14)​ Ocellate Lady Crab
+   15)​ Sea Lettuce
+

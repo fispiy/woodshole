@@ -1,0 +1,3 @@
+Analysis 2: with both SSAJ52 and SSAJ53
+No differences between mutations in the two samples
+

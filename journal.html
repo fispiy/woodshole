@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+<title>Field Journal: Shrimpina</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+  :root {
+    --font-hand: 'Kalam', cursive;
+    --color-bg: #fafaf8; --color-surface: #eef0ef; --color-text: #131313;
+    --color-divider: color-mix(in srgb, #131313 18%, transparent);
+    --color-accent-100: #e6f4f2; --color-accent-200: #c3e6e1; --color-accent-300: #93d1c8;
+    --color-accent-400: #5fb8ac; --color-accent-500: #2f9c8d; --color-accent-600: #1f7d71;
+    --color-accent-700: #165f56; --color-accent-800: #123f39; --color-accent-900: #0d2b27;
+    --color-accent-2-100: #fdeee8; --color-accent-2-200: #f8d2c2; --color-accent-2-300: #efac8d;
+    --color-accent-2-400: #e28259; --color-accent-2-500: #cf6234; --color-accent-2-600: #a94d27;
+    --color-accent-2-700: #823a1e; --color-accent-2-800: #582814; --color-accent-2-900: #33170b;
+  }
+  html { scroll-behavior: smooth; }
+  body { background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--color-text) 7%, transparent) 1px, transparent 0); background-size: 22px 22px; overflow-x: hidden; }
+  a { color: var(--color-accent-700); } a:hover { color: var(--color-accent-900); }
+
+  .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: var(--color-bg); border-bottom: 2px dashed color-mix(in srgb, var(--color-text) 32%, transparent); }
+  .site-nav .nav-brand { display: flex; align-items: center; gap: 10px; }
+  .site-nav .nav-brand small { display: block; font-family: var(--font-hand); font-weight: 400; font-size: 13px; opacity: 0.65; margin-top: -1px; }
+  .logo-box { width: 34px; height: 34px; flex: none; transform: rotate(-4deg); }
+  .nav-links { display: flex; align-items: center; gap: var(--space-6); }
+  .nav-links a.active { color: var(--color-accent-900); text-decoration: underline wavy color-mix(in srgb, var(--color-accent-500) 60%, transparent) 1.5px; }
+
+  .n-tag { font-family: var(--font-hand); font-size: 15px; color: var(--color-accent-700); display: inline-block; margin-bottom: 8px; transform: rotate(-2deg); }
+  .stitch-divider { display: flex; align-items: center; gap: 10px; margin: var(--space-8) auto; max-width: 860px; padding: 0 var(--space-6); }
+  .stitch-divider::before, .stitch-divider::after { content: ""; flex: 1; height: 0; border-top: 1.5px dashed color-mix(in srgb, var(--color-text) 30%, transparent); }
+  .stitch-divider span { font-family: var(--font-hand); font-size: 14px; color: var(--color-accent-700); transform: rotate(-2deg); white-space: nowrap; }
+
+  /* ===== journal hero ===== */
+  .j-hero { min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: calc(var(--space-8)*2) var(--space-6) var(--space-8); }
+  .hand-title { font-family: var(--font-hand); font-weight: 700; font-size: clamp(48px, 8vw, 96px); color: var(--color-accent-900); transform: rotate(-1.5deg); margin: 0; }
+  .j-hero p { font-family: var(--font-hand); font-size: 19px; color: var(--color-accent-700); margin-top: 4px; }
+
+  /* ===== 3D perspective stage ===== */
+  .stage { perspective: 1400px; max-width: 1080px; margin: 0 auto; }
+  .story-sec { padding: calc(var(--space-8)*1.3) var(--space-6); max-width: 780px; margin: 0 auto; text-align: center; }
+  .story-sec h2 { font-size: clamp(26px, 3.6vw, 38px); }
+
+  .field-media-section { max-width: 1180px; margin: 0 auto; padding: clamp(72px, 10vw, 140px) var(--space-6); }
+  .field-media-header { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 38px; padding-bottom: 22px; border-bottom: 1px solid rgba(74,32,44,.24); }
+  .field-media-header .n-tag { margin: 0; }
+  .field-media-header h2 { margin: 8px 0 0; color: #4a202c; font: 700 clamp(38px, 6vw, 72px)/.95 var(--font-hand); letter-spacing: -.035em; }
+  .field-media-header p { max-width: 260px; margin: 0; color: rgba(74,32,44,.68); font: 500 10px/1.5 'DM Mono',monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .field-video-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: clamp(14px,1.6vw,22px); margin-bottom: clamp(48px,7vw,84px); }
+  .field-video { margin: 0; padding: 9px 9px 13px; background: #fff3ea; border: 1px solid rgba(74,32,44,.3); box-shadow: 5px 6px 0 rgba(235,111,126,.16); }
+  .field-video video { display: block; width: 100%; aspect-ratio: 9/16; object-fit: cover; background: #4a202c; }
+  .field-video figcaption,.field-photo figcaption { padding: 10px 4px 0; color: #4a202c; font: 700 13px/1.2 var(--font-hand); }
+  .field-photo-grid { display: grid; grid-template-columns: repeat(12,minmax(0,1fr)); column-gap: clamp(18px,2.5vw,30px); row-gap: clamp(24px,3.5vw,42px); align-items: start; }
+  .field-photo { grid-column: span 6; margin: 0; padding: 10px 10px 14px; background: #fff3ea; border: 1px solid rgba(74,32,44,.28); box-shadow: 4px 5px 0 rgba(235,111,126,.14); }
+  .field-photo:first-child { grid-column: span 5; }
+  .field-photo:nth-child(2) { grid-column: span 7; }
+  .field-photo:nth-child(4n+1) { transform: rotate(-.3deg); }
+  .field-photo:nth-child(4n+2) { transform: rotate(.25deg); }
+  .field-photo img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; background: #e8afa9; }
+  .field-photo.is-portrait img { aspect-ratio: 20/21; }
+  .media-card { opacity: 0; translate: 0 38px; transition: opacity .7s ease,translate .75s cubic-bezier(.2,.8,.2,1); }
+  .media-card.in-view { opacity: 1; translate: 0 0; }
+
+  .tilt-track { position: relative; padding: var(--space-6) var(--space-6) calc(var(--space-8)*1.4); }
+  .tilt-card {
+    transform-style: preserve-3d; will-change: transform;
+    opacity: 0; transform: translateY(60px) rotateX(24deg) translateZ(-80px) scale(.92);
+    transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1);
+    background: var(--color-bg); border: 1px solid var(--color-divider); box-shadow: var(--shadow-lg);
+    max-width: 640px; margin: var(--space-6) auto; padding: var(--space-6);
+  }
+  .tilt-card.in-view { opacity: 1; transform: translateY(0) rotateX(0deg) translateZ(0) scale(1); }
+  .tilt-card.odd { margin-left: 0; margin-right: auto; }
+  .tilt-card.even { margin-left: auto; margin-right: 0; }
+  .tilt-card image-slot { aspect-ratio: 4/3; margin-bottom: var(--space-3); }
+  .tilt-card figcaption { font-family: var(--font-hand); font-size: 15px; color: var(--color-accent-800); }
+  .tilt-card p { font-size: 14px; opacity: 0.75; margin-top: 6px; }
+
+  /* mouse-follow tilt */
+  .tilt-hover { transition: transform .15s ease-out, opacity .8s ease; }
+
+  .site-footer { padding: var(--space-8) var(--space-6); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-divider); font-size: 12.5px; opacity: 0.7; gap: var(--space-4); flex-wrap: wrap; }
+
+  @media (max-width: 700px) {
+    .tilt-card.odd, .tilt-card.even { margin-inline: auto; }
+    .field-media-header { align-items: start; flex-direction: column; }
+    .field-video-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .field-photo-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field-photo,.field-photo:nth-child(n) { grid-column: span 1; transform: none; }
+    .field-photo.is-portrait img { aspect-ratio: 4/3; }
+  }
+  @media (max-width: 480px) { .field-photo-grid { grid-template-columns: 1fr; } .field-video-grid { gap: 12px; } }
+  @media (prefers-reduced-motion: reduce) { .media-card { opacity: 1; translate: none; transition: none; } }
+</style>
+<link rel="stylesheet" href="site-index.css?v=20260907-10">
+<link rel="stylesheet" href="shrimpina.css?v=20260907-6">
+<script src="site-index.js?v=20260907-5" defer></script>
+</head>
+<body class="has-site-index shrimpina-site">
+
+<site-index data-root="." data-current="groups" data-brand="shrimpina"></site-index>
+<nav class="shrimpina-subnav" aria-label="Shrimpina pages"><a href="groups/shrimpina.html">Overview</a><a href="research.html">Research Guide</a><a href="journal.html" aria-current="page">Field Journal</a><a href="conditions.html">Field Conditions</a><a href="lab.html">Laboratory</a></nav>
+
+<section class="j-hero">
+  <img class="shrimpina-hero-bug" src="assets/shrimpina-mascot-cape-cod-large-text.png" alt="Shrimpina mascot wearing a pink Cape Cod shirt">
+  <div><span class="n-tag">the field journal</span><h1 class="hand-title">Notes from the marsh</h1><p>Field notes, collection sites, and working photographs.</p></div>
+</section>
+
+<section class="field-media-section" id="field-media" aria-labelledby="field-media-title">
+  <header class="field-media-header">
+    <div><span class="n-tag">01: field records</span><h2 id="field-media-title">Field photos and videos</h2></div>
+    <p>Little Sippewissett Marsh and Woodneck Beach · August 2026</p>
+  </header>
+  <div class="field-video-grid">
+    <figure class="field-video media-card"><video controls muted playsinline preload="metadata" poster="assets/shrimpina-field-media/videos/IMG_5887-poster.jpg"><source src="assets/shrimpina-field-media/videos/IMG_5887.mp4" type="video/mp4"></video><figcaption>Collecting in the marsh</figcaption></figure>
+    <figure class="field-video media-card"><video controls muted playsinline preload="metadata" poster="assets/shrimpina-field-media/videos/IMG_5904-poster.jpg"><source src="assets/shrimpina-field-media/videos/IMG_5904.mp4" type="video/mp4"></video><figcaption>Checking the net</figcaption></figure>
+    <figure class="field-video media-card"><video controls muted playsinline preload="metadata" poster="assets/shrimpina-field-media/videos/IMG_5891-poster.jpg"><source src="assets/shrimpina-field-media/videos/IMG_5891.mp4" type="video/mp4"></video><figcaption>Tidal water</figcaption></figure>
+    <figure class="field-video media-card"><video controls muted playsinline preload="metadata" poster="assets/shrimpina-field-media/videos/IMG_5899-poster.jpg"><source src="assets/shrimpina-field-media/videos/IMG_5899.mp4" type="video/mp4"></video><figcaption>Marsh edge</figcaption></figure>
+    <figure class="field-video media-card"><video controls muted playsinline preload="metadata" poster="assets/shrimpina-field-media/videos/IMG_5977-poster.jpg"><source src="assets/shrimpina-field-media/videos/IMG_5977.mp4" type="video/mp4"></video><figcaption>Rocky shoreline</figcaption></figure>
+  </div>
+  <div class="field-photo-grid">
+    <figure class="field-photo media-card is-portrait"><img src="assets/shrimpina-field-media/photos/IMG_0951.jpg" alt="Labeled specimen tubes arranged in a laboratory tray" loading="lazy"><figcaption>Specimen tray</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9034.jpg" alt="Student collecting at the marsh edge" loading="lazy"><figcaption>At the marsh</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9035.jpg" alt="Gloved hands holding a field specimen" loading="lazy"><figcaption>Field specimen</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9036.jpg" alt="Students sorting specimens beside a field cooler" loading="lazy"><figcaption>Sorting the collection</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9167.jpg" alt="A specimen being examined at the work table" loading="lazy"><figcaption>At the work table</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9358.jpg" alt="Small crab held in a gloved hand" loading="lazy"><figcaption>Crab specimen</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9360.jpg" alt="Crab photographed in a gloved hand" loading="lazy"><figcaption>Crab specimen</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9363.jpg" alt="Several small marine specimens held over shallow water" loading="lazy"><figcaption>From the shallows</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9373.jpg" alt="Shell specimen held near the water" loading="lazy"><figcaption>Shell specimen</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9395.jpg" alt="Flat crab specimen held above wet sand" loading="lazy"><figcaption>Crab specimen</figcaption></figure>
+    <figure class="field-photo media-card"><img src="assets/shrimpina-field-media/photos/IMG_9396.jpg" alt="Small translucent marine organism on wet sand" loading="lazy"><figcaption>Shoreline specimen</figcaption></figure>
+  </div>
+</section>
+
+<section class="site-footer">
+  <div>Woods Hole Shrimpina Project: student field survey, 2026.</div>
+  <div><a href="groups/shrimpina.html">Shrimpina Home</a> · <a href="index.html">MBL Home</a></div>
+</section>
+
+<script>
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+}, { threshold: 0.25 });
+document.querySelectorAll('.tilt-card, .media-card').forEach(el => io.observe(el));
+
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.classList.add('tilt-hover');
+  card.addEventListener('mousemove', (e) => {
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `translateY(0) rotateX(${(-py*10).toFixed(2)}deg) rotateY(${(px*10).toFixed(2)}deg) translateZ(0) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
+</script>
+</body>
+</html>

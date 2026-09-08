@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratory: Shrimpina</title>
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="site-index.css?v=20260907-10"><link rel="stylesheet" href="shrimpina.css?v=20260907-6"><link rel="stylesheet" href="shrimpina-research.css?v=20260907-10">
+<script src="shrimpina-research-data.js?v=20260907-3"></script><script src="profile-render.js?v=20260907-4"></script><script src="site-index.js?v=20260907-5" defer></script>
+</head>
+<body class="has-site-index shrimpina-site">
+<site-index data-root="." data-current="lab" data-brand="shrimpina"></site-index>
+<nav class="shrimpina-subnav" aria-label="Shrimpina pages"><a href="groups/shrimpina.html">Overview</a><a href="research.html">Research Guide</a><a href="journal.html">Field Journal</a><a href="conditions.html">Field Conditions</a><a href="lab.html" aria-current="page">Laboratory</a></nav>
+<header class="research-shell"><span class="research-eyebrow">DNA Analysis · PDF pages 38–91</span><h1>Laboratory</h1><p class="lead">Original consensus lengths, comparisons, collection details, mismatch notes, analyses, alignments, and phylogenetic trees from the project document.</p></header>
+<main class="lab-research-layout"><nav class="dna-selector" id="dnaSelector" aria-label="Choose a specimen"><span>Analyzed specimens</span></nav><div class="lab-dna-list" id="dnaList"></div></main>
+<section class="lab-summary"><span class="research-eyebrow">Final genetic conclusions</span><h2>Across the samples</h2><article class="specimen-dna-source"><div class="research-text-block" data-research-kind="dna" data-research-pages="86,87,88"><p>Loading the verbatim project conclusions…</p></div></article></section>
+<section class="lab-summary"><span class="research-eyebrow">Cross-species comparisons</span><h2>Alignments &amp; phylogenetic trees</h2><article class="specimen-dna-source"><div class="research-text-block" data-research-kind="dna" data-research-pages="89,90,91"><p>Loading the original comparison figures…</p></div></article></section>
+<footer class="site-footer"><div>Woods Hole Shrimpina Project: student field survey, 2026.</div><div><a href="groups/shrimpina.html">Shrimpina Home</a> · <a href="index.html">MBL Home</a></div></footer>
+<script>
+const entries=Object.values(SHRIMPINA_RESEARCH.dnaBySample);
+const selector=document.getElementById('dnaSelector');const list=document.getElementById('dnaList');
+selector.insertAdjacentHTML('beforeend',entries.map(item=>`<button type="button" data-sample="${item.code}" aria-pressed="false">${item.code} · ${item.common}</button>`).join(''));
+list.innerHTML=entries.map(item=>`<article class="lab-dna-card" id="dna-${item.code}" data-sample="${item.code}"><header><div><span>${item.code}</span><h2>${item.common}</h2></div><a href="species.html?sample=${item.code}#record-dna">Specimen record →</a></header><div class="research-text-block" data-research-kind="dna" data-research-pages="${item.pages.join(',')}"><p>Loading the verbatim project analysis…</p></div></article>`).join('');
+function selectSample(code){document.querySelectorAll('.lab-dna-card').forEach(card=>card.hidden=Boolean(code)&&card.dataset.sample!==code);document.querySelectorAll('#dnaSelector button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.sample===code)));if(code)document.getElementById(`dna-${code}`)?.scrollIntoView({behavior:'smooth',block:'start'});}
+selector.addEventListener('click',event=>{const button=event.target.closest('button');if(!button)return;const active=button.getAttribute('aria-pressed')==='true';selectSample(active?'':button.dataset.sample);});
+const requested=new URLSearchParams(location.search).get('sample')?.toUpperCase();if(requested&&SHRIMPINA_RESEARCH.dnaBySample[requested])selectSample(requested);
+initResearchBlocks(document);
+</script>
+</body></html>

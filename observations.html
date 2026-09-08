@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+<title>Observations: Woods Hole Biodiversity Survey</title>
+<link rel="stylesheet" href="styles.css">
+<script src="species-data.js?v=20260902-4"></script>
+<script src="inat.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+  :root {
+    --font-hand: 'Kalam', cursive;
+    --color-bg: #fafaf8; --color-surface: #eef0ef; --color-text: #131313;
+    --color-divider: color-mix(in srgb, #131313 18%, transparent);
+    --color-accent-100: #e6f4f2; --color-accent-200: #c3e6e1; --color-accent-300: #93d1c8;
+    --color-accent-400: #5fb8ac; --color-accent-500: #2f9c8d; --color-accent-600: #1f7d71;
+    --color-accent-700: #165f56; --color-accent-800: #123f39; --color-accent-900: #0d2b27;
+    --color-accent-2-100: #fdeee8; --color-accent-2-200: #f8d2c2; --color-accent-2-300: #efac8d;
+    --color-accent-2-400: #e28259; --color-accent-2-500: #cf6234; --color-accent-2-600: #a94d27;
+    --color-accent-2-700: #823a1e; --color-accent-2-800: #582814; --color-accent-2-900: #33170b;
+  }
+  html { scroll-behavior: smooth; }
+  body { background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--color-text) 7%, transparent) 1px, transparent 0); background-size: 22px 22px; overflow-x: hidden; }
+  a { color: var(--color-accent-700); } a:hover { color: var(--color-accent-900); }
+
+  .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: var(--color-bg); border-bottom: 2px dashed color-mix(in srgb, var(--color-text) 32%, transparent); }
+  .site-nav .nav-brand { display: flex; align-items: center; gap: 10px; }
+  .site-nav .nav-brand small { display: block; font-family: var(--font-hand); font-weight: 400; font-size: 13px; opacity: 0.65; margin-top: -1px; }
+  .logo-box { width: 34px; height: 34px; flex: none; transform: rotate(-4deg); }
+  .nav-links { display: flex; align-items: center; gap: var(--space-6); }
+  .nav-links a.active { color: var(--color-accent-900); text-decoration: underline wavy color-mix(in srgb, var(--color-accent-500) 60%, transparent) 1.5px; }
+
+  .n-tag { font-family: var(--font-hand); font-size: 15px; color: var(--color-accent-700); display: inline-block; margin-bottom: 8px; transform: rotate(-2deg); }
+  .hand-title { font-family: var(--font-hand); font-weight: 700; font-size: clamp(42px, 6vw, 76px); color: var(--color-accent-900); transform: rotate(-1.2deg); margin: 0; }
+  .obs-hero { padding: calc(var(--space-8)*1.8) var(--space-6) var(--space-6); max-width: 760px; margin: 0 auto; text-align: center; }
+  .obs-hero p { font-size: 15.5px; opacity: 0.8; margin-top: var(--space-3); }
+
+  .obs-controls { max-width: 1080px; margin: 0 auto; padding: 0 var(--space-6) var(--space-6); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .obs-controls input { font-family: inherit; font-size: 14px; padding: 9px 14px; border: 1px solid var(--color-divider); background: var(--color-bg); flex: 1; min-width: 220px; }
+  .obs-controls button { font-family: inherit; font-size: 13.5px; padding: 9px 16px; border: 1px solid var(--color-accent-700); background: var(--color-accent-700); color: var(--color-bg); cursor: pointer; }
+  .obs-controls button:hover { background: var(--color-accent-800); }
+  .obs-note { max-width: 1080px; margin: 0 auto; padding: 0 var(--space-6); font-size: 12.5px; opacity: 0.6; }
+
+  .obs-grid { max-width: 1080px; margin: 0 auto; padding: var(--space-6) var(--space-6) calc(var(--space-8)*1.6); display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+  .obs-card { display: flex; flex-direction: column; text-decoration: none; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-divider); transition: box-shadow .15s, transform .15s; }
+  .obs-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .obs-photo { aspect-ratio: 1; background: var(--color-surface); overflow: hidden; }
+  .obs-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .obs-photo-empty { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 12px; opacity: 0.5; font-family: var(--font-hand); }
+  .obs-meta { padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+  .obs-meta b { font-size: 13.5px; }
+  .obs-sci { font-style: italic; font-size: 11.5px; opacity: 0.55; }
+  .obs-sub { font-size: 11px; opacity: 0.6; }
+  .obs-status { max-width: 1080px; margin: 0 auto; padding: var(--space-6) var(--space-6); text-align: center; font-family: var(--font-hand); font-size: 15px; opacity: 0.65; }
+  .obs-pagination { display:flex; justify-content:center; max-width:1080px; margin:calc(var(--space-6) * -1) auto 0; padding:0 var(--space-6) var(--space-6); }
+  .obs-pagination button { min-width:190px; padding:13px 20px; border:1px solid var(--color-accent-700); background:transparent; color:var(--color-accent-900); font:600 11px/1 'Courier New',monospace; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; }
+  .obs-pagination button:hover { background:var(--color-accent-700); color:var(--color-bg); }
+  .obs-pagination button:disabled { opacity:.45; cursor:wait; }
+
+  .site-footer { padding: var(--space-8) var(--space-6); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-divider); font-size: 12.5px; opacity: 0.7; gap: var(--space-4); flex-wrap: wrap; }
+
+  @media (max-width: 860px) { .obs-grid { grid-template-columns: repeat(2,1fr); } }
+</style>
+<link rel="stylesheet" href="exhibit.css">
+<link rel="stylesheet" href="site-index.css?v=20260907-10">
+<script src="site-index.js?v=20260907-5" defer></script>
+</head>
+<body class="has-site-index cursor-observations">
+
+<site-index data-root="." data-current="observations"></site-index>
+
+<section class="obs-hero">
+  <span class="n-tag">iNaturalist Project</span>
+  <h1 class="hand-title">Observations</h1>
+</section>
+
+<div class="obs-controls">
+  <input id="taxonFilter" type="text" placeholder="Filter by species name, e.g. Hemigrapsus">
+  <button id="applyFilter">Filter</button>
+  <button id="clearFilter">Clear</button>
+</div>
+<p class="obs-note"><a href="https://www.inaturalist.org/projects/bios-27723-woods-hole-biodiversity" target="_blank" rel="noopener">Woods Hole Biodiversity Project ↗</a></p>
+
+<div class="obs-grid" id="obsGrid"></div>
+<div class="obs-pagination"><button id="nextObservations" type="button" hidden>Next observations</button></div>
+<p class="obs-status" id="obsStatus">loading observations…</p>
+
+<section class="site-footer">
+  <div>Woods Hole Biodiversity Survey: University of Chicago Marine Biological Laboratory.</div>
+  <div><a href="map.html">Collection Map</a> · <a href="groups/shrimpina.html">Shrimpina</a> · <a href="index.html">MBL Home</a></div>
+</section>
+
+<script>
+const grid = document.getElementById('obsGrid');
+const status = document.getElementById('obsStatus');
+const nextButton = document.getElementById('nextObservations');
+const pageSize = 24;
+let currentPage = 1;
+let currentTaxon;
+
+async function loadObservations(taxonName, append = false) {
+  const requestedPage = append ? currentPage + 1 : 1;
+  if (!append) {
+    grid.innerHTML = '';
+    currentTaxon = taxonName;
+  }
+  status.textContent = 'loading observations…';
+  nextButton.disabled = true;
+  try {
+    const data = await fetchINatObservations({ taxon_name: taxonName, per_page: pageSize, page: requestedPage });
+    const results = data.results || [];
+    if (!results.length && !append) {
+      status.textContent = 'no observations found for that filter.';
+      nextButton.hidden = true;
+      return;
+    }
+    if (append) grid.insertAdjacentHTML('beforeend', results.map(obsCardHTML).join(''));
+    else grid.innerHTML = results.map(obsCardHTML).join('');
+    currentPage = requestedPage;
+    const total = data.total_results || grid.children.length;
+    const shown = grid.children.length;
+    status.textContent = `Showing ${shown} of ${total} observations in the Project.`;
+    nextButton.hidden = shown >= total || results.length < pageSize;
+  } catch (err) {
+    status.textContent = 'iNaturalist is unavailable.';
+  } finally {
+    nextButton.disabled = false;
+  }
+}
+loadObservations();
+nextButton.addEventListener('click', () => loadObservations(currentTaxon, true));
+document.getElementById('applyFilter').addEventListener('click', () => loadObservations(document.getElementById('taxonFilter').value.trim() || undefined));
+document.getElementById('clearFilter').addEventListener('click', () => { document.getElementById('taxonFilter').value = ''; loadObservations(); });
+document.getElementById('taxonFilter').addEventListener('keydown', (e) => { if (e.key === 'Enter') loadObservations(e.target.value.trim() || undefined); });
+</script>
+</body>
+</html>

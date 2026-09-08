@@ -1,0 +1,29 @@
+Comparison to Other Organisms:
+
+
+
+
+Collection Details:
+1 → 2009, Maine
+​      Mismatch count: 0
+
+2 → June 28, 2016, Virginia
+​     Mismatch count: 0
+
+3 → 2009, Virginia
+​     Mismatch count: 10
+
+4 → August 27, 2026, Little Sippewissett Marsh
+​     Mismatch count: 9
+
+Detailed Analysis:
+Position 150 → G to A
+Position 210 → G to A
+Position 225 → T to C
+Position 255 → C to T
+Position 282 → G to A
+Position 444 → A to G
+Position 507 → G to A
+Position 561 → C to T
+Position 616 → C to T
+

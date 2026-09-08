@@ -1,0 +1,26 @@
+Number of bp: 578
+
+Comparison to Other Organisms:
+
+
+
+
+Collection Details:
+1 → May 31, 2012, Canada
+​      Mismatch count: 2
+
+2 → October 5, 2009, Canada
+​     Mismatch count: 0
+
+3 → August 31, 2026, Little Sippewissett Marsh
+​     Mismatch count: 0
+
+4 → July 10, 2011, Canada
+​     Mismatch count: 1
+
+
+Detailed Analysis:
+Position 138 → C to T
+Position 433 → G to A
+Position 576 → C to T
+

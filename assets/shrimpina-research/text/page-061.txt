@@ -1,0 +1,20 @@
+Number of bp: 590
+
+Comparison to Other Organisms:
+
+
+
+
+Collection Details:
+1 → June 29, 2016, Virginia
+​      Mismatch count: 1, G to A at position 166
+
+2 → 1997-1998, Nova Scotia
+​     Mismatch count: 3, G to A at position 358, G to A at position 367, A to C at position 598
+
+3 → August 27, 2016, Maine
+​     Mismatch count: 2, G to A at position 166, A to C at position 598
+
+4 → August 31, 2016, Virginia
+​     Mismatch count: 2, T to C at position 193, A to C at position 598
+

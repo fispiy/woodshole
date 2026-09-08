@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Conditions: Shrimpina</title>
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="site-index.css?v=20260907-10"><link rel="stylesheet" href="shrimpina.css?v=20260907-6"><link rel="stylesheet" href="shrimpina-research.css?v=20260907-10">
+<script src="shrimpina-research-data.js?v=20260907-3"></script><script src="site-index.js?v=20260907-5" defer></script>
+</head>
+<body class="has-site-index shrimpina-site">
+<site-index data-root="." data-brand="shrimpina"></site-index>
+<nav class="shrimpina-subnav" aria-label="Shrimpina pages"><a href="groups/shrimpina.html">Overview</a><a href="research.html">Research Guide</a><a href="journal.html">Field Journal</a><a href="conditions.html" aria-current="page">Field Conditions</a><a href="lab.html">Laboratory</a></nav>
+<main class="research-shell"><span class="research-eyebrow">Crabies · page 31</span><h1>Field Conditions</h1><p class="lead">Days we went on collections</p><div class="conditions-table-wrap"><table class="conditions-table"><thead><tr><th>Field visit</th><th>Approx. temp.<br>during visit</th><th>Conditions</th><th>Wind / other notes</th></tr></thead><tbody id="conditionsRows"></tbody></table></div></main>
+<footer class="site-footer"><div>Woods Hole Shrimpina Project: student field survey, 2026.</div><div><a href="groups/shrimpina.html">Shrimpina Home</a> · <a href="index.html">MBL Home</a></div></footer>
+<script>const escapeCell=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));document.getElementById('conditionsRows').innerHTML=SHRIMPINA_RESEARCH.fieldVisits.map(row=>`<tr>${row.map(cell=>`<td>${escapeCell(cell)}</td>`).join('')}</tr>`).join('');</script>
+</body></html>

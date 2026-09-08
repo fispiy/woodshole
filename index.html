@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#132e2c">
+  <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+  <meta name="description" content="Marine biodiversity survey records from Woods Hole, Massachusetts.">
+  <title>MBL | Woods Hole Biodiversity Survey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous"><link rel="stylesheet" href="museum.css?v=20260904-8"><link rel="stylesheet" href="specimen-view.css?v=20260902-4"><link rel="stylesheet" href="site-index.css?v=20260907-10">
+  <script src="site-index.js?v=20260907-5" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script><script src="species-data.js?v=20260902-4"></script><script src="shrimpina-sample-register.js?v=20260907-2"></script><script src="shrimpina-observation-locations.js?v=20260904-1"></script><script src="specimen-view.js?v=20260902-4" data-root="." defer></script>
+</head>
+<body class="has-site-index home-page">
+  <div class="grain" aria-hidden="true"></div>
+  <site-index data-root="." data-current="home"></site-index>
+  <main id="top">
+    <section class="postcard-stage" aria-labelledby="hero-title"><div class="postcard-sticky">
+      <div class="postcard-frame"><img src="assets/woods-hole-postcard.png" alt="Vintage postcard of the Marine Biological Laboratory seen across Eel Pond in Woods Hole">
+        <svg class="postcard-trace" viewBox="0 0 1262 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g class="trace-slow">
+            <path d="M47 452C184 447 269 463 394 442S645 443 764 432s279-6 454 8"/><path d="M50 500c197-17 316 23 485 6s284-28 430-2 179 7 246 8"/>
+            <path d="M42 554c145-22 244 18 373 1s235-11 342 7 272 4 461-13"/><path d="M54 627c188 12 300-22 455-3s309 10 440-5 195 5 264 1"/><path d="M70 696c121-15 239 9 357-2s235-2 344 8 257-14 428-3"/>
+          </g>
+          <g class="trace-buildings"><path d="M86 222h184l33 57 47-12 42-57h272l38 26h361v201H84Z"/><path d="M310 274 371 218l69 61v154H303Z"/><path d="M694 250v184M733 250v184M776 250v184M818 250v184M861 250v184M904 250v184M947 250v184M990 250v184"/><path d="M107 243h138v190H107Z"/></g>
+          <g class="trace-details">
+            <path d="M92 214c83-8 124 4 180 1M405 202c84-10 172 5 258 0M704 226c128-12 258 4 353 3"/>
+            <path d="M120 265h18v34h-18zM154 265h18v34h-18zM190 265h18v34h-18zM226 265h18v34h-18z"/>
+            <path d="M462 258h18v35h-18zM499 258h18v35h-18zM537 258h18v35h-18zM575 258h18v35h-18zM613 258h18v35h-18z"/>
+            <path d="M711 272h14v33h-14zM749 272h14v33h-14zM790 272h14v33h-14zM832 272h14v33h-14zM874 272h14v33h-14zM916 272h14v33h-14zM958 272h14v33h-14zM1000 272h14v33h-14z"/>
+            <path d="M115 326h23v42h-23zM160 326h23v42h-23zM205 326h23v42h-23zM465 322h22v39h-22zM511 322h22v39h-22zM557 322h22v39h-22zM603 322h22v39h-22z"/>
+            <path d="M302 419c87-15 183 10 272-3s169 6 248-2 174 9 267-4M267 448l31-53h121l31 45M1035 303l65-37 94 18v145"/>
+            <path d="M80 475c58-9 101-4 145 5M279 483c76-12 123-1 171 6M490 468c68-19 132-13 187 2M971 469c75-14 143-6 220 4"/>
+          </g>
+          <g class="trace-boat"><path d="m730 469 23 36h182l27-45c-51 10-160 12-232 9Z"/><path d="M855 105v355M855 140l70 313M852 170l-94 285"/><path d="M770 454c48-8 104-6 154 0M804 493c31 10 68 9 100 0"/></g>
+        </svg>
+        <div class="postcard-wash" aria-hidden="true"></div><div class="archive-stamp">Archive no. 47820<br>Woods Hole, Mass.</div>
+      </div>
+      <div class="hero-copy"><p class="overline">Research and education · Woods Hole, Massachusetts</p><h1 id="hero-title">MBL</h1><p class="hero-deck">The Marine Biological Laboratory brings scientists, faculty, and students together to study living systems in the laboratory and in the field.</p></div>
+      <a class="enter-cue" href="#about-mbl"><span>About MBL</span><i aria-hidden="true"></i></a><p class="postcard-credit">Marine Biological Laboratory from Eel Pond · archival postcard</p>
+    </div></section>
+
+    <section class="mbl-community" id="about-mbl" aria-labelledby="community-heading"><div class="community-stage">
+      <div class="community-copy">
+        <h2 id="community-heading">What is the MBL?</h2>
+        <p>The MBL is a private, nonprofit center where researchers and students investigate fundamental biology, biodiversity, and environmental change through year-round research and intensive educational programs.</p>
+        <p class="community-details"><span>Founded 1888</span><span>Open year-round</span></p>
+        <a href="https://www.mbl.edu/about" target="_blank" rel="noopener">About the MBL <span>↗</span></a>
+        <div class="story-progress" aria-hidden="true"><i></i><span>Scroll through the photographs</span></div>
+      </div>
+      <div class="community-photos" aria-label="MBL community and fieldwork photographs">
+        <figure class="life-photo life-photo-wide" style="--tilt:-.6deg">
+          <div class="life-image"><img src="assets/mbl-building-pam-wilmot.jpg" alt="The Marine Biological Laboratory campus beside Eel Pond in Woods Hole" loading="lazy"></div>
+          <figcaption><span>Woods Hole</span><b>The MBL from Eel Pond</b><a href="https://commons.wikimedia.org/wiki/File:Marine_Biological_Laboratory,_Woods_Hole_by_Pam_Wilmot.jpg" target="_blank" rel="noopener">Pam Wilmot, 2011</a></figcaption>
+        </figure>
+        <figure class="life-photo life-photo-wide" style="--tilt:1deg">
+          <div class="life-image"><img src="assets/mbl-researchers-archive.png" alt="Archival group portrait of Marine Biological Laboratory researchers" loading="lazy"></div>
+          <figcaption><span>Archive</span><b>Researchers at the MBL</b><a href="https://commons.wikimedia.org/wiki/File:PSM_V79_D312_Group_photo_of_researchers_of_the_marine_biology_laboratory.png" target="_blank" rel="noopener">Archival image, 1911</a></figcaption>
+        </figure>
+        <figure class="life-photo life-photo-portrait" style="--tilt:-1.2deg">
+          <div class="life-image"><img src="assets/mbl-story/IMG_1308.jpg" alt="Students sorting collected material at the shoreline" loading="lazy"></div>
+          <figcaption><span>Shoreline</span><b>Sorting beside the water</b><span>2022</span></figcaption>
+        </figure>
+        <figure class="life-photo life-photo-portrait" style="--tilt:1.1deg">
+          <div class="life-image"><img src="assets/mbl-story/IMG_1295.jpg" alt="A student searching for specimens in shallow water" loading="lazy"></div>
+          <figcaption><span>Collection</span><b>Searching in shallow water</b><span>2022</span></figcaption>
+        </figure>
+        <figure class="life-photo life-photo-film" style="--tilt:-.8deg">
+          <div class="life-image"><video src="assets/mbl-story/tide-pool.mp4" poster="assets/mbl-story/tide-pool-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Water moving over organisms in a shallow tide pool"></video></div>
+          <figcaption><span>Water</span><b>A tide pool in motion</b><span>2022</span></figcaption>
+        </figure>
+        <figure class="life-photo life-photo-portrait" style="--tilt:1deg">
+          <div class="life-image"><img src="assets/mbl-story/IMG_5318.jpg" alt="A small animal photographed beneath shallow water" loading="lazy"></div>
+          <figcaption><span>Observation</span><b>A closer look</b><span>2024</span></figcaption>
+        </figure>
+        <figure class="life-photo life-photo-portrait" style="--tilt:-.7deg">
+          <div class="life-image"><img src="assets/mbl-story/IMG_2898.jpg" alt="Students and faculty working around microscopes in a laboratory" loading="lazy"></div>
+          <figcaption><span>Laboratory</span><b>Back at the microscope</b><span>2026</span></figcaption>
+        </figure>
+        <figure class="life-photo life-photo-portrait" style="--tilt:1.2deg">
+          <div class="life-image"><img src="assets/mbl-story/IMG_5380.jpg" alt="A salt marsh at sunset in Woods Hole" loading="lazy"></div>
+          <figcaption><span>Field site</span><b>The marsh at sunset</b><span>2024</span></figcaption>
+        </figure>
+        <figure class="life-photo life-photo-wide life-photo-group" style="--tilt:.35deg">
+          <div class="life-image"><img src="assets/mbl-microbial-diversity-2003.jpg" alt="Students and faculty gathered for an MBL course group portrait" loading="lazy"></div>
+          <figcaption><span>Course community</span><b>Microbial Diversity</b><span>2003</span></figcaption>
+        </figure>
+      </div>
+      <div class="community-closing">
+        <p class="kicker">MBL today</p>
+        <p><strong>More than 500</strong> scientists and faculty take part in MBL programs each year. Students work with them in courses, laboratories, and field sites around Woods Hole.</p>
+      </div>
+    </div></section>
+
+    <section class="map-chapter" id="field-map" aria-labelledby="map-heading"><div class="map-intro reveal"><div><h2 id="map-heading">Woods Hole<br>Collection Map</h2></div><div><p>This 2026 student course collection documents organisms gathered at Little Sippewissett Marsh and Wood Neck Beach, then photographed, identified, and organized into specimen records.</p><p>The map uses public GPS positions from the iNaturalist observations linked in the specimen spreadsheet.</p><a class="map-explorer-link" href="map.html">Open the full Collection Map <span>↗</span></a></div></div><div class="map-shell reveal"><div id="map" role="application" aria-label="Aerial map of linked iNaturalist observations"></div><div class="map-fallback" aria-hidden="true"></div><p class="map-caption"><span id="homeMapCount">0</span> verified iNaturalist observations</p></div></section>
+  </main>
+  <footer class="home-footer"><p>Woods Hole Biodiversity Survey · Marine Biological Laboratory · 2026</p><nav><a href="map.html">Map Explorer</a><a href="observations.html">Observations</a><a href="groups/shrimpina.html">Shrimpina</a></nav></footer>
+  <script src="museum.js?v=20260904-6"></script>
+</body>
+</html>

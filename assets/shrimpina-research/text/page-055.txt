@@ -1,0 +1,11 @@
+Detailed Analysis:
+Position 111 → G to A
+Position 138 → T to C
+Position 312 → G to A
+Position 542 → A to C
+
+
+
+
+Analysis 2
+

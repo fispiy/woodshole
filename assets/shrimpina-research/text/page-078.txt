@@ -1,0 +1,17 @@
+6 → August 27, 2026, Little Sippewissett Marsh
+​     Mismatch count: 1
+
+Detailed Analysis:
+Position 108 → G to A
+Position 150 → G to A
+Position 210 → A to G
+Position 225 → C to T
+Position 255 → T to C
+Position 282 → A to G
+Position 306 → T to C
+Position 444 → G to A
+Position 507 → G to A
+Position 534 → A to G
+Position 561 → T to C
+Position 616 → T to C
+

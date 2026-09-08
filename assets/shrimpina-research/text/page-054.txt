@@ -1,0 +1,32 @@
+Comparison to Other Organisms:
+Analysis 1
+
+
+
+
+Collection Details:
+1 → August 31, 2016, Virginia
+​      Mismatch count: 1, T to C at position 138
+
+2 → June 29, 2016, Virginia
+​     Mismatch count: 0
+
+3 → November 29, 2021, Germany
+​     Mismatch count: 0
+
+4 → August 5, 2007, Canada
+​     Mismatch count: 1, A to C at position 542
+
+5 → June 29, 2016, Virginia
+​     Mismatch count: 2, G to A at position 111, A to C at position 542
+
+6 → August 27, 2026, Woodneck Beach
+​     Mismatch count: 1, T and C flip at position 51 (unclear what was the change)
+
+7 → 1997-1998, Nova Scotia
+​       Mismatch count: 3, T and C flip at position 51 (unclear what was the change), G to A at
+position 111, G to A at position 312
+
+8 → August 27, 2016, Maine
+​     Mismatch count: 1, G to A at position 111
+

@@ -1,0 +1,29 @@
+SSAJ13: Long-Clawed Hermit Crab
+Scientific Name: Pagurus longicarpus
+Location Found: Little Sippewissett Marsh, Falmouth, MA, USA
+
+Consensus Sequence:
+
+
+
+
+Number of bp: 532
+
+Comparison to Other Organisms:
+Analysis 1
+
+
+
+
+Collection Details:
+1 → July 24, 2008, Canada
+​      Mismatch count: 0
+
+2 → June 29, 2016, Virginia
+​     Mismatch count: 0
+
+3 → November 29, 2021, Germany
+​     Mismatch count: 0
+
+4 → August 27, 2026, Little Sippewissett Marsh
+

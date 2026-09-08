@@ -1,0 +1,28 @@
+SSAJ 20: Atlantic Marsh Fiddler Crab
+Scientific Name: Minuca pugnax
+Location Found: Little Sippewissett Marsh, Falmouth, MA, USA
+
+Consensus Sequence:
+
+
+
+
+Number of bp: 614
+
+Comparison to Other Organisms:
+
+
+
+
+Collection Details:
+1 → June 4, 2013, Virginia
+​      Mismatch count: 2 (Switch G → A at position 72 and A → G at position 499)
+
+2 → June 4, 2013, Virginia
+​     Mismatch count: 1 (Switch A → G at position 487)
+
+3 → May 30, 2000, Maryland
+​    Mismatch count: 0
+
+4 → August 25, 2026, Little Sippewissett Marsh
+

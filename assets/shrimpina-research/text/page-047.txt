@@ -1,0 +1,26 @@
+Collection Details:
+1 → July 23, 2018, Virginia
+​      Mismatch count: 1, G to A at position 542
+
+2 → July 7, 2011, Helgoland (German archipelago)
+      Mismatch count: 1, N at position 419
+
+3 → July 7, 2011, Helgoland
+      Mismatch count: 1, A to G at position 416
+
+4 → August 24, 2026, Woodneck Beach
+      Mismatch count: 1, A to G at position 416
+
+5 → March 30, 2015, Maine
+     Mismatch count: 0
+
+Detailed Analysis:
+Description about comparison
+
+
+
+
+SSAJ 36: Long-Clawed Hermit Crab
+Scientific Name: Pagurus longicarpus
+Location Found: Woodneck Beach, Falmouth, MA, USA
+

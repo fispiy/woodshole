@@ -1,0 +1,24 @@
+​      Mismatch count: 3, G to A at position 50, A to G at position 203
+
+5 → June 5, 2013, Virginia
+​     Mismatch count: 2, G to A at position 50
+
+6 → August 27, 2026, Woodneck Beach
+​     Mismatch count: 1, insertion of A at position 12, G to A at position 50
+
+Detailed Analysis:
+At position 12, our specimen has an A, demonstrating that there was an insertion mutation. This
+is something that has not been observed before in the reported data.
+
+Position 12 → Insertion of A
+Position 44 → C to A
+Position 50 → G to A
+Position 104 → C to T
+Position 110 → C to T
+Position 131 → T to C
+Position 203 → A to G
+Position 258 → T to C
+Position 479 → A to G
+Position 442 → G to A
+Position 611 → C to T
+

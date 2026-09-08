@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+  <meta name="theme-color" content="#102927">
+  <meta name="description" content="Explore verified iNaturalist observation locations from the Woods Hole biodiversity survey.">
+  <title>Collection Map | Woods Hole Biodiversity Survey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="map.css?v=20260904-5">
+  <link rel="stylesheet" href="specimen-view.css?v=20260902-4">
+  <link rel="stylesheet" href="site-index.css?v=20260907-10">
+  <script src="site-index.js?v=20260907-5" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+  <script src="species-data.js?v=20260902-4"></script>
+  <script src="shrimpina-sample-register.js?v=20260907-2"></script>
+  <script src="shrimpina-observation-locations.js?v=20260904-1"></script>
+  <script src="specimen-view.js?v=20260902-4" data-root="." defer></script>
+</head>
+<body class="has-site-index cursor-map">
+  <site-index data-root="." data-current="map"></site-index>
+
+  <main>
+    <header class="explorer-intro">
+      <div><p class="eyebrow">Woods Hole Biodiversity Survey</p><h1>Collection Map</h1></div>
+      <p>Explore the public GPS positions attached to the iNaturalist observations linked in the Shrimpina specimen register.</p>
+    </header>
+
+    <section class="explorer-workspace">
+      <aside class="filter-panel" aria-label="Map filters">
+        <div class="filter-heading"><span>Filters</span><button id="clearFilters" type="button">Clear all</button></div>
+        <label class="search-field"><span>Search</span><input id="searchFilter" type="search" placeholder="Name, code, or taxonomy"></label>
+        <label><span>Species</span><select id="speciesFilter"><option value="">All species</option></select></label>
+        <label><span>Survey group</span><select id="groupFilter"><option value="">All groups</option></select></label>
+        <label><span>Collection site</span><select id="siteFilter"><option value="">Both sites</option><option>Little Sippewissett Marsh</option><option>Wood Neck Beach</option></select></label>
+        <p class="location-source" id="locationSource">Loading spreadsheet-linked coordinates…</p>
+      </aside>
+
+      <div class="map-area" data-map-style="aerial">
+        <div id="explorerMap" aria-label="Filtered specimen map"></div>
+        <div class="map-fallback" aria-hidden="true"></div>
+        <div class="map-key"><span><i class="crab"></i>Crabs &amp; hermits</span><span><i class="shrimp"></i>Shrimp</span><span><i class="mussel"></i>Mollusks</span><span><i class="other"></i>Other</span></div>
+        <div class="map-style-control" role="group" aria-label="Choose map view">
+          <span>Map view</span>
+          <button type="button" data-map-style="atlas" aria-pressed="false">Atlas</button>
+          <button type="button" data-map-style="aerial" aria-pressed="true">Aerial</button>
+          <button type="button" data-map-style="topographic" aria-pressed="false">Topographic</button>
+        </div>
+        <div class="map-total"><strong id="mapCount">0</strong><span>observations shown</span></div>
+      </div>
+
+      <section class="results-panel" aria-labelledby="resultsHeading">
+        <header><div><p class="eyebrow">Spreadsheet-linked locations</p><h2 id="resultsHeading"><span id="resultCount">0</span> observations</h2></div><label><span>Sort</span><select id="sortControl"><option value="code">Specimen code</option><option value="common">Common name</option><option value="scientific">Scientific name</option><option value="group">Survey group</option><option value="site">Collection site</option></select></label></header>
+        <div id="activeFilters" class="active-filters" aria-live="polite"></div>
+        <div id="resultList" class="result-list"></div>
+        <p id="emptyState" class="empty-state" hidden>No records match these filters.</p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="map-page-footer">
+    <div><span>Continue exploring</span><strong>Woods Hole Biodiversity Survey</strong></div>
+    <nav aria-label="Continue to another page"><a href="index.html">MBL Home</a><a href="observations.html">Observations</a><a href="groups/shrimpina.html">Shrimpina</a></nav>
+  </footer>
+
+  <script src="map.js?v=20260904-3"></script>
+</body>
+</html>

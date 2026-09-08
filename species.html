@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+<title>Species: Woods Hole Biodiversity Survey</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script src="image-slot.js"></script>
+<script src="species-data.js?v=20260902-4"></script>
+<script src="shrimpina-sample-register.js?v=20260907-2"></script>
+<script src="shrimpina-research-data.js?v=20260907-3"></script>
+<script src="shrimpina-inat-media.js?v=20260907-2"></script>
+<script src="shrimpina-photo-library.js?v=20260902-1"></script>
+<script src="shrimpina-species-data.js?v=20260907-3"></script>
+<script src="profile-render.js?v=20260907-4"></script>
+<script src="inat.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+  :root {
+    --font-hand: 'Kalam', cursive;
+    --color-bg: #fafaf8; --color-surface: #eef0ef; --color-text: #131313;
+    --color-divider: color-mix(in srgb, #131313 18%, transparent);
+    --color-accent-100: #e6f4f2; --color-accent-200: #c3e6e1; --color-accent-300: #93d1c8;
+    --color-accent-400: #5fb8ac; --color-accent-500: #2f9c8d; --color-accent-600: #1f7d71;
+    --color-accent-700: #165f56; --color-accent-800: #123f39; --color-accent-900: #0d2b27;
+    --color-accent-2-100: #fdeee8; --color-accent-2-200: #f8d2c2; --color-accent-2-300: #efac8d;
+    --color-accent-2-400: #e28259; --color-accent-2-500: #cf6234; --color-accent-2-600: #a94d27;
+    --color-accent-2-700: #823a1e; --color-accent-2-800: #582814; --color-accent-2-900: #33170b;
+  }
+  html { scroll-behavior: smooth; }
+  body { background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--color-text) 7%, transparent) 1px, transparent 0); background-size: 22px 22px; overflow-x: hidden; }
+  a { color: var(--color-accent-700); } a:hover { color: var(--color-accent-900); }
+
+  .tape { position: absolute; width: 50px; height: 19px; z-index: 5; background: color-mix(in srgb, var(--color-accent-300) 68%, transparent); box-shadow: 0 1px 3px color-mix(in srgb, var(--color-text) 30%, transparent); opacity: 0.88; }
+  .tape.tl { top: -9px; left: 22px; transform: rotate(-7deg); }
+  .tape.tr { top: -7px; right: 18px; transform: rotate(6deg); }
+  .stitch-divider { display: flex; align-items: center; gap: 10px; margin: var(--space-8) 0; }
+  .stitch-divider::before, .stitch-divider::after { content: ""; flex: 1; height: 0; border-top: 1.5px dashed color-mix(in srgb, var(--color-text) 30%, transparent); }
+  .stitch-divider span { font-family: var(--font-hand); font-size: 14px; color: var(--color-accent-700); transform: rotate(-2deg); white-space: nowrap; }
+  .dna-strip { padding: var(--space-4); margin-top: var(--space-2); }
+  .barcode { display: flex; align-items: flex-end; gap: 2px; height: 58px; }
+  .barcode i { flex: 1; background: var(--color-accent-700); opacity: 0.85; }
+  .dna-seq { font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 3px; opacity: 0.5; margin-top: 8px; word-break: break-all; }
+
+  .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: var(--color-bg); border-bottom: 2px dashed color-mix(in srgb, var(--color-text) 32%, transparent); }
+  .site-nav .nav-brand { display: flex; align-items: center; gap: 10px; }
+  .site-nav .nav-brand small { display: block; font-family: var(--font-hand); font-weight: 400; font-size: 13px; opacity: 0.65; margin-top: -1px; }
+  .logo-box { width: 34px; height: 34px; flex: none; transform: rotate(-4deg); }
+  .nav-links { display: flex; align-items: center; gap: var(--space-6); }
+
+  .breadcrumb { max-width: 880px; margin: 0 auto; padding: calc(var(--space-6)*1.6) var(--space-6) 0; font-size: 12.5px; opacity: 0.65; }
+  .breadcrumb a { text-decoration: none; } .breadcrumb a:hover { text-decoration: underline; }
+
+  .profile-hero { position: relative; height: 56vh; min-height: 380px; max-width: 880px; margin: var(--space-4) auto 0; }
+  .profile-hero .callout-dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: var(--color-accent-300); border: 2px solid var(--color-bg); box-shadow: 0 0 0 2px var(--color-accent-700); transform: translate(-50%,-50%); }
+  .profile-hero .callout-line { position: absolute; height: 1px; background: color-mix(in srgb, var(--color-bg) 75%, transparent); transform-origin: left center; }
+  .profile-hero .callout-label { position: absolute; transform: translate(0,-50%); font-size: 12px; letter-spacing: .03em; background: color-mix(in srgb, var(--color-accent-900) 88%, transparent); color: var(--color-bg); padding: 3px 9px; white-space: nowrap; }
+  .profile-hero .placeholder-labels { position: absolute; bottom: var(--space-4); left: var(--space-4); right: var(--space-4); display: flex; gap: 8px; flex-wrap: wrap; }
+  .profile-body { max-width: 880px; margin: 0 auto; padding: var(--space-6) var(--space-6) calc(var(--space-8) * 1.4); }
+  .id-strip { display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-2); flex-wrap: wrap; }
+  .id-strip .specimen-id { font-family: var(--font-heading); font-size: 13px; letter-spacing: .06em; color: var(--color-accent-700); }
+  .profile-body h1 { font-size: 42px; margin-bottom: 0; }
+  .profile-body .sci-name { font-style: italic; font-size: 18px; opacity: 0.65; margin-bottom: var(--space-4); }
+  .class-tags { display: flex; gap: 8px; flex-wrap: wrap; margin: var(--space-4) 0 var(--space-6); }
+  .class-tags .tag:nth-child(odd) { transform: rotate(-1.5deg); }
+  .class-tags .tag:nth-child(even) { transform: rotate(1.5deg); }
+  .reveal-sec { margin: calc(var(--space-8) * 1.2) 0; opacity: 0; transform: translateY(28px) scale(.97); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+  .reveal-sec.in-view { opacity: 1 !important; transform: translateY(0) scale(1) !important; }
+  .sec-label { display: flex; align-items: center; gap: 8px; margin-bottom: var(--space-3); }
+  .sec-label .n { font-family: var(--font-heading); font-size: 13px; color: var(--color-accent-700); }
+  .sec-label h3 { margin: 0; }
+  .desc-text { font-size: 16px; line-height: 1.65; }
+  .pop-table td, .pop-table th { text-align: center; }
+  .pop-table td:first-child, .pop-table th:first-child { text-align: left; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); }
+  .gallery-grid image-slot { aspect-ratio: 1; }
+  .ref-list { list-style: none; margin: 0; padding: 0; font-size: 13.5px; }
+  .ref-list li { padding: 8px 0; border-bottom: 1px solid var(--color-divider); opacity: 0.8; }
+  .status-badge { display: inline-flex; align-items: center; padding: 6px 14px; font-family: var(--font-heading); font-size: 13px; letter-spacing: .02em; }
+
+  #speciesMap { height: 260px; max-width: 880px; margin: 0 auto var(--space-3); }
+  .obs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); }
+  .obs-card { display: flex; flex-direction: column; text-decoration: none; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-divider); transition: box-shadow .15s, transform .15s; }
+  .obs-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .obs-photo { aspect-ratio: 1; background: var(--color-surface); overflow: hidden; }
+  .obs-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .obs-photo-empty { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 12px; opacity: 0.5; font-family: var(--font-hand); }
+  .obs-meta { padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; }
+  .obs-meta b { font-size: 12.5px; }
+  .obs-sci { font-style: italic; font-size: 11px; opacity: 0.55; }
+  .obs-sub { font-size: 10.5px; opacity: 0.6; }
+  .obs-status { font-family: var(--font-hand); font-size: 14px; opacity: 0.6; }
+
+  .not-found { max-width: 620px; margin: 0 auto; padding: calc(var(--space-8)*2) var(--space-6); text-align: center; }
+
+  .site-footer { padding: var(--space-8) var(--space-6); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-divider); font-size: 12.5px; opacity: 0.7; gap: var(--space-4); flex-wrap: wrap; }
+
+  @media (max-width: 860px) {
+    .gallery-grid, .obs-grid { grid-template-columns: repeat(2,1fr); }
+    .profile-body h1 { font-size: 30px; }
+  }
+</style>
+<link rel="stylesheet" href="exhibit.css?v=20260902-2">
+<link rel="stylesheet" href="shrimpina-record.css?v=20260907-3">
+<link rel="stylesheet" href="shrimpina-research.css?v=20260907-10">
+<link rel="stylesheet" href="site-index.css?v=20260907-10">
+<script src="vendor/gsap/gsap.min.js"></script>
+<script src="vendor/gsap/ScrollTrigger.min.js"></script>
+<script src="site-index.js?v=20260907-5" defer></script>
+</head>
+<body class="has-site-index cursor-catalog">
+
+<site-index data-root="." data-current="directory"></site-index>
+
+<div id="root"></div>
+
+<section class="site-footer">
+  <div>Woods Hole Biodiversity Survey: University of Chicago Marine Biological Laboratory.</div>
+  <div><a href="groups/shrimpina.html">Shrimpina Home</a> · <a href="map.html">Collection Map</a> · <a href="index.html">MBL Home</a></div>
+</section>
+
+<script>
+const params = new URLSearchParams(location.search);
+const requestedSampleCode = params.get('sample')?.toUpperCase();
+const requestedSample = requestedSampleCode ? SHRIMPINA_SAMPLE_REGISTER.find(item => item.code === requestedSampleCode) : null;
+const requestedMedia = requestedSample ? SHRIMPINA_INAT_MEDIA.find(item => item.code === requestedSample.code) : null;
+const cleanSpecimenName = name => name.replace(/ \((?:L|R|Female|Baby|tiny|big|dead)\)$/i, '').replace(/ - Baby$/i,'').replace(/ \d+$/,'');
+const exactSampleRecord = requestedSample ? SHRIMPINA_SPECIES.find(item => item.code === requestedSample.code) : null;
+const speciesTemplate = requestedSample ? (exactSampleRecord || SHRIMPINA_SPECIES.find(item => item.sci === requestedSample.sci) || SPECIES.find(item => item.sci === requestedSample.sci)) : null;
+const fallbackRecord = requestedSample ? {
+  id:requestedSample.code.toLowerCase(), code:requestedSample.code, sampleNumbers:[requestedSample.number], group:'crab', phylumKey:'arthropoda-crustacea', groupProject:'shrimpina',
+  common:cleanSpecimenName(requestedSample.common), sci:requestedSample.sci, phylum:'Not recorded', cls:'Not recorded', order:'Not recorded', family:'Not recorded', status:'Not assessed',
+  lat:requestedSample.site.includes('Woodneck') ? 41.5885 : 41.5958, lng:requestedSample.site.includes('Woodneck') ? -70.6462 : -70.6438,
+  morph:'Morphology notes have not been entered for this specimen.', eco:'Ecology notes have not been entered for this specimen.', ecologyReport:['Ecology notes have not been entered for this specimen.'],
+  photos:requestedMedia?.photo ? [requestedMedia.photo] : [], heroPhoto:requestedMedia?.photo || '', pop:[['2026',1]], refs:[`Shrimpina specimen register, ${requestedSample.code}, 2026.`]
+} : null;
+let s = requestedSample ? { ...(speciesTemplate || fallbackRecord) } : ALL_SPECIES.find(x => x.id === params.get('id'));
+if (requestedSample && s) {
+  const useExactStudy = exactSampleRecord && exactSampleRecord.code === requestedSample.code;
+  const sampleMorphologyViews = typeof SHRIMPINA_SAMPLE_MORPHOLOGY !== 'undefined' ? SHRIMPINA_SAMPLE_MORPHOLOGY[requestedSample.code] : undefined;
+  const photos = useExactStudy && exactSampleRecord.photos?.length ? exactSampleRecord.photos : (requestedMedia?.photo ? [requestedMedia.photo] : (s.photos || []));
+  s = {
+    ...s, id:requestedSample.code.toLowerCase(), code:requestedSample.code, sampleNumbers:[requestedSample.number], groupProject:'shrimpina',
+    common:cleanSpecimenName(requestedSample.common), sci:requestedSample.sci,
+    lat:requestedSample.site.includes('Woodneck') ? 41.5885 : 41.5958, lng:requestedSample.site.includes('Woodneck') ? -70.6462 : -70.6438,
+    photos, heroPhoto:photos[0] || s.heroPhoto, morphologyViews:sampleMorphologyViews || (useExactStudy ? exactSampleRecord.morphologyViews : undefined),
+    refs:[`Shrimpina specimen register, ${requestedSample.code}, ${requestedSample.date}.`, ...(s.refs || []).filter(ref => !ref.includes('Shrimpina specimen'))]
+  };
+}
+const root = document.getElementById('root');
+
+if (!s) {
+  root.innerHTML = `<div class="not-found">
+    <p class="n-tag">not catalogued yet</p>
+    <h1>We haven't logged this species yet.</h1>
+    <p><a href="map.html">Browse the collection map →</a></p>
+  </div>`;
+} else {
+  const phylumMeta = PHYLA.find(p => p.id === s.phylumKey);
+  const isShrimpina = s.groupProject === 'shrimpina';
+  if (isShrimpina) {
+    document.body.classList.add('shrimpina-record-page');
+    document.querySelector('site-index').dataset.brand = 'shrimpina';
+  }
+  const shrimpinaRecords = requestedSample ? SHRIMPINA_SAMPLE_REGISTER : SHRIMPINA_SPECIES.filter(item => item.groupProject === 'shrimpina' && /^SSAJ\d+$/.test(item.code)).sort((a,b) => Number(a.code.slice(4)) - Number(b.code.slice(4)));
+  const shrimpinaIndex = requestedSample ? shrimpinaRecords.findIndex(item => item.code === requestedSample.code) : shrimpinaRecords.findIndex(item => item.id === s.id);
+  const previousRecord = shrimpinaIndex > 0 ? shrimpinaRecords[shrimpinaIndex - 1] : null;
+  const nextRecord = shrimpinaIndex >= 0 && shrimpinaIndex < shrimpinaRecords.length - 1 ? shrimpinaRecords[shrimpinaIndex + 1] : null;
+  const specimenHref = record => requestedSample ? `species.html?sample=${record.code}` : `species.html?id=${record.id}`;
+  const projectNavigation = isShrimpina ? `<nav class="shrimpina-record-nav" aria-label="Shrimpina specimen navigation">
+    <a class="record-back" href="groups/shrimpina.html?qa=samples#g-species">Shrimpina specimen archive</a>
+    <span>${s.code}</span>
+    <div>${previousRecord ? `<a href="${specimenHref(previousRecord)}" aria-label="Previous specimen">Previous</a>` : '<i></i>'}${nextRecord ? `<a href="${specimenHref(nextRecord)}" aria-label="Next specimen">Next</a>` : '<i></i>'}</div>
+  </nav>` : '';
+  const recordSectionNavigation = isShrimpina ? `<nav class="record-section-nav" aria-label="Specimen sections">
+    <span>On this page</span><a href="#record-views">Images</a><a href="#record-morphology">Morphology</a><a href="#record-ecology">Ecology</a><a href="#record-dna">DNA analysis</a><a href="#record-observations">iNaturalist</a>
+  </nav>` : '';
+  const profileOpening = isShrimpina
+    ? `<div class="profile-body profile-intro">${buildProfileHeader(s)}</div>
+       <div class="profile-hero blueprint" id="record-views">${buildProfileHero(s)}</div>
+       <div class="profile-body">${buildProfileSections(s)}`
+    : `<div class="profile-hero blueprint">${buildProfileHero(s)}</div>
+       <div class="profile-body">${buildProfileBody(s)}`;
+  document.title = s.common + ': Woods Hole Biodiversity Survey';
+  root.innerHTML = `
+    ${projectNavigation}
+    <div class="breadcrumb">
+      <a href="${isShrimpina ? 'groups/shrimpina.html?qa=samples#g-species' : 'map.html'}">${isShrimpina ? 'Shrimpina' : 'Collection Map'}</a> / ${phylumMeta ? phylumMeta.name : s.phylum} / ${s.common}
+    </div>
+    ${recordSectionNavigation}
+    ${profileOpening}
+      <div class="stitch-divider"><span>where it's been seen →</span></div>
+      <div class="reveal-sec" id="record-location">
+        <div class="sec-label"><span class="n">08</span><h3>Location</h3></div>
+        <div id="speciesMap" class="blueprint"></div>
+      </div>
+      <div class="reveal-sec" id="record-observations">
+        <div class="sec-label"><span class="n">09</span><h3>iNaturalist observations</h3></div>
+        <div class="obs-grid" id="obsGrid"></div>
+        <p class="obs-status" id="obsStatus">loading observations of ${s.sci}…</p>
+      </div>
+    </div>
+  `;
+  initMorphologyViewer(root, s);
+  initResearchBlocks(root);
+
+  const smap = L.map('speciesMap', { zoomControl: false, attributionControl: true, scrollWheelZoom: false }).setView([s.lat, s.lng], 16);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19, minZoom: 13, attribution: 'Tiles &copy; Esri'
+  }).addTo(smap);
+  L.circleMarker([s.lat, s.lng], { radius: 9, color: isShrimpina ? '#b33c58' : (GROUP_FILL[s.group].startsWith('var') ? '#315e42' : GROUP_FILL[s.group]), fillOpacity: 0.85 }).addTo(smap);
+
+  const grid = document.getElementById('obsGrid');
+  const status = document.getElementById('obsStatus');
+  if (isShrimpina) {
+    const linkedMedia = SHRIMPINA_INAT_MEDIA.filter(media => media.code === s.code);
+    grid.innerHTML = linkedMedia.map(media => {
+      const sample = SHRIMPINA_SAMPLE_REGISTER.find(item => item.code === media.code);
+      return `<a class="obs-card" href="${media.url}" target="_blank" rel="noopener">
+        <div class="obs-photo"><img src="${media.photo}" alt="${sample?.common || media.common}" loading="lazy"></div>
+        <div class="obs-meta"><span class="obs-code">${media.code}</span><b>${sample?.common || media.common}</b><span class="obs-sci">${sample?.sci || media.taxon}</span><span class="obs-sub">${sample?.date || media.observed} · ${sample?.site || 'Woods Hole'}</span></div>
+      </a>`;
+    }).join('');
+    status.textContent = linkedMedia.length ? `${linkedMedia.length} spreadsheet-linked record${linkedMedia.length === 1 ? '' : 's'}.` : 'No iNaturalist record is linked to this SSAJ sample.';
+  } else {
+    fetchINatObservations({ taxon_name: s.sci, per_page: 12 }).then(data => {
+      const results = data.results || [];
+      if (!results.length) { status.textContent = `No iNaturalist observations of ${s.sci} in the project yet.`; return; }
+      grid.innerHTML = results.map(obsCardHTML).join('');
+      status.textContent = `${data.total_results} total observations of ${s.sci}.`;
+    }).catch(() => { status.textContent = 'iNaturalist is unavailable.'; });
+  }
+
+  requestAnimationFrame(() => {
+    const secs = [...document.querySelectorAll('.reveal-sec')];
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (window.gsap && window.ScrollTrigger && !reducedMotion) {
+      gsap.registerPlugin(ScrollTrigger);
+      secs.forEach(sec => {
+        sec.classList.add('in-view');
+        gsap.fromTo(sec, { autoAlpha:0, y:26 }, {
+          autoAlpha:1, y:0, duration:.72, ease:'power2.out',
+          scrollTrigger:{ trigger:sec, start:'top 88%', once:true }
+        });
+      });
+      const ecologyNotes = document.querySelectorAll('.profile-ecology-report li');
+      if (ecologyNotes.length) {
+        gsap.from(ecologyNotes, {
+          autoAlpha:0, y:20, duration:.6, stagger:.07, ease:'power2.out',
+          scrollTrigger:{ trigger:'.profile-ecology-report', start:'top 84%', once:true }
+        });
+      }
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+      }, { threshold:0.15 });
+      secs.forEach(sec => io.observe(sec));
+    }
+  });
+}
+</script>
+</body>
+</html>

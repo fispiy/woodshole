@@ -1,0 +1,10 @@
+​      Mismatch count: 1
+
+Detailed Analysis:
+Position 166 → Switch from G to A seen, our sample doesn’t have this mutation
+Position 193 → Switch from T to C seen, our sample doesn’t have this mutation
+Position 358 → Switch from A to G seen, our sample doesn’t have this mutation
+Position 367 → Switch from G to A seen, our sample doesn’t have this mutation
+Position 445 → Switch from G to A seen, our sample doesn’t have this mutation
+Position 598 → Switch from A to C seen, our sample doesn’t have this mutation
+

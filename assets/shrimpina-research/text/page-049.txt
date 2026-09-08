@@ -1,0 +1,26 @@
+​      Mismatch count: 1, T to C at position 137
+
+5 → August 27, 2026, Woodneck Beach
+​     Mismatch count: 1 (At position 583, A to T shift)
+
+6 → June 29, 2016, Virginia
+​     Mismatch count: 0
+
+7 → June 29, 2016, Virginia
+​     Mismatch count: 2, G to A at position 390, A to C at position 543
+
+8 → June 29, 2016, Virginia
+​     Mismatch count: 2, A to G at position 303, A to C at position 543
+
+9 → August 5, 2007, Canada
+​     Mismatch count: 1, A to C at position 543
+
+Detailed Analysis:
+Position 111 → G to A
+Position 137 → T to C
+Position 303 → A to G
+Position 312 → G to A
+Position 390 → G to A
+Position 543 → A to C
+Position 583 → A to T
+
