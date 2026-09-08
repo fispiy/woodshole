@@ -94,6 +94,17 @@ for (const [code, slide] of Object.entries(expectedMorphology)) {
   }
 }
 
+const sandFiddlerReference = morphologyManifest.speciesReferences?.find(entry => entry.scientificName === 'Leptuca pugilator');
+check(sandFiddlerReference?.pages?.join(',') === '1,2', 'Atlantic Sand Fiddler Crab: labeled source must contain PDF pages 1 and 2');
+for (const filename of sandFiddlerReference?.outputs || []) {
+  const filepath = path.join(root, 'assets/shrimpina-morphology', filename);
+  check(fs.existsSync(filepath) && fs.statSync(filepath).size > 0, `Atlantic Sand Fiddler Crab: missing morphology asset ${filename}`);
+  if (fs.existsSync(filepath)) {
+    const dimensions = imageDimensions(filepath);
+    check(dimensions.width === 1400 && dimensions.height === 787, `Atlantic Sand Fiddler Crab: ${filename} must preserve native 1400x787 dimensions`);
+  }
+}
+
 const mapManifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/shrimpina-map/manifest.json'), 'utf8'));
 for (const item of mapManifest.records) {
   const filepath = path.join(root, 'assets/shrimpina-map', item.localFile);

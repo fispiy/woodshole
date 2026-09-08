@@ -478,6 +478,29 @@ Object.entries(SHRIMPINA_SAMPLE_MORPHOLOGY).forEach(([sample, views]) => {
   }));
 });
 
+const SHRIMPINA_SAND_FIDDLER_MORPHOLOGY = [
+  {
+    label:'Dorsal view',
+    src:'assets/shrimpina-morphology/atlantic-sand-fiddler-dorsal-labeled.png?v=20260908-1',
+    alt:'Original labeled dorsal morphology view of an Atlantic sand fiddler crab',
+    caption:'Original labeled morphology plate',
+    sourceLabel:'Atlantic Sand Fiddler Crab',
+    sourceDocument:'sand_fiddler_original_labeled.pdf',
+    sourcePage:1,
+    callouts:[]
+  },
+  {
+    label:'Ventral view',
+    src:'assets/shrimpina-morphology/atlantic-sand-fiddler-ventral-labeled.png?v=20260908-1',
+    alt:'Original labeled ventral morphology view of an Atlantic sand fiddler crab',
+    caption:'Original labeled morphology plate',
+    sourceLabel:'Atlantic Sand Fiddler Crab',
+    sourceDocument:'sand_fiddler_original_labeled.pdf',
+    sourcePage:2,
+    callouts:[]
+  }
+];
+
 // A labeled slide is a species-level morphology reference. Exact labeled
 // records keep their own plate; other records of that species inherit the
 // representative plate below while retaining only their own field photos.
@@ -485,6 +508,7 @@ const SHRIMPINA_SPECIES_MORPHOLOGY = {
   'Pagurus longicarpus': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ1,
   'Palaemon paludosus': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ14,
   'Minuca pugnax': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ21,
+  'Leptuca pugilator': SHRIMPINA_SAND_FIDDLER_MORPHOLOGY,
   'Hemigrapsus sanguineus': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ27,
   'Ovalipes ocellatus': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ33,
   'Carcinus maenas': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ34,

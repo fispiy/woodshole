@@ -158,8 +158,8 @@ function renderMorphologyViewer(s) {
   if (!first) return '';
   return `<section class="morphology-viewer" aria-label="${s.common} morphology views">
     <header class="morphology-viewer-head">
-      <div><span>Labeled species view</span><strong>${first.sourceSample || s.code}</strong></div>
-      ${first.sourceSlide ? `<small>Student source · slide ${first.sourceSlide}</small>` : ''}
+      <div><span>Labeled species view</span><strong>${first.sourceLabel || first.sourceSample || s.code}</strong></div>
+      ${first.sourceSlide ? `<small>Student source · slide ${first.sourceSlide}</small>` : (first.sourcePage ? `<small>Original labeled plate · page ${first.sourcePage}</small>` : '')}
     </header>
     <div class="morphology-viewer-stage">
       <div class="morphology-tabs" role="tablist" aria-label="Photographic view">

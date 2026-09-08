@@ -1,6 +1,17 @@
 {
   "source": "/Users/johnsellers/Downloads/Shrimpina Slides.pptx",
   "policy": "Only student-labeled morphology views are included. Labels are preserved as rendered in the deck and are not generated or rewritten.",
+  "speciesReferences": [
+    {
+      "commonName": "Atlantic Sand Fiddler Crab",
+      "scientificName": "Leptuca pugilator",
+      "sourceFile": "sand_fiddler_original_labeled.pdf",
+      "pages": [1, 2],
+      "sourceImageObjects": [3, 5],
+      "mappingBasis": "User identified the supplied PDF as the labeled sand fiddler reference.",
+      "outputs": ["atlantic-sand-fiddler-dorsal-labeled.png", "atlantic-sand-fiddler-ventral-labeled.png"]
+    }
+  ],
   "specimens": [
     {"sample":"SSAJ1","slide":12,"speakerNote":"SSAJ1","sourceMedia":["image96.png","image92.png"],"outputs":["ssaj1-hermit-crab-measured-lateral-labeled.png","ssaj1-hermit-crab-ventral-labeled.png"]},
     {"sample":"SSAJ6","slide":13,"speakerNote":"SSAJ6","sourceMedia":["image92.png","image93.png","image106.png"],"outputs":["ssaj6-hermit-crab-labeled.png","ssaj6-hermit-crab-ruler.png"]},
