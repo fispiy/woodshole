@@ -161,18 +161,20 @@ const relationshipSource = fs.readFileSync(path.join(root, 'relationship-tree.js
 check(!overviewSource.includes('id="g-comparisons"'), 'Overview still contains the comparison section');
 check(!overviewSource.includes('comparisonTables'), 'Overview still renders comparison tables');
 check(!overviewSource.includes('class="tree-row"'), 'Overview still contains the deprecated table-like taxonomy rows');
-check(overviewSource.includes('id="labEvolutionTree"'), 'Overview is missing the expanded evolutionary tree');
-check(overviewSource.includes('id="labTaxonomyTree"'), 'Overview is missing the detailed crab classification tree');
+check(overviewSource.includes('id="relationshipTree"'), 'Overview is missing the unified relationship tree');
 check(overviewSource.includes('relationship-tree.js'), 'Overview is missing the shared relationship-tree renderer');
+check(!overviewSource.includes('id="tree-view-evolution"') && !overviewSource.includes('id="tree-view-collection"'), 'Overview still contains disconnected relationship-tree panels');
 check(labSource.includes('class="phylogeny-branch'), 'Laboratory is missing the SVG phylogeny branches');
 check(labSource.includes('class="phylogeny-leaf'), 'Laboratory is missing the linked phylogeny terminals');
 check(labSource.includes('aria-label="Scrollable final specimen phylogeny"'), 'Laboratory is missing accessible phylogeny navigation');
 check(labSource.includes('id="phylogenyTree"'), 'Laboratory is missing the final phylogeny renderer');
 check(guideSource.includes('SHRIMPINA_RESEARCH.comparisons[0]') && guideSource.includes('SHRIMPINA_RESEARCH.comparisons[2]'), 'Research Guide does not render all comparison groups');
 check(guideSource.includes("scientific.replace(/\\W+/g,'-')"), 'Research Guide is missing scientific-name anchors');
-for (const lineage of ['Animalia','Deuterostomia','Protostomia','Lophotrochozoa','Ecdysozoa','Arthropoda','Pancrustacea','Malacostraca','Decapoda','Caridea','Anomura','Brachyura']) {
+for (const lineage of ['Animalia','Deuterostomia','Protostomia','Lophotrochozoa','Ecdysozoa','Arthropoda','Pancrustacea','Malacostraca','Decapoda']) {
   check(relationshipSource.includes(`label:'${lineage}'`), `Overview evolutionary context is missing ${lineage}`);
 }
+check(relationshipSource.includes('animateCamera') && relationshipSource.includes("unionBoxes(detailLayer.getBBox(),anchorLayer.getBBox())"), 'Overview is missing its fitted continuous camera transition');
+check(relationshipSource.includes('class="relationship-anchor"') && relationshipSource.includes("findNode(evolutionHierarchy,'Decapoda')"), 'Decapoda is not preserved as the shared zoom anchor');
 
 const branches = research.taxonomyTree.branches;
 const families = new Set(branches.flatMap(branch => branch.families.map(family => family.name)));
@@ -185,6 +187,7 @@ const expectedTreeSpecies = [
   'Minuca pugnax',
   'Leptuca pugilator',
   'Hemigrapsus sanguineus',
+  'Libinia dubia',
   'Tumidotheres maculatus',
   'Pagurus pollicaris',
   'Pagurus longicarpus'
@@ -193,17 +196,28 @@ check(research.taxonomyTree.phylum === 'Arthropoda', 'Taxonomy phylum must be Ar
 check(research.taxonomyTree.className === 'Malacostraca', 'Taxonomy class must be Malacostraca');
 check(research.taxonomyTree.order === 'Decapoda', 'Taxonomy order must be Decapoda');
 check(branches.map(branch => branch.name).join(',') === 'Brachyura,Anomura', 'Taxonomy branches must be Brachyura followed by Anomura');
-check(families.size === 5, `Expected 5 taxonomy families, found ${families.size}`);
-check(genera.size === 8, `Expected 8 taxonomy genera, found ${genera.size}`);
-check(treeSpecies.length === 9, `Expected 9 taxonomy species, found ${treeSpecies.length}`);
-check(treeSpecies.map(species => species[1]).join('|') === expectedTreeSpecies.join('|'), 'Taxonomy species order does not match PDF page 35');
-check(research.taxonomyTree.summary === "Within the Decapods, we've identified 5 families and 8 genera across 9 species", 'Taxonomy summary does not match PDF page 35');
-check(Object.keys(research.taxonomyEcology || {}).length === 9, 'Taxonomy ecology must cover all 9 displayed crab species');
+check(families.size === 8, `Expected 8 taxonomy families, found ${families.size}`);
+check(genera.size === 9, `Expected 9 taxonomy genera, found ${genera.size}`);
+check(treeSpecies.length === 10, `Expected 10 taxonomy species, found ${treeSpecies.length}`);
+check(treeSpecies.map(species => species[1]).join('|') === expectedTreeSpecies.join('|'), 'Taxonomy species order does not match the audited overview hierarchy');
+const expectedFamilies = {
+  'Ovalipes ocellatus':'Ovalipidae', 'Callinectes sapidus':'Portunidae', 'Carcinus maenas':'Carcinidae',
+  'Minuca pugnax':'Ocypodidae', 'Leptuca pugilator':'Ocypodidae', 'Hemigrapsus sanguineus':'Varunidae',
+  'Libinia dubia':'Epialtidae', 'Tumidotheres maculatus':'Pinnotheridae',
+  'Pagurus pollicaris':'Paguridae', 'Pagurus longicarpus':'Paguridae'
+};
+for (const branch of branches) for (const family of branch.families) for (const genus of family.genera) for (const [,scientific] of genus.species) {
+  check(expectedFamilies[scientific] === family.name, `${scientific}: expected family ${expectedFamilies[scientific]}, found ${family.name}`);
+}
+check(research.taxonomyTree.summary === '8 families · 9 genera · 10 species', 'Taxonomy summary does not match the audited hierarchy');
+check(Object.keys(research.taxonomyEcology || {}).length === 10, 'Taxonomy ecology must cover all 10 displayed crab species');
 for (const scientific of expectedTreeSpecies) {
   const ecology = research.taxonomyEcology?.[scientific];
   check(Boolean(ecology), `${scientific}: missing taxonomy ecology label`);
-  check(['Intertidal','Tidal water','Land'].includes(ecology?.zone), `${scientific}: invalid taxonomy habitat zone`);
+  check(['Intertidal','Transitional','Aquatic'].includes(ecology?.zone), `${scientific}: invalid taxonomy habitat zone`);
 }
+const habitatTotals = Object.values(research.taxonomyEcology).reduce((totals,value) => ({...totals,[value.zone]:(totals[value.zone] || 0) + 1}), {});
+check(habitatTotals.Intertidal === 3 && habitatTotals.Transitional === 3 && habitatTotals.Aquatic === 4, 'Taxonomy habitat totals must be 3 Intertidal, 3 Transitional, and 4 Aquatic');
 check(research.taxonomyEcology['Carcinus maenas']?.invasive === true, 'European Green Crab must be marked invasive');
 check(research.taxonomyEcology['Hemigrapsus sanguineus']?.invasive === true, 'Asian Shore Crab must be marked invasive');
 check(Object.entries(research.taxonomyEcology).filter(([,value]) => value.invasive).length === 2, 'Only the two project invasive crab species should be marked invasive');

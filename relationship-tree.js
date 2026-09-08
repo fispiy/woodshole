@@ -1,79 +1,151 @@
 const relationshipRoot=document.currentScript?.dataset.root||'.';
-const evolutionHierarchy={label:'Animalia',tone:'root',children:[
-  {label:'Deuterostomia',tone:'context',children:[{label:'Chordata',tone:'context',children:[
-    {label:'Aves',tone:'bird',zone:'Ground'},
-    {label:'Actinopterygii',example:'Northern Pipefish',tone:'context',zone:'Tidal water'}
+const relationshipMount=document.getElementById('relationshipTree');
+
+if(relationshipMount){
+const esc=value=>escapeResearchText(String(value));
+const slug=value=>String(value).normalize('NFKD').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase();
+const evolutionHierarchy={label:'Animalia',children:[
+  {label:'Deuterostomia',children:[{label:'Chordata',children:[
+    {label:'Aves',example:'Birds'},
+    {label:'Actinopterygii',example:'Northern Pipefish'}
   ]}]},
-  {label:'Protostomia',tone:'context',children:[
-    {label:'Lophotrochozoa',tone:'context',children:[
-      {label:'Annelida',example:'Plumed Worm',tone:'context',zone:'Intertidal'},
-      {label:'Mollusca',example:'Periwinkles · mussels · clams',tone:'context',zone:'Intertidal'}
+  {label:'Protostomia',children:[
+    {label:'Lophotrochozoa',children:[
+      {label:'Annelida',example:'Plumed Worm'},
+      {label:'Mollusca',example:'Periwinkles · mussels · clams'}
     ]},
-    {label:'Ecdysozoa',tone:'arthropod',children:[
-      {label:'Nematoda',example:'Roundworms',tone:'context'},
-      {label:'Arthropoda',tone:'arthropod',children:[
-        {label:'Chelicerata',example:'Atlantic Horseshoe Crab',tone:'arthropod',zone:'Intertidal'},
-        {label:'Mandibulata',tone:'crab-path',children:[
-          {label:'Myriapoda',example:'Centipedes · millipedes',tone:'arthropod',zone:'Ground'},
-          {label:'Pancrustacea',tone:'crab-path',children:[
-            {label:'Hexapoda',example:'Insects',tone:'arthropod',zone:'Ground'},
-            {label:'Altocrustacea',tone:'crab-path',children:[{label:'Communostraca',tone:'crab-path',children:[{label:'Malacostraca',tone:'crab-path',children:[{label:'Decapoda',tone:'decapod',children:[
-              {label:'Caridea',example:'Shrimp',tone:'decapod',zone:'Tidal water'},
-              {label:'Anomura',example:'Hermit crabs',tone:'anomura',zone:'Intertidal'},
-              {label:'Brachyura',example:'True crabs',tone:'brachyura',zone:'Intertidal'}
-            ]}]}]}]}
+    {label:'Ecdysozoa',children:[
+      {label:'Nematoda',example:'Roundworms'},
+      {label:'Arthropoda',children:[
+        {label:'Chelicerata',example:'Atlantic Horseshoe Crab'},
+        {label:'Mandibulata',children:[
+          {label:'Myriapoda',example:'Centipedes · millipedes'},
+          {label:'Pancrustacea',children:[
+            {label:'Hexapoda',example:'Insects'},
+            {label:'Altocrustacea',children:[{label:'Communostraca',children:[{label:'Malacostraca',children:[{label:'Decapoda'}]}]}]}
           ]}
         ]}
       ]}
     ]}
   ]}
 ]};
-const evolutionWidth=1440,evolutionLeaves=[];
-const collectEvolutionLeaves=node=>node.children?.length?node.children.forEach(collectEvolutionLeaves):evolutionLeaves.push(node);collectEvolutionLeaves(evolutionHierarchy);
-const evolutionHeight=980,evolutionDepthStep=78;
-evolutionLeaves.forEach((leaf,index)=>{leaf.x=86+index*((evolutionWidth-172)/(evolutionLeaves.length-1));});
-const positionEvolution=(node,depth=0)=>{node.y=55+depth*evolutionDepthStep;node.children?.forEach(child=>positionEvolution(child,depth+1));if(node.children?.length)node.x=node.children.reduce((sum,child)=>sum+child.x,0)/node.children.length;};positionEvolution(evolutionHierarchy);
-const findEvolutionNode=(node,label)=>node.label===label?node:(node.children||[]).map(child=>findEvolutionNode(child,label)).find(Boolean),evolutionDecapoda=findEvolutionNode(evolutionHierarchy,'Decapoda'),evolutionZoomOrigin=`${(evolutionDecapoda.x/evolutionWidth*100).toFixed(2)}% ${(evolutionDecapoda.y/evolutionHeight*100).toFixed(2)}%`;
-const evolutionEdges=[];const collectEvolutionEdges=node=>(node.children||[]).forEach(child=>{const middleY=node.y+(child.y-node.y)*.5;evolutionEdges.push(`<path class="evolution-edge evolution-edge-${child.tone}" d="M ${node.x} ${node.y+20} V ${middleY} H ${child.x} V ${child.y-20}"/>`);collectEvolutionEdges(child);});collectEvolutionEdges(evolutionHierarchy);
-const evolutionSlug=value=>String(value).toLowerCase().replace(/[^a-z0-9]+/g,'-');
-const evolutionNodes=[];const collectEvolutionNodes=(node,depth=0)=>{const hasZone=Boolean(node.zone),boxHeight=hasZone?68:(node.example?52:38);evolutionNodes.push(`<g class="evolution-node evolution-node-${node.tone} evolution-depth-${depth}${hasZone?` evolution-habitat-${evolutionSlug(node.zone)}`:''}" transform="translate(${node.x} ${node.y})"><rect x="-64" y="-${boxHeight/2}" width="128" height="${boxHeight}" rx="0"/><text text-anchor="middle" y="${node.example?-8:5}">${escapeResearchText(node.label)}</text>${node.example?`<text class="evolution-example" text-anchor="middle" y="10">${escapeResearchText(node.example)}</text>`:''}${hasZone?`<text class="evolution-zone" text-anchor="middle" y="27">${escapeResearchText(node.zone)}</text>`:''}</g>`);node.children?.forEach(child=>collectEvolutionNodes(child,depth+1));};collectEvolutionNodes(evolutionHierarchy);
-const evolutionTree=document.getElementById('labEvolutionTree');
-evolutionTree.innerHTML=`<div class="evolution-diagram tree-map"><div class="evolution-scroll-region tree-map-viewport" tabindex="0" aria-label="Evolutionary tree fitted to show the complete hierarchy"><div class="evolution-stage-wrap"><svg class="evolution-stage" viewBox="0 0 ${evolutionWidth} ${evolutionHeight}" role="img" aria-labelledby="evolution-svg-title"><title id="evolution-svg-title">Evolutionary Tree</title><g>${evolutionEdges.join('')}</g><g>${evolutionNodes.join('')}</g></svg></div></div></div>`;
-const evolutionScroller=evolutionTree.querySelector('.evolution-scroll-region'),evolutionStage=evolutionTree.querySelector('.evolution-stage'),evolutionWrap=evolutionTree.querySelector('.evolution-stage-wrap');
-const evolutionFitScale=()=>Math.min(1,evolutionScroller.clientWidth/evolutionWidth,evolutionScroller.clientHeight/evolutionHeight),sizeEvolution=()=>{const scale=evolutionFitScale();evolutionStage.style.width=`${evolutionWidth*scale}px`;evolutionStage.style.height=`${evolutionHeight*scale}px`;evolutionWrap.style.width=`${evolutionWidth*scale}px`;evolutionWrap.style.height=`${evolutionHeight*scale}px`;evolutionWrap.style.margin='auto';};
-new ResizeObserver(sizeEvolution).observe(evolutionScroller);
 
-const taxonomy=SHRIMPINA_RESEARCH.taxonomyTree,taxonomyEcology=SHRIMPINA_RESEARCH.taxonomyEcology;
-const taxonomySlug=value=>String(value).normalize('NFKD').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase();
-const taxonomyHref=scientific=>scientific==='Tumidotheres maculatus'?`${relationshipRoot}/research.html#species-${scientific.replace(/\W+/g,'-')}`:`${relationshipRoot}/groups/shrimpina.html?species=${encodeURIComponent(scientific)}#g-species`;
-const taxonomyHierarchy={
-  id:`lab-order-${taxonomySlug(taxonomy.order)}`,rank:'Order',label:taxonomy.order,
-  children:taxonomy.branches.map(branch=>({
-        id:`lab-infraorder-${taxonomySlug(branch.name)}`,rank:'Infraorder',label:branch.name,note:branch.note,tone:taxonomySlug(branch.name),
-        children:branch.families.map(family=>({
-          id:`lab-family-${taxonomySlug(family.name)}`,rank:'Family',label:family.name,tone:taxonomySlug(branch.name),
-          children:family.genera.map(genus=>({
-            id:`lab-genus-${taxonomySlug(genus.name)}`,rank:'Genus',label:genus.name,tone:taxonomySlug(branch.name),
-            children:genus.species.map(([common,scientific])=>({
-              id:`lab-species-${taxonomySlug(scientific)}`,rank:'Species',label:common,scientific,tone:taxonomySlug(branch.name),href:taxonomyHref(scientific),ecology:taxonomyEcology[scientific]
-            }))
-          }))
-        }))
-      }))
+const evolutionWidth=1560,evolutionDepthStep=78,evolutionLeaves=[];
+const collectLeaves=node=>node.children?.length?node.children.forEach(collectLeaves):evolutionLeaves.push(node);
+collectLeaves(evolutionHierarchy);
+evolutionLeaves.forEach((leaf,index)=>{leaf.x=82+index*((evolutionWidth-164)/(evolutionLeaves.length-1));});
+const positionEvolution=(node,depth=0)=>{node.depth=depth;node.y=50+depth*evolutionDepthStep;node.children?.forEach(child=>positionEvolution(child,depth+1));if(node.children?.length)node.x=node.children.reduce((sum,child)=>sum+child.x,0)/node.children.length;};
+positionEvolution(evolutionHierarchy);
+const findNode=(node,label)=>node.label===label?node:(node.children||[]).map(child=>findNode(child,label)).find(Boolean);
+const decapoda=findNode(evolutionHierarchy,'Decapoda');
+
+const broadEdges=[],broadNodes=[];
+const broadNodeMarkup=node=>{
+  const height=node.example?52:38,width=node.example&&node.example.length>23?176:144;
+  return `<g class="relationship-node relationship-node-broad${node.label==='Animalia'?' relationship-node-root':''}" transform="translate(${node.x} ${node.y})"><rect x="-${width/2}" y="-${height/2}" width="${width}" height="${height}"/><text text-anchor="middle" y="${node.example?-7:5}">${esc(node.label)}</text>${node.example?`<text class="relationship-example" text-anchor="middle" y="11">${esc(node.example)}</text>`:''}</g>`;
 };
-const taxonomyWidth=1440,taxonomyHeight=780,taxonomyLevels=[62,182,330,486,658],taxonomyLeaves=[];
-const collectTaxonomyLeaves=node=>node.children?.length?node.children.forEach(collectTaxonomyLeaves):taxonomyLeaves.push(node);collectTaxonomyLeaves(taxonomyHierarchy);
-taxonomyLeaves.forEach((leaf,index)=>{leaf.x=112+index*((taxonomyWidth-224)/(taxonomyLeaves.length-1));});
-const positionTaxonomy=(node,depth=0,parentTone='root')=>{node.y=taxonomyLevels[depth];node.tone||=parentTone;node.children?.forEach(child=>positionTaxonomy(child,depth+1,node.tone));if(node.children?.length)node.x=node.children.reduce((sum,child)=>sum+child.x,0)/node.children.length;};positionTaxonomy(taxonomyHierarchy);
-const taxonomyEdges=[];const collectTaxonomyEdges=node=>(node.children||[]).forEach(child=>{const middleY=node.y+(child.y-node.y)*.52,childOffset=child.rank==='Species'?50:20;taxonomyEdges.push(`<path class="taxonomy-edge taxonomy-edge-${child.tone}" d="M ${node.x.toFixed(2)} ${node.y+20} V ${middleY.toFixed(2)} H ${child.x.toFixed(2)} V ${child.y-childOffset}"/>`);collectTaxonomyEdges(child);});collectTaxonomyEdges(taxonomyHierarchy);
-const taxonomyMarkup=node=>`<li>${node.href?`<a class="taxonomy-node taxonomy-node-species taxonomy-tone-${node.tone} habitat-${taxonomySlug(node.ecology.zone)}${node.ecology.invasive?' is-invasive':''}" id="${node.id}" href="${node.href}" style="--node-x:${node.x}px;--node-y:${node.y}px" aria-label="${escapeResearchText(node.label)}, ${escapeResearchText(node.scientific)}, ${escapeResearchText(node.ecology.zone)}, ${node.ecology.invasive?'invasive':'not invasive'}"><strong>${escapeResearchText(node.label)}</strong><i>${escapeResearchText(node.scientific)}</i><span class="taxonomy-meta"><em class="zone-${taxonomySlug(node.ecology.zone)}">${escapeResearchText(node.ecology.zone)}</em><b class="status-${node.ecology.invasive?'invasive':'not-invasive'}">${node.ecology.invasive?'Invasive':'Not invasive'}</b></span></a>`:`<span class="taxonomy-node taxonomy-node-${node.rank.toLowerCase()} taxonomy-tone-${node.tone}" id="${node.id}" style="--node-x:${node.x}px;--node-y:${node.y}px"><strong>${escapeResearchText(node.label)}</strong>${node.note?`<i>${escapeResearchText(node.note)}</i>`:''}</span>`}${node.children?.length?`<ol>${node.children.map(taxonomyMarkup).join('')}</ol>`:''}</li>`;
-const taxonomyGuides=taxonomyLevels.map((y,index)=>`<g class="taxonomy-rank-guide"><line x1="22" y1="${y}" x2="1418" y2="${y}"/><text x="22" y="${y-11}">${['Order','Infraorder','Family','Genus','Species'][index]}</text></g>`).join('');
-document.getElementById('labTaxonomyTree').innerHTML=`<div class="taxonomy-diagram tree-map"><div class="taxonomy-scroll-region tree-map-viewport" tabindex="0" aria-label="Crab collection tree continuing from Decapoda to the nine species"><div class="taxonomy-stage-wrap"><div class="taxonomy-stage" style="--tree-width:${taxonomyWidth}px;--tree-height:${taxonomyHeight}px"><svg class="taxonomy-connectors" viewBox="0 0 ${taxonomyWidth} ${taxonomyHeight}" aria-hidden="true" focusable="false">${taxonomyGuides}<g>${taxonomyEdges.join('')}</g></svg><ol class="taxonomy-node-layer" aria-label="Taxonomic hierarchy from Decapoda to the nine crab species">${taxonomyMarkup(taxonomyHierarchy)}</ol></div></div></div><p class="tree-summary">${escapeResearchText(taxonomy.summary)}</p></div>`;
-const taxonomyTree=document.getElementById('labTaxonomyTree'),taxonomyScroller=taxonomyTree.querySelector('.taxonomy-scroll-region'),taxonomyStage=taxonomyTree.querySelector('.taxonomy-stage'),taxonomyStageWrap=taxonomyTree.querySelector('.taxonomy-stage-wrap');
-const taxonomyFitScale=()=>Math.min(1,taxonomyScroller.clientWidth/taxonomyWidth,taxonomyScroller.clientHeight/taxonomyHeight),sizeTaxonomy=()=>{const scale=taxonomyFitScale();taxonomyStage.style.transform=`scale(${scale})`;taxonomyStageWrap.style.width=`${taxonomyWidth*scale}px`;taxonomyStageWrap.style.height=`${taxonomyHeight*scale}px`;taxonomyStageWrap.style.margin='auto';};
-new ResizeObserver(sizeTaxonomy).observe(taxonomyScroller);
+const buildBroad=node=>{
+  if(node.label!=='Decapoda') broadNodes.push(broadNodeMarkup(node));
+  (node.children||[]).forEach(child=>{
+    const middle=node.y+(child.y-node.y)*.5;
+    broadEdges.push(`<path d="M ${node.x} ${node.y+20} V ${middle} H ${child.x} V ${child.y-20}"/>`);
+    buildBroad(child);
+  });
+};
+buildBroad(evolutionHierarchy);
 
-const treeZoomToggle=document.getElementById('treeZoomToggle'),treeZoomLevel=document.getElementById('treeZoomLevel'),treeZoomPath=document.getElementById('treeZoomPath'),evolutionPanel=document.getElementById('tree-view-evolution'),collectionPanel=document.getElementById('tree-view-collection');let collectionZoomed=false,treeZoomBusy=false;
-const nextFrame=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-async function setTreeZoom(zoomed){if(treeZoomBusy||zoomed===collectionZoomed)return;treeZoomBusy=true;treeZoomToggle.disabled=true;const outgoing=zoomed?evolutionPanel:collectionPanel,incoming=zoomed?collectionPanel:evolutionPanel,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,outOrigin=zoomed?evolutionZoomOrigin:'50% 8%',inOrigin=zoomed?'50% 8%':evolutionZoomOrigin;outgoing.style.transformOrigin=outOrigin;if(!reduced)await outgoing.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:`scale(${zoomed?1.16:.86})`}],{duration:300,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).finished.catch(()=>{});outgoing.hidden=true;incoming.hidden=false;collectionZoomed=zoomed;treeZoomToggle.setAttribute('aria-pressed',String(zoomed));treeZoomToggle.setAttribute('aria-label',zoomed?'Zoom out to the evolutionary tree':'Zoom in to the crab collection');treeZoomToggle.innerHTML=`<span aria-hidden="true">${zoomed?'−':'+'}</span> Zoom ${zoomed?'out':'in'}`;treeZoomLevel.textContent=zoomed?'Crab collection':'Evolutionary tree';treeZoomPath.textContent=zoomed?'Decapoda → 9 species':'Animalia → Decapoda';zoomed?sizeTaxonomy():sizeEvolution();await nextFrame();incoming.style.transformOrigin=inOrigin;if(!reduced)await incoming.animate([{opacity:0,transform:`scale(${zoomed?.86:1.16})`},{opacity:1,transform:'scale(1)'}],{duration:360,easing:'cubic-bezier(.2,.75,.25,1)',fill:'both'}).finished.catch(()=>{});treeZoomToggle.disabled=false;treeZoomBusy=false;}
-treeZoomToggle.addEventListener('click',()=>setTreeZoom(!collectionZoomed));
+const taxonomy=SHRIMPINA_RESEARCH.taxonomyTree;
+const ecology=SHRIMPINA_RESEARCH.taxonomyEcology;
+const speciesHref=scientific=>scientific==='Tumidotheres maculatus'?`${relationshipRoot}/research.html#species-${scientific.replace(/\W+/g,'-')}`:`${relationshipRoot}/groups/shrimpina.html?species=${encodeURIComponent(scientific)}#g-species`;
+const detailRoot={rank:'Order',label:taxonomy.order,x:decapoda.x,y:decapoda.y,children:taxonomy.branches.map(branch=>({
+  rank:'Infraorder',label:branch.name,note:branch.note,children:branch.families.map(family=>({
+    rank:'Family',label:family.name,children:family.genera.map(genus=>({
+      rank:'Genus',label:genus.name,children:genus.species.map(([common,scientific])=>({rank:'Species',label:common,scientific,ecology:ecology[scientific],href:speciesHref(scientific)}))
+    }))
+  }))
+}))};
+const detailLeaves=[];
+const collectDetailLeaves=node=>node.children?.length?node.children.forEach(collectDetailLeaves):detailLeaves.push(node);
+collectDetailLeaves(detailRoot);
+const detailWidth=1660,detailStart=decapoda.x-detailWidth/2;
+detailLeaves.forEach((leaf,index)=>{leaf.x=detailStart+92+index*((detailWidth-184)/(detailLeaves.length-1));});
+const detailLevels=[decapoda.y,decapoda.y+126,decapoda.y+270,decapoda.y+410,decapoda.y+586];
+const positionDetail=(node,depth=0)=>{node.depth=depth;node.y=detailLevels[depth];node.children?.forEach(child=>positionDetail(child,depth+1));if(node.children?.length&&depth>0)node.x=node.children.reduce((sum,child)=>sum+child.x,0)/node.children.length;};
+positionDetail(detailRoot);
+
+const wrapLabel=(label,max=19)=>{
+  const words=label.split(' '),lines=[];let line='';
+  words.forEach(word=>{const next=line?`${line} ${word}`:word;if(next.length>max&&line){lines.push(line);line=word;}else line=next;});
+  if(line)lines.push(line);return lines.slice(0,2);
+};
+const detailEdges=[];
+const buildDetailEdges=node=>(node.children||[]).forEach(child=>{const middle=node.y+(child.y-node.y)*.5,offset=child.rank==='Species'?53:20;detailEdges.push(`<path d="M ${node.x} ${node.y+20} V ${middle} H ${child.x} V ${child.y-offset}"/>`);buildDetailEdges(child);});
+buildDetailEdges(detailRoot);
+const detailNodes=[];
+const buildDetailNodes=node=>{
+  if(node.rank!=='Order'){
+    if(node.rank==='Species'){
+      const lines=wrapLabel(node.label),zone=esc(node.ecology.zone),invasive=node.ecology.invasive;
+      const common=lines.map((line,index)=>`<tspan x="0" dy="${index?18:0}">${esc(line)}</tspan>`).join('');
+      detailNodes.push(`<a class="relationship-node relationship-species habitat-${slug(node.ecology.zone)}${invasive?' is-invasive':''}" href="${node.href}" aria-label="${esc(node.label)}, ${esc(node.scientific)}, ${zone}${invasive?', invasive':''}" transform="translate(${node.x} ${node.y})"><rect x="-78" y="-53" width="156" height="106"/><text class="relationship-common" text-anchor="middle" y="-${lines.length>1?28:19}">${common}</text><text class="relationship-scientific" text-anchor="middle" y="${lines.length>1?12:4}">${esc(node.scientific)}</text><text class="relationship-habitat zone-${slug(node.ecology.zone)}" text-anchor="middle" y="31">${zone}</text>${invasive?`<text class="relationship-invasive" text-anchor="middle" y="45">Invasive</text>`:''}</a>`);
+    }else{
+      const className=`relationship-node relationship-node-${node.rank.toLowerCase()}`;
+      detailNodes.push(`<g class="${className}" transform="translate(${node.x} ${node.y})"><rect x="-70" y="-24" width="140" height="48"/><text text-anchor="middle" y="${node.note?-5:5}">${esc(node.label)}</text>${node.note?`<text class="relationship-example" text-anchor="middle" y="12">${esc(node.note)}</text>`:''}</g>`);
+    }
+  }
+  node.children?.forEach(buildDetailNodes);
+};
+buildDetailNodes(detailRoot);
+const rankGuides=detailLevels.slice(1).map((y,index)=>`<g class="relationship-rank"><line x1="${detailStart}" y1="${y}" x2="${detailStart+detailWidth}" y2="${y}"/><text x="${detailStart+6}" y="${y-14}">${['Infraorder','Family','Genus','Species'][index]}</text></g>`).join('');
+
+const semanticNode=node=>`<li>${node.href?`<a href="${node.href}">${esc(node.label)} — <i>${esc(node.scientific)}</i>, ${esc(node.ecology.zone)}${node.ecology.invasive?', Invasive':''}</a>`:`${esc(node.label)}${node.note?` ${esc(node.note)}`:''}`}${node.children?.length?`<ol>${node.children.map(semanticNode).join('')}</ol>`:''}</li>`;
+relationshipMount.innerHTML=`<div class="relationship-frame"><svg class="relationship-canvas" role="img" aria-labelledby="relationship-svg-title relationship-svg-desc" preserveAspectRatio="xMidYMid meet"><title id="relationship-svg-title">Crab relationships</title><desc id="relationship-svg-desc">Taxonomic context from Animalia to Decapoda, continuing through the ten crab species in the collection.</desc><g class="relationship-overview-layer"><g class="relationship-lines">${broadEdges.join('')}</g>${broadNodes.join('')}</g><g class="relationship-detail-layer" aria-hidden="true"><g class="relationship-ranks">${rankGuides}</g><g class="relationship-lines">${detailEdges.join('')}</g>${detailNodes.join('')}</g><g class="relationship-anchor">${broadNodeMarkup(decapoda)}</g></svg></div><p class="tree-summary">${esc(taxonomy.summary)}</p><div class="relationship-semantic"><ol>${semanticNode(detailRoot)}</ol></div>`;
+
+const svg=relationshipMount.querySelector('.relationship-canvas');
+const frame=relationshipMount.querySelector('.relationship-frame');
+const overviewLayer=svg.querySelector('.relationship-overview-layer');
+const detailLayer=svg.querySelector('.relationship-detail-layer');
+const anchorLayer=svg.querySelector('.relationship-anchor');
+const toggle=document.getElementById('treeZoomToggle');
+const level=document.getElementById('treeZoomLevel');
+const pathLabel=document.getElementById('treeZoomPath');
+const speciesLinks=[...detailLayer.querySelectorAll('a')];
+speciesLinks.forEach(link=>link.setAttribute('tabindex','-1'));
+const padBox=(box,padding)=>({x:box.x-padding,y:box.y-padding,width:box.width+padding*2,height:box.height+padding*2});
+const unionBoxes=(a,b)=>({x:Math.min(a.x,b.x),y:Math.min(a.y,b.y),width:Math.max(a.x+a.width,b.x+b.width)-Math.min(a.x,b.x),height:Math.max(a.y+a.height,b.y+b.height)-Math.min(a.y,b.y)});
+const copyBox=box=>({x:box.x,y:box.y,width:box.width,height:box.height});
+let overviewBox,detailBox,currentBox,zoomed=false,busy=false;
+const setBox=box=>{currentBox=copyBox(box);svg.setAttribute('viewBox',`${box.x} ${box.y} ${box.width} ${box.height}`);};
+const measure=()=>{
+  overviewBox=padBox(unionBoxes(overviewLayer.getBBox(),anchorLayer.getBBox()),48);
+  detailBox=padBox(unionBoxes(detailLayer.getBBox(),anchorLayer.getBBox()),48);
+  if(!currentBox)setBox(overviewBox);
+};
+measure();
+
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const animateCamera=(target,toDetail)=>new Promise(resolve=>{
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,start=copyBox(currentBox),duration=reduced?0:720,startTime=performance.now();
+  const tick=now=>{const raw=duration?Math.min(1,(now-startTime)/duration):1,t=ease(raw);setBox({x:start.x+(target.x-start.x)*t,y:start.y+(target.y-start.y)*t,width:start.width+(target.width-start.width)*t,height:start.height+(target.height-start.height)*t});overviewLayer.style.opacity=String(toDetail?1-t:t);detailLayer.style.opacity=String(toDetail?t:1-t);if(raw<1)requestAnimationFrame(tick);else resolve();};
+  requestAnimationFrame(tick);
+});
+const setZoom=async next=>{
+  if(busy||next===zoomed)return;busy=true;toggle.disabled=true;detailLayer.removeAttribute('aria-hidden');
+  if(next)speciesLinks.forEach(link=>link.setAttribute('tabindex','0'));
+  await animateCamera(next?detailBox:overviewBox,next);zoomed=next;frame.classList.toggle('is-zoomed',zoomed);
+  toggle.setAttribute('aria-pressed',String(zoomed));toggle.setAttribute('aria-label',zoomed?'Zoom out to the evolutionary tree':'Zoom in to the crab collection');toggle.innerHTML=`<span aria-hidden="true">${zoomed?'−':'+'}</span> Zoom ${zoomed?'out':'in'}`;
+  level.textContent=zoomed?'Crab collection':'Evolutionary tree';pathLabel.textContent=zoomed?'Decapoda → 10 species':'Animalia → Decapoda';
+  if(!zoomed){detailLayer.setAttribute('aria-hidden','true');speciesLinks.forEach(link=>link.setAttribute('tabindex','-1'));}toggle.disabled=false;busy=false;
+};
+toggle.addEventListener('click',()=>setZoom(!zoomed));
+
+const pointers=new Map();let gesture=null;
+const distance=(a,b)=>Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+const midpoint=(a,b)=>({x:(a.clientX+b.clientX)/2,y:(a.clientY+b.clientY)/2});
+const clampDetail=box=>{const minWidth=detailBox.width*.42,maxWidth=detailBox.width*1.06;if(box.width<minWidth){const ratio=minWidth/box.width;box={x:box.x-(minWidth-box.width)/2,y:box.y-(box.height*ratio-box.height)/2,width:minWidth,height:box.height*ratio};}if(box.width>maxWidth){const ratio=maxWidth/box.width;box={x:box.x+(box.width-maxWidth)/2,y:box.y+(box.height-box.height*ratio)/2,width:maxWidth,height:box.height*ratio};}return box;};
+frame.addEventListener('pointerdown',event=>{if(!zoomed||busy)return;pointers.set(event.pointerId,event);frame.setPointerCapture(event.pointerId);const values=[...pointers.values()];gesture=values.length===1?{type:'pan',point:values[0],box:copyBox(currentBox)}:{type:'pinch',distance:distance(values[0],values[1]),middle:midpoint(values[0],values[1]),box:copyBox(currentBox)};});
+frame.addEventListener('pointermove',event=>{if(!pointers.has(event.pointerId)||!gesture)return;pointers.set(event.pointerId,event);const values=[...pointers.values()],rect=svg.getBoundingClientRect();if(values.length===1&&gesture.type==='pan'){const dx=(event.clientX-gesture.point.clientX)*gesture.box.width/rect.width,dy=(event.clientY-gesture.point.clientY)*gesture.box.height/rect.height;setBox({...gesture.box,x:gesture.box.x-dx,y:gesture.box.y-dy});}else if(values.length>1){if(gesture.type!=='pinch')gesture={type:'pinch',distance:distance(values[0],values[1]),middle:midpoint(values[0],values[1]),box:copyBox(currentBox)};const factor=gesture.distance/distance(values[0],values[1]),next=clampDetail({x:gesture.box.x+(gesture.box.width-gesture.box.width*factor)/2,y:gesture.box.y+(gesture.box.height-gesture.box.height*factor)/2,width:gesture.box.width*factor,height:gesture.box.height*factor});setBox(next);}});
+const endPointer=event=>{pointers.delete(event.pointerId);gesture=null;};
+frame.addEventListener('pointerup',endPointer);frame.addEventListener('pointercancel',endPointer);
+frame.addEventListener('wheel',event=>{if(!zoomed||(!event.ctrlKey&&!event.metaKey))return;event.preventDefault();const factor=Math.exp(event.deltaY*.0012),rect=svg.getBoundingClientRect(),px=(event.clientX-rect.left)/rect.width,py=(event.clientY-rect.top)/rect.height,next=clampDetail({x:currentBox.x+currentBox.width*px*(1-factor),y:currentBox.y+currentBox.height*py*(1-factor),width:currentBox.width*factor,height:currentBox.height*factor});setBox(next);},{passive:false});
+}

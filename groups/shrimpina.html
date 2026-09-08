@@ -14,13 +14,13 @@
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="../species-data.js?v=20260902-4"></script>
 <script src="../shrimpina-sample-register.js?v=20260907-2"></script>
-<script src="../shrimpina-research-data.js?v=20260908-4"></script>
+<script src="../shrimpina-research-data.js?v=20260908-5"></script>
 <script src="../shrimpina-observation-locations.js?v=20260904-1"></script>
 <script src="../shrimpina-inat-media.js?v=20260908-3"></script>
 <script src="../shrimpina-photo-library.js?v=20260902-1"></script>
 <script src="../shrimpina-species-data.js?v=20260908-5"></script>
 <script src="../profile-render.js?v=20260908-4"></script>
-<script src="../relationship-tree.js?v=20260908-1" data-root=".." defer></script>
+<script src="../relationship-tree.js?v=20260908-2" data-root=".." defer></script>
 <script src="../specimen-view.js?v=20260902-5" data-root=".." defer></script>
 <script src="../inat.js"></script>
 <style>
@@ -130,7 +130,7 @@
 </style>
 <link rel="stylesheet" href="../site-index.css?v=20260908-14">
 <link rel="stylesheet" href="../shrimpina.css?v=20260908-6">
-<link rel="stylesheet" href="../shrimpina-research.css?v=20260908-13">
+<link rel="stylesheet" href="../shrimpina-research.css?v=20260908-14">
 <script src="../site-index.js?v=20260908-7" defer></script>
 <link rel="stylesheet" href="../specimen-view.css?v=20260902-5">
 </head>
@@ -165,16 +165,10 @@
         <header><h2 id="overview-tree-title">Crab relationships</h2></header>
         <div class="tree-zoom-control">
           <div><strong id="treeZoomLevel">Evolutionary tree</strong><small id="treeZoomPath">Animalia → Decapoda</small></div>
-          <button id="treeZoomToggle" type="button" aria-pressed="false" aria-controls="tree-view-evolution tree-view-collection" aria-label="Zoom in to the crab collection"><span aria-hidden="true">+</span> Zoom in</button>
+          <button id="treeZoomToggle" type="button" aria-pressed="false" aria-controls="relationshipTree" aria-label="Zoom in to the crab collection"><span aria-hidden="true">+</span> Zoom in</button>
         </div>
-        <section class="tree-scale-panel" id="tree-view-evolution" aria-label="Evolutionary tree">
-          <div class="tree-panel-heading"><div class="taxonomy-legend taxonomy-legend-habitat" aria-label="Habitat key"><span class="zone-intertidal">Intertidal</span><span class="zone-tidal-water">Tidal</span><span class="zone-ground">Ground</span></div></div>
-          <div class="evolution-tree" id="labEvolutionTree"></div>
-        </section>
-        <section class="tree-scale-panel" id="tree-view-collection" aria-label="Crab collection" hidden>
-          <div class="tree-panel-heading"><div class="taxonomy-legend" aria-label="Habitat and invasive-status key"><span class="zone-intertidal">Intertidal</span><span class="zone-tidal-water">Tidal</span><span class="zone-ground">Ground</span><span class="status-invasive">Invasive</span><span class="status-not-invasive">Not invasive</span></div></div>
-          <div class="taxonomy-tree" id="labTaxonomyTree"></div>
-        </section>
+        <div class="relationship-tree-legend taxonomy-legend" aria-label="Habitat and invasive-status key"><span class="zone-aquatic">Aquatic</span><span class="zone-intertidal">Intertidal</span><span class="zone-transitional">Transitional</span><span class="status-invasive">Invasive</span></div>
+        <div class="relationship-tree" id="relationshipTree"></div>
       </div>
     </section>
     <section class="g-sec" id="g-map">

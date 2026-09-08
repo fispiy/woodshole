@@ -97,19 +97,18 @@ const SHRIMPINA_RESEARCH = (() => {
     ],
     taxonomyTree: {
       phylum:'Arthropoda', className:'Malacostraca', order:'Decapoda',
-      summary:"Within the Decapods, we've identified 5 families and 8 genera across 9 species",
+      summary:'8 families · 9 genera · 10 species',
       branches:[
         { name:'Brachyura', note:'“true crabs”', families:[
-          { name:'Portunidae', genera:[
-            { name:'Ovalipes', species:[['Lady crab','Ovalipes ocellatus']] },
-            { name:'Callinectes', species:[['Atlantic blue crab','Callinectes sapidus']] },
-            { name:'Carcinus', species:[['European green crab','Carcinus maenas']] }
-          ]},
+          { name:'Ovalipidae', genera:[{ name:'Ovalipes', species:[['Ocellate lady crab','Ovalipes ocellatus']] }]},
+          { name:'Portunidae', genera:[{ name:'Callinectes', species:[['Atlantic blue crab','Callinectes sapidus']] }]},
+          { name:'Carcinidae', genera:[{ name:'Carcinus', species:[['European green crab','Carcinus maenas']] }]},
           { name:'Ocypodidae', genera:[
             { name:'Minuca', species:[['Mud fiddler crab','Minuca pugnax']] },
             { name:'Leptuca', species:[['Sand fiddler crab','Leptuca pugilator']] }
           ]},
           { name:'Varunidae', genera:[{ name:'Hemigrapsus', species:[['Asian shore crab','Hemigrapsus sanguineus']] }]},
+          { name:'Epialtidae', genera:[{ name:'Libinia', species:[['Longnose spider crab','Libinia dubia']] }]},
           { name:'Pinnotheridae', genera:[{ name:'Tumidotheres', species:[['Squatter pea crab','Tumidotheres maculatus']] }]}
         ]},
         { name:'Anomura', note:'“hermit crabs”', families:[
@@ -121,15 +120,16 @@ const SHRIMPINA_RESEARCH = (() => {
       ]
     },
     taxonomyEcology: {
-      'Ovalipes ocellatus': { zone:'Tidal water', invasive:false },
-      'Callinectes sapidus': { zone:'Tidal water', invasive:false },
-      'Carcinus maenas': { zone:'Intertidal', invasive:true },
+      'Ovalipes ocellatus': { zone:'Aquatic', invasive:false },
+      'Callinectes sapidus': { zone:'Aquatic', invasive:false },
+      'Carcinus maenas': { zone:'Transitional', invasive:true },
       'Minuca pugnax': { zone:'Intertidal', invasive:false },
       'Leptuca pugilator': { zone:'Intertidal', invasive:false },
       'Hemigrapsus sanguineus': { zone:'Intertidal', invasive:true },
-      'Tumidotheres maculatus': { zone:'Tidal water', invasive:false },
-      'Pagurus pollicaris': { zone:'Tidal water', invasive:false },
-      'Pagurus longicarpus': { zone:'Intertidal', invasive:false }
+      'Libinia dubia': { zone:'Aquatic', invasive:false },
+      'Tumidotheres maculatus': { zone:'Aquatic', invasive:false },
+      'Pagurus pollicaris': { zone:'Transitional', invasive:false },
+      'Pagurus longicarpus': { zone:'Transitional', invasive:false }
     },
     phylogenyTree: {
       title:'Final Version of Phylogeny Tree',
