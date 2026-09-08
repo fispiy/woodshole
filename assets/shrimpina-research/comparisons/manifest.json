@@ -1,0 +1,9 @@
+{
+  "policy": "User-supplied comparison plates are preserved without rewriting, relabeling, cropping, or AI enhancement.",
+  "plates": [
+    {"title":"Hermit Crabs","file":"hermit-crabs-comparison.png","width":1790,"height":1010},
+    {"title":"Fiddler Crabs","file":"fiddler-crabs-comparison.png","width":1794,"height":1006},
+    {"title":"Swimming Crabs","file":"swimming-crabs-comparison.png","width":1786,"height":1010},
+    {"title":"Invasive Crabs","file":"invasive-crabs-comparison.png","width":1788,"height":1016}
+  ]
+}

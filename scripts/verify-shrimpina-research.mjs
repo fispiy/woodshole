@@ -105,6 +105,17 @@ for (const filename of sandFiddlerReference?.outputs || []) {
   }
 }
 
+const comparisonManifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/shrimpina-research/comparisons/manifest.json'), 'utf8'));
+check(comparisonManifest.plates.length === 4, 'Laboratory: expected four comparative morphology plates');
+for (const plate of comparisonManifest.plates) {
+  const filepath = path.join(root, 'assets/shrimpina-research/comparisons', plate.file);
+  check(fs.existsSync(filepath) && fs.statSync(filepath).size > 0, `Laboratory: missing comparison plate ${plate.file}`);
+  if (fs.existsSync(filepath)) {
+    const dimensions = imageDimensions(filepath);
+    check(dimensions.width === plate.width && dimensions.height === plate.height, `Laboratory: ${plate.file} dimensions do not match manifest`);
+  }
+}
+
 const mapManifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/shrimpina-map/manifest.json'), 'utf8'));
 for (const item of mapManifest.records) {
   const filepath = path.join(root, 'assets/shrimpina-map', item.localFile);
