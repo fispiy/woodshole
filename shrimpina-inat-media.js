@@ -445,7 +445,7 @@ const SHRIMPINA_INAT_MEDIA = [
     "code": "SSAJ69",
     "observation": 396667720,
     "url": "https://www.inaturalist.org/observations/396667720",
-    "photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/727440969/medium.jpg",
+    "photo": "https://inaturalist-open-data.s3.amazonaws.com/photos/727440968/medium.jpg",
     "photoCount": 8,
     "taxon": "Pagurus pollicaris",
     "common": "Flat-clawed Hermit Crab",
