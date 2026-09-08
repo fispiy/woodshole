@@ -45,6 +45,7 @@
           ])}`;
 
       this.classList.toggle('is-shrimpina', isShrimpinaRoute);
+      document.body.classList.toggle('shrimpina-cursor', isShrimpinaRoute);
       this.innerHTML = `<header class="site-masthead">
         <div class="site-masthead-inner">
           <a class="site-masthead-brand" href="${href('index.html')}" aria-label="Woods Hole Biodiversity Survey home">
