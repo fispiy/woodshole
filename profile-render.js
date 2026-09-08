@@ -158,7 +158,7 @@ function renderMorphologyViewer(s) {
   if (!first) return '';
   return `<section class="morphology-viewer" aria-label="${s.common} morphology views">
     <header class="morphology-viewer-head">
-      <div><span>Labeled morphology</span><strong>${s.code}</strong></div>
+      <div><span>Labeled species view</span><strong>${first.sourceSample || s.code}</strong></div>
       ${first.sourceSlide ? `<small>Student source · slide ${first.sourceSlide}</small>` : ''}
     </header>
     <div class="morphology-viewer-stage">
@@ -241,10 +241,10 @@ function buildProfileHeader(s, opts) {
 
 function buildProfileSections(s) {
   const statusColor = STATUS_COLOR[s.status] || 'var(--color-neutral-500)';
-  const showGallery = (s.photos || []).length > 1 || Boolean(s.morphologyViews && s.morphologyViews.length);
+  const showGallery = s.groupProject === 'shrimpina' ? Boolean((s.photos || []).length) : (s.photos || []).length > 1;
   return `
       ${showGallery ? `<div class="reveal-sec" id="record-photos">
-        <div class="sec-label"><span class="n">01</span><h3>Field photos</h3></div>
+        <div class="sec-label"><span class="n">01</span><h3>Individual specimen photos</h3></div>
         <div class="gallery-grid">${renderGallery(s)}</div>
       </div>` : ''}
 

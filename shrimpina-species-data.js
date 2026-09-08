@@ -470,12 +470,26 @@ Object.entries(SHRIMPINA_SAMPLE_MORPHOLOGY).forEach(([sample, views]) => {
   const source = SHRIMPINA_MORPHOLOGY_SOURCES[sample];
   if (!source) return;
   views.forEach(view => Object.assign(view, {
+    sourceSample:sample,
     sourceSlide:source.slide,
     sourceNote:source.note,
     sourceMedia:[...source.media],
     mappingBasis:source.mappingBasis || 'Exact SSAJ code in slide speaker notes'
   }));
 });
+
+// A labeled slide is a species-level morphology reference. Exact labeled
+// records keep their own plate; other records of that species inherit the
+// representative plate below while retaining only their own field photos.
+const SHRIMPINA_SPECIES_MORPHOLOGY = {
+  'Pagurus longicarpus': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ1,
+  'Palaemon paludosus': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ14,
+  'Minuca pugnax': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ21,
+  'Hemigrapsus sanguineus': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ27,
+  'Ovalipes ocellatus': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ33,
+  'Carcinus maenas': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ34,
+  'Callinectes sapidus': SHRIMPINA_SAMPLE_MORPHOLOGY.SSAJ35
+};
 
 const SHRIMPINA_SUPPLEMENTAL_TAXA = {
   'Mercenaria mercenaria': {
