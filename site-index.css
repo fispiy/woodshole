@@ -59,7 +59,7 @@ body.cursor-observations .theme-cursor { --cursor-ring:#2d6661; --cursor-dot:#69
 body.shrimpina-site .theme-cursor,body.shrimpina-record-page .theme-cursor { --cursor-ring:#4a202c; --cursor-dot:#eb6f7e; }
 
 @media(pointer:fine) {
-  body.shrimpina-cursor,body.shrimpina-cursor a,body.shrimpina-cursor button,body.shrimpina-cursor summary,body.shrimpina-cursor select,body.shrimpina-cursor [role='button'],body.shrimpina-cursor [data-specimen],body.shrimpina-cursor .leaflet-interactive,body.shrimpina-cursor .leaflet-marker-icon { cursor:url('assets/shrimp-cursor.svg?v=2') 2 18,auto!important; }
+  body.shrimpina-cursor,body.shrimpina-cursor a,body.shrimpina-cursor button,body.shrimpina-cursor summary,body.shrimpina-cursor select,body.shrimpina-cursor [role='button'],body.shrimpina-cursor [data-specimen],body.shrimpina-cursor .leaflet-interactive,body.shrimpina-cursor .leaflet-marker-icon { cursor:url('assets/water-drop-cursor.svg?v=1') 8 2,auto!important; }
   body.shrimpina-cursor input,body.shrimpina-cursor textarea { cursor:text!important; }
 }
 
