@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Laboratory: Shrimpina</title>
-<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="site-index.css?v=20260908-13"><link rel="stylesheet" href="shrimpina.css?v=20260907-6"><link rel="stylesheet" href="shrimpina-research.css?v=20260908-6">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="site-index.css?v=20260908-13"><link rel="stylesheet" href="shrimpina.css?v=20260907-6"><link rel="stylesheet" href="shrimpina-research.css?v=20260908-8">
 <script src="shrimpina-research-data.js?v=20260908-4"></script><script src="profile-render.js?v=20260907-4"></script><script src="site-index.js?v=20260908-7" defer></script>
 </head>
 <body class="has-site-index shrimpina-site">
@@ -21,16 +21,16 @@
 </section>
 <section class="lab-tree-atlas" aria-labelledby="lab-tree-title">
   <header><span class="research-eyebrow">Two scales</span><h2 id="lab-tree-title">Crab relationships</h2></header>
-  <div class="tree-scale-tabs" role="tablist" aria-label="Choose a relationship scale">
-    <button id="tree-tab-evolution" type="button" role="tab" aria-selected="true" aria-controls="tree-view-evolution" tabindex="0"><span>Big picture</span><strong>Evolutionary tree</strong><small>Animalia → Decapoda</small></button>
-    <button id="tree-tab-collection" type="button" role="tab" aria-selected="false" aria-controls="tree-view-collection" tabindex="-1"><span>Closer view</span><strong>Crab collection</strong><small>Decapoda → 9 species</small></button>
+  <div class="tree-zoom-control">
+    <div><strong id="treeZoomLevel">Evolutionary tree</strong><small id="treeZoomPath">Animalia → Decapoda</small></div>
+    <button id="treeZoomToggle" type="button" aria-pressed="false" aria-controls="tree-view-evolution tree-view-collection" aria-label="Zoom in to the crab collection"><span aria-hidden="true">+</span> Zoom in</button>
   </div>
-  <section class="tree-scale-panel" id="tree-view-evolution" role="tabpanel" aria-labelledby="tree-tab-evolution">
-    <div class="tree-panel-heading"><h3 id="lab-evolution-title">Evolutionary tree</h3><div class="taxonomy-legend taxonomy-legend-habitat" aria-label="Habitat key"><span class="zone-intertidal">Intertidal</span><span class="zone-tidal-water">Tidal water</span><span class="zone-land">Land</span></div></div>
+  <section class="tree-scale-panel" id="tree-view-evolution" aria-label="Evolutionary tree">
+    <div class="tree-panel-heading"><div class="taxonomy-legend taxonomy-legend-habitat" aria-label="Habitat key"><span class="zone-intertidal">Intertidal</span><span class="zone-tidal-water">Tidal water</span><span class="zone-land">Land</span></div></div>
     <div class="evolution-tree" id="labEvolutionTree"></div>
   </section>
-  <section class="tree-scale-panel" id="tree-view-collection" role="tabpanel" aria-labelledby="tree-tab-collection" hidden>
-    <div class="tree-panel-heading"><div><h3 id="lab-taxonomy-title">Crab collection</h3><p>5 families · 8 genera · 9 species</p></div><div class="taxonomy-legend" aria-label="Habitat and invasive-status key"><span class="zone-intertidal">Intertidal</span><span class="zone-tidal-water">Tidal water</span><span class="zone-land">Land</span><span class="status-invasive">Invasive</span><span class="status-not-invasive">Not invasive</span></div></div>
+  <section class="tree-scale-panel" id="tree-view-collection" aria-label="Crab collection" hidden>
+    <div class="tree-panel-heading"><div class="taxonomy-legend" aria-label="Habitat and invasive-status key"><span class="zone-intertidal">Intertidal</span><span class="zone-tidal-water">Tidal water</span><span class="zone-land">Land</span><span class="status-invasive">Invasive</span><span class="status-not-invasive">Not invasive</span></div></div>
     <div class="taxonomy-tree" id="labTaxonomyTree"></div>
   </section>
 </section>
@@ -112,12 +112,9 @@ const taxonomyTree=document.getElementById('labTaxonomyTree'),taxonomyScroller=t
 const sizeTaxonomy=()=>{const scale=taxonomyDetailed?1:Math.min(1,taxonomyScroller.clientWidth/taxonomyWidth);taxonomyStage.style.transform=`scale(${scale})`;taxonomyStageWrap.style.width=`${taxonomyWidth*scale}px`;taxonomyStageWrap.style.height=`${taxonomyHeight*scale}px`;taxonomyStageWrap.style.marginInline=taxonomyDetailed?'0':'auto';if(!taxonomyDetailed)taxonomyScroller.scrollLeft=0;};
 taxonomyToggle.addEventListener('click',()=>{taxonomyDetailed=!taxonomyDetailed;taxonomyScroller.classList.toggle('is-fit',!taxonomyDetailed);taxonomyToggle.setAttribute('aria-pressed',String(taxonomyDetailed));taxonomyToggle.textContent=taxonomyDetailed?'Fit complete tree':'View detail';taxonomyStatus.textContent=taxonomyDetailed?'Full-size detail · scroll horizontally':'Complete tree';taxonomyScroller.setAttribute('aria-label',taxonomyDetailed?'Scrollable full-size taxonomic family tree':'Taxonomic family tree, fitted to show the complete hierarchy');sizeTaxonomy();if(taxonomyDetailed)taxonomyScroller.scrollLeft=Math.max(0,taxonomyHierarchy.x-taxonomyScroller.clientWidth/2);});new ResizeObserver(sizeTaxonomy).observe(taxonomyScroller);
 
-const treeScaleTabs=[...document.querySelectorAll('.tree-scale-tabs [role="tab"]')];
-function selectTreeScale(tab,focus=false){
-  treeScaleTabs.forEach(button=>{const selected=button===tab;button.setAttribute('aria-selected',String(selected));button.tabIndex=selected?0:-1;document.getElementById(button.getAttribute('aria-controls')).hidden=!selected;});
-  requestAnimationFrame(()=>{tab.id==='tree-tab-evolution'?sizeEvolution():sizeTaxonomy();if(focus)tab.focus();});
-}
-treeScaleTabs.forEach((button,index)=>{button.addEventListener('click',()=>selectTreeScale(button));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();let next=index;if(event.key==='ArrowLeft')next=(index-1+treeScaleTabs.length)%treeScaleTabs.length;if(event.key==='ArrowRight')next=(index+1)%treeScaleTabs.length;if(event.key==='Home')next=0;if(event.key==='End')next=treeScaleTabs.length-1;selectTreeScale(treeScaleTabs[next],true);});});
+const treeZoomToggle=document.getElementById('treeZoomToggle'),treeZoomLevel=document.getElementById('treeZoomLevel'),treeZoomPath=document.getElementById('treeZoomPath'),evolutionPanel=document.getElementById('tree-view-evolution'),collectionPanel=document.getElementById('tree-view-collection');let collectionZoomed=false;
+function setTreeZoom(zoomed){collectionZoomed=zoomed;evolutionPanel.hidden=zoomed;collectionPanel.hidden=!zoomed;treeZoomToggle.setAttribute('aria-pressed',String(zoomed));treeZoomToggle.setAttribute('aria-label',zoomed?'Zoom out to the evolutionary tree':'Zoom in to the crab collection');treeZoomToggle.innerHTML=`<span aria-hidden="true">${zoomed?'−':'+'}</span> Zoom ${zoomed?'out':'in'}`;treeZoomLevel.textContent=zoomed?'Crab collection':'Evolutionary tree';treeZoomPath.textContent=zoomed?'Decapoda → 9 species':'Animalia → Decapoda';requestAnimationFrame(zoomed?sizeTaxonomy:sizeEvolution);}
+treeZoomToggle.addEventListener('click',()=>setTreeZoom(!collectionZoomed));
 
 const entries=Object.values(SHRIMPINA_RESEARCH.dnaBySample);
 const selector=document.getElementById('dnaSelector');const list=document.getElementById('dnaList');
