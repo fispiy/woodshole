@@ -473,6 +473,9 @@ const canonicalArchiveNames = new Map([
   ['Carcinus maenas', 'European Green Crab'],
   ['Hemigrapsus sanguineus', 'Asian Shore Crab']
 ]);
+const archiveFlagshipCodes = new Map([
+  ['Libinia dubia', 'SSAJ53']
+]);
 const archiveRank = taxon => archiveOrder.get(taxon.common.toLowerCase()) ?? 100;
 const taxa = [...new Map([
   ...sampleRegister.map(sample => [taxonKey(sample), { key:taxonKey(sample), common: sample.common.replace(/ \((?:L|R|Female|Baby|tiny|big|dead)\)$/i, '').replace(/ - Baby$/i,'').replace(/ \d+$/,''), sci: sample.sci }]),
@@ -514,7 +517,9 @@ const archiveGroup = taxon => {
   const linked = samples.filter(sample => sample.record);
   const catalogued = samples.filter(sample => !sample.record);
   const records = linked.length;
-  const lead = samples.map(sample => iNaturalistByCode.get(sample.code)?.photo || photographedSamples.get(sample.number)?.photo).find(Boolean);
+  const flagship = samples.find(sample => sample.code === archiveFlagshipCodes.get(taxon.sci));
+  const flagshipPhoto = flagship && (iNaturalistByCode.get(flagship.code)?.photo || photographedSamples.get(flagship.number)?.photo);
+  const lead = flagshipPhoto || samples.map(sample => iNaturalistByCode.get(sample.code)?.photo || photographedSamples.get(sample.number)?.photo).find(Boolean);
   return `<details class="archive-group">
     <summary>
       <span class="archive-group-thumb">${lead ? `<img src="${lead}" alt="" loading="lazy">` : ''}</span>
