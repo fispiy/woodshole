@@ -158,12 +158,10 @@ const overviewSource = fs.readFileSync(path.join(root, 'groups/shrimpina.html'),
 const guideSource = fs.readFileSync(path.join(root, 'research.html'), 'utf8');
 check(!overviewSource.includes('id="g-comparisons"'), 'Overview still contains the comparison section');
 check(!overviewSource.includes('comparisonTables'), 'Overview still renders comparison tables');
-check(overviewSource.includes('class="phylogeny-branch'), 'Overview is missing the SVG phylogeny branches');
-check(overviewSource.includes('class="phylogeny-leaf'), 'Overview is missing the linked phylogeny terminals');
-check(overviewSource.includes('aria-label="Scrollable final specimen phylogeny"'), 'Overview is missing accessible phylogeny navigation');
-check(!overviewSource.includes('class="tree-row"'), 'Overview still contains the deprecated table-like taxonomy rows');
-check(overviewSource.includes('<h2>Final Phylogeny Tree</h2>'), 'Overview is missing the final phylogeny heading');
-check(overviewSource.includes('id="phylogenyTree"'), 'Overview is missing the final phylogeny renderer');
+check(overviewSource.includes('id="relationshipTree"'), 'Overview is missing the evolutionary tree');
+check(overviewSource.includes('id="treeZoomToggle"') && overviewSource.includes('aria-controls="relationshipTree"'), 'Overview is missing the accessible tree zoom control');
+check(overviewSource.includes('relationship-tree.js'), 'Overview is missing the evolutionary tree renderer');
+check(!overviewSource.includes('id="habitatTree"'), 'Overview should not have a separate habitat tree');
 check(guideSource.includes('SHRIMPINA_RESEARCH.comparisons[0]') && guideSource.includes('SHRIMPINA_RESEARCH.comparisons[2]'), 'Research Guide does not render all comparison groups');
 check(guideSource.includes("scientific.replace(/\\W+/g,'-')"), 'Research Guide is missing scientific-name anchors');
 
@@ -178,6 +176,7 @@ const expectedTreeSpecies = [
   'Minuca pugnax',
   'Leptuca pugilator',
   'Hemigrapsus sanguineus',
+  'Libinia dubia',
   'Tumidotheres maculatus',
   'Pagurus pollicaris',
   'Pagurus longicarpus'
@@ -186,11 +185,11 @@ check(research.taxonomyTree.phylum === 'Arthropoda', 'Taxonomy phylum must be Ar
 check(research.taxonomyTree.className === 'Malacostraca', 'Taxonomy class must be Malacostraca');
 check(research.taxonomyTree.order === 'Decapoda', 'Taxonomy order must be Decapoda');
 check(branches.map(branch => branch.name).join(',') === 'Brachyura,Anomura', 'Taxonomy branches must be Brachyura followed by Anomura');
-check(families.size === 5, `Expected 5 taxonomy families, found ${families.size}`);
-check(genera.size === 8, `Expected 8 taxonomy genera, found ${genera.size}`);
-check(treeSpecies.length === 9, `Expected 9 taxonomy species, found ${treeSpecies.length}`);
-check(treeSpecies.map(species => species[1]).join('|') === expectedTreeSpecies.join('|'), 'Taxonomy species order does not match PDF page 35');
-check(research.taxonomyTree.summary === "Within the Decapods, we've identified 5 families and 8 genera across 9 species", 'Taxonomy summary does not match PDF page 35');
+check(families.size === 8, `Expected 8 taxonomy families, found ${families.size}`);
+check(genera.size === 9, `Expected 9 taxonomy genera, found ${genera.size}`);
+check(treeSpecies.length === 10, `Expected 10 taxonomy species, found ${treeSpecies.length}`);
+check(treeSpecies.map(species => species[1]).join('|') === expectedTreeSpecies.join('|'), 'Taxonomy species order does not match the live evolutionary tree');
+check(research.taxonomyTree.summary === '8 families · 9 genera · 10 species', 'Taxonomy summary does not match the live evolutionary tree');
 
 const phylogenyLeaves = [];
 const collectPhylogenyLeaves = node => node.children?.length ? node.children.forEach(collectPhylogenyLeaves) : phylogenyLeaves.push(node);

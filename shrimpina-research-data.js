@@ -96,29 +96,40 @@ const SHRIMPINA_RESEARCH = (() => {
       ['Wed., Sept. 2\n6:20–7:50 PM','~69°F, falling toward 68°F','Cloudy/overcast, dry during this period','Breezy; evening conditions noticeably cooler']
     ],
     taxonomyTree: {
-      phylum:'Arthropoda', className:'Malacostraca', order:'Decapoda',
-      summary:"Within the Decapods, we've identified 5 families and 8 genera across 9 species",
+      phylum:'Arthropoda', className:'Malacostraca', order:'Decapoda', suborder:'Pleocyemata',
+      summary:'8 families · 9 genera · 10 species',
       branches:[
         { name:'Brachyura', note:'“true crabs”', families:[
-          { name:'Portunidae', genera:[
-            { name:'Ovalipes', species:[['Lady crab','Ovalipes ocellatus']] },
-            { name:'Callinectes', species:[['Atlantic blue crab','Callinectes sapidus']] },
-            { name:'Carcinus', species:[['European green crab','Carcinus maenas']] }
-          ]},
+          { name:'Ovalipidae', genera:[{ name:'Ovalipes', species:[['Ocellate Lady Crab','Ovalipes ocellatus']] }]},
+          { name:'Portunidae', genera:[{ name:'Callinectes', species:[['Atlantic Blue Crab','Callinectes sapidus']] }]},
+          { name:'Carcinidae', genera:[{ name:'Carcinus', species:[['European Green Crab','Carcinus maenas']] }]},
           { name:'Ocypodidae', genera:[
-            { name:'Minuca', species:[['Mud fiddler crab','Minuca pugnax']] },
-            { name:'Leptuca', species:[['Sand fiddler crab','Leptuca pugilator']] }
+            { name:'Minuca', species:[['Mud Fiddler Crab','Minuca pugnax']] },
+            { name:'Leptuca', species:[['Sand Fiddler Crab','Leptuca pugilator']] }
           ]},
-          { name:'Varunidae', genera:[{ name:'Hemigrapsus', species:[['Asian shore crab','Hemigrapsus sanguineus']] }]},
-          { name:'Pinnotheridae', genera:[{ name:'Tumidotheres', species:[['Squatter pea crab','Tumidotheres maculatus']] }]}
+          { name:'Varunidae', genera:[{ name:'Hemigrapsus', species:[['Asian Shore Crab','Hemigrapsus sanguineus']] }]},
+          { name:'Epialtidae', genera:[{ name:'Libinia', species:[['Longnose Spider Crab','Libinia dubia']] }]},
+          { name:'Pinnotheridae', genera:[{ name:'Tumidotheres', species:[['Squatter Pea Crab','Tumidotheres maculatus']] }]}
         ]},
         { name:'Anomura', note:'“hermit crabs”', families:[
           { name:'Paguridae', genera:[{ name:'Pagurus', species:[
-            ['Flat-clawed hermit crab','Pagurus pollicaris'],
-            ['Long-clawed hermit crab','Pagurus longicarpus']
+            ['Flat-Clawed Hermit Crab','Pagurus pollicaris'],
+            ['Long-Clawed Hermit Crab','Pagurus longicarpus']
           ]}]}
         ]}
       ]
+    },
+    taxonomyEcology: {
+      'Ovalipes ocellatus': { zone:'Aquatic', invasive:false },
+      'Callinectes sapidus': { zone:'Aquatic', invasive:false },
+      'Carcinus maenas': { zone:'Transitional', invasive:true },
+      'Minuca pugnax': { zone:'Intertidal', invasive:false },
+      'Leptuca pugilator': { zone:'Intertidal', invasive:false },
+      'Hemigrapsus sanguineus': { zone:'Intertidal', invasive:true },
+      'Libinia dubia': { zone:'Aquatic', invasive:false },
+      'Tumidotheres maculatus': { zone:'Aquatic', invasive:false },
+      'Pagurus pollicaris': { zone:'Transitional', invasive:false },
+      'Pagurus longicarpus': { zone:'Transitional', invasive:false }
     },
     phylogenyTree: {
       title:'Final Version of Phylogeny Tree',

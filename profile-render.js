@@ -240,6 +240,7 @@ function buildProfileHeader(s, opts) {
 }
 
 function buildProfileSections(s) {
+  const isShrimpina = s.groupProject === 'shrimpina';
   const statusColor = STATUS_COLOR[s.status] || 'var(--color-neutral-500)';
   const showGallery = s.groupProject === 'shrimpina' ? Boolean((s.photos || []).length) : (s.photos || []).length > 1;
   return `
@@ -268,21 +269,21 @@ function buildProfileSections(s) {
         ${renderDna(s)}
       </div>
 
-      <div class="reveal-sec" id="record-counts">
+      ${isShrimpina ? '' : `<div class="reveal-sec" id="record-counts">
         <div class="sec-label"><span class="n">05</span><h3>Survey counts</h3></div>
         <table class="table pop-table">
           <thead><tr><th>Year</th>${s.pop.map(p=>`<th>${p[0]}</th>`).join('')}</tr></thead>
           <tbody><tr><td>Individuals logged</td>${s.pop.map(p=>`<td>${p[1]}</td>`).join('')}</tr></tbody>
         </table>
-      </div>
+      </div>`}
 
       <div class="reveal-sec" id="record-status">
-        <div class="sec-label"><span class="n">06</span><h3>Conservation status</h3></div>
+        <div class="sec-label"><span class="n">${isShrimpina ? '05' : '06'}</span><h3>Conservation status</h3></div>
         <span class="status-badge blueprint" style="border-color:${statusColor}">${s.status}</span>
       </div>
 
       <div class="reveal-sec" id="record-references">
-        <div class="sec-label"><span class="n">07</span><h3>References</h3></div>
+        <div class="sec-label"><span class="n">${isShrimpina ? '06' : '07'}</span><h3>References</h3></div>
         <ul class="ref-list">${s.refs.map(r=>`<li>${r}</li>`).join('')}</ul>
       </div>
   `;

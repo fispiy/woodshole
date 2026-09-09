@@ -43,8 +43,8 @@ const SHRIMPINA_OBSERVATION_LOCATIONS = {
   SSAJ75:{observation:396426399,lat:41.5761099186,lng:-70.6398149684,accuracy:15},
   SSAJ76:{observation:396665376,lat:41.5750470657,lng:-70.6420631128,accuracy:20},
   SSAJ78:{observation:396912256,lat:41.5771668101,lng:-70.6410257777,accuracy:7},
-  SSAJ79:{observation:396911907,lat:41.5897592904,lng:-70.6428362601,accuracy:3407},
-  SSAJ80:{observation:396911933,lat:41.5897592904,lng:-70.6428362601,accuracy:3407},
+  SSAJ79:{observation:396911907,lat:41.575334,lng:-70.64171,accuracy:12},
+  SSAJ80:{observation:396911933,lat:41.57651,lng:-70.641796,accuracy:36},
   SSAJ81:{observation:396674861,lat:41.5763783333,lng:-70.6401966667,accuracy:13},
   SSAJ82:{observation:396912502,lat:41.5760939259,lng:-70.640121127,accuracy:12},
   SSAJ83:{observation:396426372,lat:41.5752555556,lng:-70.6425388889,accuracy:2}

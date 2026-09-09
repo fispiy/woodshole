@@ -13,11 +13,12 @@
 <script src="image-slot.js"></script>
 <script src="species-data.js?v=20260902-4"></script>
 <script src="shrimpina-sample-register.js?v=20260907-2"></script>
+<script src="shrimpina-observation-locations.js?v=20260909-1"></script>
 <script src="shrimpina-research-data.js?v=20260907-3"></script>
 <script src="shrimpina-inat-media.js?v=20260908-3"></script>
 <script src="shrimpina-photo-library.js?v=20260908-3"></script>
 <script src="shrimpina-species-data.js?v=20260908-5"></script>
-<script src="profile-render.js?v=20260908-4"></script>
+<script src="profile-render.js?v=20260909-1"></script>
 <script src="inat.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
@@ -128,6 +129,7 @@
 const params = new URLSearchParams(location.search);
 const requestedSampleCode = params.get('sample')?.toUpperCase();
 const requestedSample = requestedSampleCode ? SHRIMPINA_SAMPLE_REGISTER.find(item => item.code === requestedSampleCode) : null;
+const requestedLocation = requestedSample ? SHRIMPINA_OBSERVATION_LOCATIONS[requestedSample.code] : null;
 const requestedMedia = requestedSample ? SHRIMPINA_INAT_MEDIA.find(item => item.code === requestedSample.code) : null;
 const cleanSpecimenName = name => name.replace(/ \((?:L|R|Female|Baby|tiny|big|dead)\)$/i, '').replace(/ - Baby$/i,'').replace(/ \d+$/,'');
 const exactSampleRecord = requestedSample ? SHRIMPINA_SPECIES.find(item => item.code === requestedSample.code) : null;
@@ -139,7 +141,7 @@ const speciesTemplate = requestedSample ? (exactSampleRecord || SHRIMPINA_SPECIE
 const fallbackRecord = requestedSample ? {
   id:requestedSample.code.toLowerCase(), code:requestedSample.code, sampleNumbers:[requestedSample.number], group:'crab', phylumKey:'arthropoda-crustacea', groupProject:'shrimpina',
   common:cleanSpecimenName(requestedSample.common), sci:requestedSample.sci, phylum:'Not recorded', cls:'Not recorded', order:'Not recorded', family:'Not recorded', status:'Not assessed',
-  lat:requestedSample.site.includes('Woodneck') ? 41.5885 : 41.5958, lng:requestedSample.site.includes('Woodneck') ? -70.6462 : -70.6438,
+  lat:requestedLocation?.lat ?? (requestedSample.site.includes('Woodneck') ? 41.5885 : 41.5958), lng:requestedLocation?.lng ?? (requestedSample.site.includes('Woodneck') ? -70.6462 : -70.6438),
   morph:'Morphology notes have not been entered for this specimen.', eco:'Ecology notes have not been entered for this specimen.', ecologyReport:['Ecology notes have not been entered for this specimen.'],
   photos:requestedMedia?.photo ? [requestedMedia.photo] : [], heroPhoto:requestedMedia?.photo || '', pop:[['2026',1]], refs:[`Shrimpina specimen register, ${requestedSample.code}, 2026.`]
 } : null;
@@ -159,7 +161,7 @@ if (requestedSample && s) {
   s = {
     ...s, id:requestedSample.code.toLowerCase(), code:requestedSample.code, sampleNumbers:[requestedSample.number], groupProject:'shrimpina',
     common:cleanSpecimenName(requestedSample.common), sci:requestedSample.sci,
-    lat:requestedSample.site.includes('Woodneck') ? 41.5885 : 41.5958, lng:requestedSample.site.includes('Woodneck') ? -70.6462 : -70.6438,
+    lat:requestedLocation?.lat ?? (requestedSample.site.includes('Woodneck') ? 41.5885 : 41.5958), lng:requestedLocation?.lng ?? (requestedSample.site.includes('Woodneck') ? -70.6462 : -70.6438),
     photos, photoLabels, heroPhoto:photos[0] || '', morphologyViews:sampleMorphologyViews || speciesMorphologyViews || (useExactStudy ? exactSampleRecord.morphologyViews : undefined),
     refs:[`Shrimpina specimen register, ${requestedSample.code}, ${requestedSample.date}.`, ...(s.refs || []).filter(ref => !ref.includes('Shrimpina specimen'))]
   };
@@ -208,11 +210,11 @@ if (!s) {
     ${profileOpening}
       <div class="stitch-divider"><span>where it's been seen →</span></div>
       <div class="reveal-sec" id="record-location">
-        <div class="sec-label"><span class="n">08</span><h3>Location</h3></div>
+        <div class="sec-label"><span class="n">${isShrimpina ? '07' : '08'}</span><h3>Location</h3></div>
         <div id="speciesMap" class="blueprint"></div>
       </div>
       <div class="reveal-sec" id="record-observations">
-        <div class="sec-label"><span class="n">09</span><h3>iNaturalist observations</h3></div>
+        <div class="sec-label"><span class="n">${isShrimpina ? '08' : '09'}</span><h3>iNaturalist observations</h3></div>
         <div class="obs-grid" id="obsGrid"></div>
         <p class="obs-status" id="obsStatus">loading observations of ${s.sci}…</p>
       </div>

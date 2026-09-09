@@ -14,12 +14,13 @@
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="../species-data.js?v=20260902-4"></script>
 <script src="../shrimpina-sample-register.js?v=20260907-2"></script>
-<script src="../shrimpina-research-data.js?v=20260908-4"></script>
-<script src="../shrimpina-observation-locations.js?v=20260904-1"></script>
+<script src="../shrimpina-research-data.js?v=20260909-4"></script>
+<script src="../shrimpina-observation-locations.js?v=20260909-1"></script>
 <script src="../shrimpina-inat-media.js?v=20260908-3"></script>
 <script src="../shrimpina-photo-library.js?v=20260902-1"></script>
 <script src="../shrimpina-species-data.js?v=20260908-5"></script>
-<script src="../profile-render.js?v=20260908-4"></script>
+<script src="../profile-render.js?v=20260909-1"></script>
+<script src="../relationship-tree.js?v=20260909-7" data-root=".." defer></script>
 <script src="../specimen-view.js?v=20260902-5" data-root=".." defer></script>
 <script src="../inat.js"></script>
 <style>
@@ -129,7 +130,8 @@
 </style>
 <link rel="stylesheet" href="../site-index.css?v=20260908-12">
 <link rel="stylesheet" href="../shrimpina.css?v=20260908-6">
-<link rel="stylesheet" href="../shrimpina-research.css?v=20260908-11">
+<link rel="stylesheet" href="../shrimpina-research.css?v=20260909-3">
+<link rel="stylesheet" href="../relationship-tree.css?v=20260909-6">
 <script src="../site-index.js?v=20260908-6" defer></script>
 <link rel="stylesheet" href="../specimen-view.css?v=20260902-5">
 </head>
@@ -148,7 +150,7 @@
   <nav class="toc" id="toc">
     <p class="toc-title">Project index</p>
     <a href="#g-question" class="active"><span class="num">01</span><span><b>Question</b><small>Main facing question</small></span></a>
-    <a href="#g-family"><span class="num">02</span><span><b>Phylogeny tree</b><small>14 specimens + outgroup</small></span></a>
+    <a href="#g-family"><span class="num">02</span><span><b>Evolutionary Tree</b><small>Evolution → collection</small></span></a>
     <a href="#g-map"><span class="num">03</span><span><b>Collection sites</b><small>Map and key</small></span></a>
     <a href="#g-species"><span class="num">04</span><span><b>Specimens</b><small>Photos, morphology, ecology</small></span></a>
     <a href="#g-genes"><span class="num">05</span><span><b>DNA</b><small>14 analyzed specimens</small></span></a>
@@ -159,10 +161,16 @@
     <section class="g-sec research-question-sec" id="g-question">
       <span class="research-eyebrow">OFFICIAL QUESTION.</span><h2 id="officialQuestion"></h2>
     </section>
-    <section class="g-sec" id="g-family">
-      <span class="research-eyebrow">Genetic relationships</span><h2>Final Phylogeny Tree</h2>
-      <p class="taxonomy-deck"><span>14 SSAJ specimens · Marsh Grass Shrimp outgroup</span><a href="../lab.html">Open laboratory evidence <span aria-hidden="true">→</span></a></p>
-      <div class="phylogeny-tree" id="phylogenyTree"></div>
+    <section class="g-sec overview-tree-feature" id="g-family">
+      <div class="lab-tree-atlas overview-relationship-tree" aria-labelledby="overview-tree-title">
+        <header><h2 id="overview-tree-title">Evolutionary Tree</h2></header>
+        <div class="tree-zoom-control">
+          <div><strong id="treeZoomLevel">Crab collection</strong><small id="treeZoomPath">Decapoda → Pleocyemata → 10 species</small></div>
+          <button id="treeZoomToggle" type="button" aria-pressed="true" aria-controls="relationshipTree" aria-label="Zoom out to the evolutionary tree"><span aria-hidden="true">−</span> Zoom out</button>
+        </div>
+        <div class="relationship-tree-legend taxonomy-legend" aria-label="Habitat and invasive-status key"><span class="zone-intertidal">Intertidal</span><span class="zone-transitional">Transitional</span><span class="zone-aquatic">Aquatic</span><span class="status-invasive">Invasive</span></div>
+        <div class="relationship-tree" id="relationshipTree"></div>
+      </div>
     </section>
     <section class="g-sec" id="g-map">
       <div id="marshFilm"></div>
@@ -180,7 +188,7 @@
         </div>
         <div class="shrimpina-map-summary"><strong id="gMapCount">45</strong><span>verified observations shown</span><a href="#g-species">Browse all 83 samples ↓</a></div>
       </div>
-      <p class="shrimpina-map-source">Aerial imagery: USGS The National Map. Markers use public iNaturalist coordinates; two broad-location records and one unavailable linked record are not plotted as exact points.</p>
+      <p class="shrimpina-map-source">Aerial imagery: USGS The National Map. Markers use precise public iNaturalist coordinates; records without precise public locations are not plotted as exact points.</p>
     </section>
 
     <section class="g-sec" id="g-species">
@@ -254,44 +262,6 @@ if (marshFilm) {
     <div class="marsh-film-frame"><video controls playsinline preload="metadata" poster="${SHRIMPINA_RESEARCH.assetUrl(marshFilm.poster)}" aria-label="${escapeResearchText(marshFilm.title)} field-site film"><source src="${SHRIMPINA_RESEARCH.assetUrl(marshFilm.src)}" type="video/mp4">Your browser cannot play this video. <a href="${SHRIMPINA_RESEARCH.assetUrl(marshFilm.src)}">Open the MP4 file.</a></video></div>
   </figure>`;
 }
-const phylogeny = SHRIMPINA_RESEARCH.phylogenyTree;
-const phylogenyLeaves = [];
-const inheritPhylogenyTone = (node,tone='crab') => {
-  node.tone ||= tone;
-  if (node.children?.length) node.children.forEach(child => inheritPhylogenyTone(child,node.tone));
-  else phylogenyLeaves.push(node);
-};
-inheritPhylogenyTone(phylogeny.root);
-phylogenyLeaves.forEach((leaf,index) => { leaf.y = 58 + index * 62; });
-const positionPhylogeny = node => {
-  node.children?.forEach(positionPhylogeny);
-  if (node.children?.length) node.y = node.children.reduce((sum,child) => sum + child.y,0) / node.children.length;
-};
-positionPhylogeny(phylogeny.root);
-const phylogenyLines = [];
-const leafX = 850;
-const drawPhylogeny = (node,parent=null) => {
-  if (parent) phylogenyLines.push(`<path class="phylogeny-branch phylogeny-${node.tone}" d="M ${parent.x} ${node.y} H ${node.children?.length ? node.x : leafX}"/>`);
-  if (node.children?.length) {
-    phylogenyLines.push(`<path class="phylogeny-branch phylogeny-${node.tone}" d="M ${node.x} ${node.children[0].y} V ${node.children.at(-1).y}"/>`);
-    node.children.forEach(child => drawPhylogeny(child,node));
-  }
-};
-drawPhylogeny(phylogeny.root);
-const phylogenyLabels = phylogenyLeaves.map(leaf => leaf.code
-  ? `<a class="phylogeny-leaf phylogeny-leaf-${leaf.tone}" href="../species.html?sample=${leaf.code}" aria-label="Open ${escapeResearchText(leaf.common)}, ${leaf.code}"><text x="870" y="${leaf.y + 5}"><tspan>${escapeResearchText(leaf.common)}</tspan><tspan class="phylogeny-code"> (${leaf.code})</tspan></text></a>`
-  : `<g class="phylogeny-leaf phylogeny-leaf-${leaf.tone}"><text x="870" y="${leaf.y + 5}">${escapeResearchText(leaf.common)}</text></g>`).join('');
-document.getElementById('phylogenyTree').innerHTML = `<figure class="phylogeny-figure">
-  <div class="phylogeny-scroll" tabindex="0" aria-label="Scrollable final specimen phylogeny">
-    <svg viewBox="0 0 1280 980" role="img" aria-labelledby="phylogeny-title phylogeny-desc">
-      <title id="phylogeny-title">${escapeResearchText(phylogeny.title)}</title>
-      <desc id="phylogeny-desc">Genetic relationship tree for fourteen SSAJ crab specimens with Marsh Grass Shrimp as the outgroup.</desc>
-      <path class="phylogeny-root" d="M 28 ${phylogeny.root.y} H ${phylogeny.root.x}"/>
-      ${phylogenyLines.join('')}${phylogenyLabels}
-    </svg>
-  </div>
-  <figcaption><span>Final specimen phylogeny</span><span>Choose an SSAJ label to open its record</span></figcaption>
-</figure>`;
 /* Historical hand-written records are retained only as source notes. The live archive
    below is generated from the current specimen register and photograph library. */
 const originalSpecimenRecords = [
