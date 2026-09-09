@@ -37,6 +37,7 @@ function loadConst(filename, name, context = {}) {
 
 const register = loadConst('shrimpina-sample-register.js', 'SHRIMPINA_SAMPLE_REGISTER');
 const photoLibrary = loadConst('shrimpina-photo-library.js', 'SHRIMPINA_PHOTO_LIBRARY');
+const observationLocations = loadConst('shrimpina-observation-locations.js', 'SHRIMPINA_OBSERVATION_LOCATIONS');
 const researchPath = path.join(root, 'shrimpina-research-data.js');
 const research = loadConst('shrimpina-research-data.js', 'SHRIMPINA_RESEARCH', {
   document:{ currentScript:{ src:pathToFileURL(researchPath).href } }
@@ -54,6 +55,19 @@ const expectedDna = {
 
 check(register.length === 83, `Expected 83 register records, found ${register.length}`);
 check(Object.keys(research.dnaBySample).length === 14, `Expected 14 DNA entries, found ${Object.keys(research.dnaBySample).length}`);
+check(research.researchQuestion === 'How are the morphological characteristics among crab species in Little Sippewissett Marsh and Woodneck Beach results of their role and place within the community?', 'Official research question does not match the supplied wording');
+
+check(Object.keys(observationLocations).length === 47, `Expected 47 public iNaturalist locations, found ${Object.keys(observationLocations).length}`);
+for (const [code, location] of Object.entries(observationLocations)) {
+  const specimen = register.find(item => item.code === code);
+  const linkedObservation = Number(specimen?.record?.match(/observations\/(\d+)/)?.[1]);
+  check(Boolean(specimen), `${code}: iNaturalist location has no register record`);
+  check(linkedObservation === location.observation, `${code}: location observation does not match the register link`);
+  check(Number.isFinite(location.lat) && Number.isFinite(location.lng), `${code}: invalid public iNaturalist coordinates`);
+  check(Number.isFinite(location.accuracy) && location.accuracy >= 0, `${code}: invalid iNaturalist positional accuracy`);
+  check(typeof location.place === 'string' && location.place.trim().length > 0, `${code}: missing iNaturalist place label`);
+}
+check(!observationLocations.SSAJ74, 'SSAJ74 must remain unmapped while its linked iNaturalist observation is unavailable');
 
 for (const [code, [scientific, start, end]] of Object.entries(expectedDna)) {
   const dna = research.dnaBySample[code];
@@ -156,14 +170,37 @@ for (const mediaPath of [film?.src, film?.poster].filter(Boolean)) {
 
 const overviewSource = fs.readFileSync(path.join(root, 'groups/shrimpina.html'), 'utf8');
 const guideSource = fs.readFileSync(path.join(root, 'research.html'), 'utf8');
+const labSource = fs.readFileSync(path.join(root, 'lab.html'), 'utf8');
+const relationshipSource = fs.readFileSync(path.join(root, 'relationship-tree.js'), 'utf8');
 check(!overviewSource.includes('id="g-comparisons"'), 'Overview still contains the comparison section');
 check(!overviewSource.includes('comparisonTables'), 'Overview still renders comparison tables');
 check(overviewSource.includes('id="relationshipTree"'), 'Overview is missing the evolutionary tree');
 check(overviewSource.includes('id="treeZoomToggle"') && overviewSource.includes('aria-controls="relationshipTree"'), 'Overview is missing the accessible tree zoom control');
 check(overviewSource.includes('relationship-tree.js'), 'Overview is missing the evolutionary tree renderer');
 check(!overviewSource.includes('id="habitatTree"'), 'Overview should not have a separate habitat tree');
+check(!overviewSource.includes('class="tree-row"'), 'Overview still contains the deprecated table-like taxonomy rows');
+check(overviewSource.includes('id="relationshipTree"'), 'Overview is missing the unified relationship tree');
+check(overviewSource.includes('relationship-tree.js'), 'Overview is missing the shared relationship-tree renderer');
+check(overviewSource.includes('L.control.scale(') && overviewSource.includes('shrimpina-map-compass'), 'Overview map is missing its distance scale or compass');
+check(!overviewSource.includes('accuracy <= 500'), 'Overview still drops broad public iNaturalist locations');
+check(!overviewSource.includes('id="tree-view-evolution"') && !overviewSource.includes('id="tree-view-collection"'), 'Overview still contains disconnected relationship-tree panels');
+check(labSource.includes('class="phylogeny-branch'), 'Laboratory is missing the SVG phylogeny branches');
+check(labSource.includes('class="phylogeny-leaf'), 'Laboratory is missing the linked phylogeny terminals');
+check(labSource.includes('aria-label="Scrollable final specimen phylogeny"'), 'Laboratory is missing accessible phylogeny navigation');
+check(labSource.includes('id="phylogenyTree"'), 'Laboratory is missing the final phylogeny renderer');
 check(guideSource.includes('SHRIMPINA_RESEARCH.comparisons[0]') && guideSource.includes('SHRIMPINA_RESEARCH.comparisons[2]'), 'Research Guide does not render all comparison groups');
 check(guideSource.includes("scientific.replace(/\\W+/g,'-')"), 'Research Guide is missing scientific-name anchors');
+for (const lineage of ['Animalia','Deuterostomia','Protostomia','Lophotrochozoa','Ecdysozoa','Arthropoda','Pancrustacea','Malacostraca','Decapoda']) {
+  check(relationshipSource.includes(`label:'${lineage}'`), `Overview evolutionary context is missing ${lineage}`);
+}
+check(relationshipSource.includes('animateCamera') && relationshipSource.includes("unionBoxes(detailLayer.getBBox(),anchorLayer.getBBox())"), 'Overview is missing its fitted continuous camera transition');
+check(relationshipSource.includes('class="relationship-anchor"') && relationshipSource.includes("findNode(evolutionHierarchy,'Decapoda')"), 'Decapoda is not preserved as the shared zoom anchor');
+for (const status of ['Aquatic','Intertidal','Transitional','Invasive']) check(relationshipSource.includes(`'${status}'`), `Evolutionary overview is missing the ${status} status label`);
+check(relationshipSource.includes("displayZone=zone=>zone"), 'Relationship tree does not use the requested Aquatic display label');
+for (const [common,scientific] of [['Northern Pipefish','Syngnathus fuscus'],['Plumed Worm','Diopatra cuprea'],['Atlantic Horseshoe Crab','Limulus polyphemus']]) {
+  check(relationshipSource.includes(`example:'${common}',scientific:'${scientific}'`), `Evolutionary overview is missing the full ${common} endpoint label`);
+}
+check(relationshipSource.includes('relationship-broad-scientific'), 'Evolutionary endpoints are missing scientific-name styling');
 
 const branches = research.taxonomyTree.branches;
 const families = new Set(branches.flatMap(branch => branch.families.map(family => family.name)));
@@ -188,8 +225,28 @@ check(branches.map(branch => branch.name).join(',') === 'Brachyura,Anomura', 'Ta
 check(families.size === 8, `Expected 8 taxonomy families, found ${families.size}`);
 check(genera.size === 9, `Expected 9 taxonomy genera, found ${genera.size}`);
 check(treeSpecies.length === 10, `Expected 10 taxonomy species, found ${treeSpecies.length}`);
-check(treeSpecies.map(species => species[1]).join('|') === expectedTreeSpecies.join('|'), 'Taxonomy species order does not match the live evolutionary tree');
-check(research.taxonomyTree.summary === '8 families · 9 genera · 10 species', 'Taxonomy summary does not match the live evolutionary tree');
+check(treeSpecies.map(species => species[1]).join('|') === expectedTreeSpecies.join('|'), 'Taxonomy species order does not match the audited overview hierarchy');
+const expectedFamilies = {
+  'Ovalipes ocellatus':'Ovalipidae', 'Callinectes sapidus':'Portunidae', 'Carcinus maenas':'Carcinidae',
+  'Minuca pugnax':'Ocypodidae', 'Leptuca pugilator':'Ocypodidae', 'Hemigrapsus sanguineus':'Varunidae',
+  'Libinia dubia':'Epialtidae', 'Tumidotheres maculatus':'Pinnotheridae',
+  'Pagurus pollicaris':'Paguridae', 'Pagurus longicarpus':'Paguridae'
+};
+for (const branch of branches) for (const family of branch.families) for (const genus of family.genera) for (const [,scientific] of genus.species) {
+  check(expectedFamilies[scientific] === family.name, `${scientific}: expected family ${expectedFamilies[scientific]}, found ${family.name}`);
+}
+check(research.taxonomyTree.summary === '8 families · 9 genera · 10 species', 'Taxonomy summary does not match the audited hierarchy');
+check(Object.keys(research.taxonomyEcology || {}).length === 10, 'Taxonomy ecology must cover all 10 displayed crab species');
+for (const scientific of expectedTreeSpecies) {
+  const ecology = research.taxonomyEcology?.[scientific];
+  check(Boolean(ecology), `${scientific}: missing taxonomy ecology label`);
+  check(['Intertidal','Transitional','Aquatic'].includes(ecology?.zone), `${scientific}: invalid taxonomy habitat zone`);
+}
+const habitatTotals = Object.values(research.taxonomyEcology).reduce((totals,value) => ({...totals,[value.zone]:(totals[value.zone] || 0) + 1}), {});
+check(habitatTotals.Intertidal === 3 && habitatTotals.Transitional === 3 && habitatTotals.Aquatic === 4, 'Taxonomy habitat totals must be 3 Intertidal, 3 Transitional, and 4 Aquatic');
+check(research.taxonomyEcology['Carcinus maenas']?.invasive === true, 'European Green Crab must be marked invasive');
+check(research.taxonomyEcology['Hemigrapsus sanguineus']?.invasive === true, 'Asian Shore Crab must be marked invasive');
+check(Object.entries(research.taxonomyEcology).filter(([,value]) => value.invasive).length === 2, 'Only the two project invasive crab species should be marked invasive');
 
 const phylogenyLeaves = [];
 const collectPhylogenyLeaves = node => node.children?.length ? node.children.forEach(collectPhylogenyLeaves) : phylogenyLeaves.push(node);
@@ -208,6 +265,9 @@ check(profileSource.includes('researchGuideHref(s)'), 'Specimen morphology is mi
 const specimenPageSource = fs.readFileSync(path.join(root, 'species.html'), 'utf8');
 check(!specimenPageSource.includes(': (s.photos || [])'), 'Specimen profiles can still inherit another record’s species-level photographs');
 check(specimenPageSource.includes("heroPhoto:photos[0] || ''"), 'Specimen profiles can still inherit another record’s hero photograph');
+check(specimenPageSource.includes('shrimpina-observation-locations.js'), 'Specimen profiles do not load public iNaturalist locations');
+check(specimenPageSource.includes('L.control.scale(') && specimenPageSource.includes('shrimpina-map-compass'), 'Specimen map is missing its distance scale or compass');
+check(!specimenPageSource.includes("requestedSample.site.includes('Woodneck')"), 'Specimen profiles still use fabricated site-center coordinates');
 
 if (failures.length) {
   console.error(`Shrimpina verification failed (${failures.length}):`);

@@ -15,7 +15,7 @@
 <script src="../species-data.js?v=20260902-4"></script>
 <script src="../shrimpina-sample-register.js?v=20260907-2"></script>
 <script src="../shrimpina-research-data.js?v=20260909-4"></script>
-<script src="../shrimpina-observation-locations.js?v=20260909-1"></script>
+<script src="../shrimpina-observation-locations.js?v=20260909-2"></script>
 <script src="../shrimpina-inat-media.js?v=20260908-3"></script>
 <script src="../shrimpina-photo-library.js?v=20260902-1"></script>
 <script src="../shrimpina-species-data.js?v=20260908-5"></script>
@@ -128,11 +128,11 @@
     .species-grid, .obs-grid, .genes-grid { grid-template-columns: repeat(2,1fr); }
   }
 </style>
-<link rel="stylesheet" href="../site-index.css?v=20260908-12">
+<link rel="stylesheet" href="../site-index.css?v=20260908-14">
 <link rel="stylesheet" href="../shrimpina.css?v=20260908-6">
 <link rel="stylesheet" href="../shrimpina-research.css?v=20260909-3">
 <link rel="stylesheet" href="../relationship-tree.css?v=20260909-6">
-<script src="../site-index.js?v=20260908-6" defer></script>
+<script src="../site-index.js?v=20260908-7" defer></script>
 <link rel="stylesheet" href="../specimen-view.css?v=20260902-5">
 </head>
 <body class="has-site-index shrimpina-site">
@@ -176,7 +176,7 @@
       <div id="marshFilm"></div>
       <div class="collection-map-heading">
         <div><p class="map-kicker">The 2026 field register</p><h2>Shrimpina collection map</h2><p>Verified public locations from the iNaturalist observations linked in our specimen spreadsheet.</p></div>
-        <dl><div><dt id="gCatalogCount">83</dt><dd>catalogued</dd></div><div><dt id="gMappedCount">45</dt><dd>mapped</dd></div></dl>
+        <dl><div><dt id="gCatalogCount">83</dt><dd>catalogued</dd></div><div><dt id="gMappedCount">47</dt><dd>mapped</dd></div></dl>
       </div>
       <div class="shrimpina-map-shell">
         <div class="g-map" id="gMap" aria-label="Aerial map of Shrimpina iNaturalist observations"></div>
@@ -186,9 +186,9 @@
           <button type="button" data-map-site="Little Sippewissett Marsh">Marsh</button>
           <button type="button" data-map-site="Wood Neck Beach">Beach</button>
         </div>
-        <div class="shrimpina-map-summary"><strong id="gMapCount">45</strong><span>verified observations shown</span><a href="#g-species">Browse all 83 samples ↓</a></div>
+        <div class="shrimpina-map-summary"><strong id="gMapCount">47</strong><span>verified observations shown</span><a href="#g-species">Browse all 83 samples ↓</a></div>
       </div>
-      <p class="shrimpina-map-source">Aerial imagery: USGS The National Map. Markers use precise public iNaturalist coordinates; records without precise public locations are not plotted as exact points.</p>
+      <p class="shrimpina-map-source">Aerial imagery: USGS The National Map. All markers use public iNaturalist coordinates and accuracy values. One unavailable linked observation has no public location to plot.</p>
     </section>
 
     <section class="g-sec" id="g-species">
@@ -506,13 +506,19 @@ const mapGroup = sample => {
 const mapColors = { crab:'#d94f68', shrimp:'#ef8791', mussel:'#92738d', algae:'#849f63', other:'#7b7182' };
 const mappedSamples = sampleRegister.map(sample => {
   const location = SHRIMPINA_OBSERVATION_LOCATIONS[sample.code];
-  return location && location.accuracy <= 500 ? { ...sample, ...location, site:normalizeMapSite(sample.site), group:mapGroup(sample) } : null;
+  return location ? { ...sample, ...location, site:normalizeMapSite(sample.site), group:mapGroup(sample) } : null;
 }).filter(Boolean);
 document.getElementById('gCatalogCount').textContent = sampleRegister.length;
 document.getElementById('gMappedCount').textContent = mappedSamples.length;
 
 const gmap = L.map('gMap', { zoomControl:true, attributionControl:true, scrollWheelZoom:false }).setView([41.5764,-70.6398],16);
 L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', { maxNativeZoom:16, maxZoom:19, attribution:'USGS The National Map' }).addTo(gmap);
+L.control.scale({ position:'bottomleft', metric:true, imperial:true, maxWidth:120 }).addTo(gmap);
+const MapCompass = L.Control.extend({
+  options:{ position:'topright' },
+  onAdd(){ const compass=L.DomUtil.create('div','shrimpina-map-compass');compass.setAttribute('aria-label','North');compass.innerHTML='<b>N</b><span aria-hidden="true">↑</span>';return compass; }
+});
+new MapCompass().addTo(gmap);
 const clusterLayer = L.markerClusterGroup ? L.markerClusterGroup({
   showCoverageOnHover:false, maxClusterRadius:42, spiderfyOnMaxZoom:true,
   iconCreateFunction: cluster => L.divIcon({ className:'shrimpina-cluster', html:`<span>${cluster.getChildCount()}</span>`, iconSize:[42,42] })
@@ -527,7 +533,7 @@ const mapMarkers = mappedSamples.map(sample => {
       ${localPhoto ? `<img data-map-thumbnail src="${localPhoto}" alt="${escapeResearchText(cleanCommonName(sample.common))}, specimen ${sample.code}" loading="lazy">` : ''}
       <span class="shrimpina-map-popup-fallback"${localPhoto ? ' hidden' : ''} aria-label="No photograph available">${sample.code}</span>
     </div>
-    <div><small>${sample.code} · ${sample.site}</small><strong>${cleanCommonName(sample.common)}</strong><em>${sample.sci}</em><span>GPS accuracy ±${sample.accuracy} m</span><a href="../species.html?sample=${sample.code}">Open specimen →</a></div>
+    <div><small>${sample.code} · iNaturalist location</small><strong>${cleanCommonName(sample.common)}</strong><em>${sample.sci}</em><span>${escapeResearchText(sample.place || 'Public location')} · accuracy ±${sample.accuracy} m</span><a href="../species.html?sample=${sample.code}">Open specimen →</a></div>
   </article>`, { maxWidth:290, minWidth:290, className:'shrimpina-popup-shell' });
   marker.on('popupopen', event => {
     const popup = event.popup.getElement();

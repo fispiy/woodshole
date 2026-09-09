@@ -536,6 +536,11 @@ body.shrimpina-site {
 .shrimpina-site .g-map .leaflet-control-zoom{margin-top:78px;margin-left:14px;border:0;box-shadow:0 6px 20px rgba(53,27,34,.18)}
 .shrimpina-site .g-map .leaflet-control-zoom a{border-color:rgba(74,32,44,.12);background:rgba(255,243,234,.93);color:var(--shrimp-dark)}
 .shrimpina-site .g-map .leaflet-control-attribution{background:rgba(255,243,234,.76);font:500 7px/1.3 'DM Mono',monospace}
+.shrimpina-site .g-map .leaflet-control-scale{margin:0 0 18px 18px}
+.shrimpina-site .g-map .leaflet-control-scale-line{border-color:var(--shrimp-dark);background:rgba(255,243,234,.9);color:var(--shrimp-dark);font:600 8px/1.25 'DM Mono',monospace}
+.shrimpina-site .shrimpina-map-compass{box-sizing:border-box;display:grid;grid-template-rows:auto auto;place-items:center;width:42px;height:54px;margin:14px 14px 0 0;border:1px solid rgba(74,32,44,.3);border-radius:8px;background:rgba(255,243,234,.92);color:var(--shrimp-dark);box-shadow:0 4px 14px rgba(37,27,31,.12);font-family:'DM Mono',monospace;line-height:1}
+.shrimpina-site .shrimpina-map-compass b{padding-top:7px;font-size:9px;letter-spacing:.12em}
+.shrimpina-site .shrimpina-map-compass span{margin-top:-2px;font:400 25px/1 Georgia,serif}
 .shrimpina-site .shrimpina-map-toolbar{position:absolute;z-index:500;top:14px;left:14px;display:flex;align-items:center;gap:3px;padding:5px;border-radius:12px;background:rgba(255,243,234,.9);box-shadow:0 7px 24px rgba(53,27,34,.16);backdrop-filter:blur(15px)}
 .shrimpina-site .shrimpina-map-toolbar>span{padding:0 9px;color:rgba(74,32,44,.55);font:600 8px/1 'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
 .shrimpina-site .shrimpina-map-toolbar button{min-height:37px;padding:0 13px;border:0;border-radius:8px;background:transparent;color:var(--shrimp-dark);font:600 9px/1 'DM Mono',monospace;letter-spacing:.045em;cursor:pointer}
