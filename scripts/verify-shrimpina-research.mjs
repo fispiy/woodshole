@@ -191,6 +191,8 @@ for (const lineage of ['Animalia','Deuterostomia','Protostomia','Lophotrochozoa'
 }
 check(relationshipSource.includes('animateCamera') && relationshipSource.includes("unionBoxes(detailLayer.getBBox(),anchorLayer.getBBox())"), 'Overview is missing its fitted continuous camera transition');
 check(relationshipSource.includes('class="relationship-anchor"') && relationshipSource.includes("findNode(evolutionHierarchy,'Decapoda')"), 'Decapoda is not preserved as the shared zoom anchor');
+for (const status of ['Tidal','Intertidal','Transitional','Invasive']) check(relationshipSource.includes(`'${status}'`), `Evolutionary overview is missing the ${status} status label`);
+check(relationshipSource.includes("displayZone=zone=>zone==='Aquatic'?'Tidal':zone"), 'Relationship tree does not use the requested Tidal display label');
 
 const branches = research.taxonomyTree.branches;
 const families = new Set(branches.flatMap(branch => branch.families.map(family => family.name)));

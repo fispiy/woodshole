@@ -6,23 +6,23 @@ const esc=value=>escapeResearchText(String(value));
 const slug=value=>String(value).normalize('NFKD').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase();
 const evolutionHierarchy={label:'Animalia',children:[
   {label:'Deuterostomia',children:[{label:'Chordata',children:[
-    {label:'Aves',example:'Birds'},
-    {label:'Actinopterygii',example:'Northern Pipefish'}
+    {label:'Aves',example:'Birds',statuses:['Ground']},
+    {label:'Actinopterygii',example:'Northern Pipefish',statuses:['Tidal']}
   ]}]},
   {label:'Protostomia',children:[
     {label:'Lophotrochozoa',children:[
-      {label:'Annelida',example:'Plumed Worm'},
-      {label:'Mollusca',example:'Periwinkles · mussels · clams'}
+      {label:'Annelida',example:'Plumed Worm',statuses:['Intertidal']},
+      {label:'Mollusca',example:'Periwinkles · mussels · clams',statuses:['Intertidal']}
     ]},
     {label:'Ecdysozoa',children:[
       {label:'Nematoda',example:'Roundworms'},
       {label:'Arthropoda',children:[
-        {label:'Chelicerata',example:'Atlantic Horseshoe Crab'},
+        {label:'Chelicerata',example:'Atlantic Horseshoe Crab',statuses:['Intertidal']},
         {label:'Mandibulata',children:[
-          {label:'Myriapoda',example:'Centipedes · millipedes'},
+          {label:'Myriapoda',example:'Centipedes · millipedes',statuses:['Ground']},
           {label:'Pancrustacea',children:[
-            {label:'Hexapoda',example:'Insects'},
-            {label:'Altocrustacea',children:[{label:'Communostraca',children:[{label:'Malacostraca',children:[{label:'Decapoda'}]}]}]}
+            {label:'Hexapoda',example:'Insects',statuses:['Ground']},
+            {label:'Altocrustacea',children:[{label:'Communostraca',children:[{label:'Malacostraca',children:[{label:'Decapoda',statuses:['Tidal','Intertidal','Transitional','Invasive']}]}]}]}
           ]}
         ]}
       ]}
@@ -41,8 +41,10 @@ const decapoda=findNode(evolutionHierarchy,'Decapoda');
 
 const broadEdges=[],broadNodes=[];
 const broadNodeMarkup=node=>{
-  const height=node.example?52:38,width=node.example&&node.example.length>23?176:144;
-  return `<g class="relationship-node relationship-node-broad${node.label==='Animalia'?' relationship-node-root':''}" transform="translate(${node.x} ${node.y})"><rect x="-${width/2}" y="-${height/2}" width="${width}" height="${height}"/><text text-anchor="middle" y="${node.example?-7:5}">${esc(node.label)}</text>${node.example?`<text class="relationship-example" text-anchor="middle" y="11">${esc(node.example)}</text>`:''}</g>`;
+  const hasStatuses=Boolean(node.statuses?.length),height=hasStatuses?70:(node.example?52:38),width=node.example&&node.example.length>23?190:node.statuses?.length>3?210:144;
+  const titleY=node.example?(hasStatuses?-14:-7):(hasStatuses?-7:5),exampleY=hasStatuses?3:11;
+  const statuses=hasStatuses?`<text class="relationship-broad-status" text-anchor="middle" y="23">${node.statuses.map((status,index)=>`<tspan class="${status==='Invasive'?'relationship-invasive':`zone-${slug(status)}`}"${index?' dx="10"':''}>${esc(status)}</tspan>`).join('')}</text>`:'';
+  return `<g class="relationship-node relationship-node-broad${node.label==='Animalia'?' relationship-node-root':''}" transform="translate(${node.x} ${node.y})"><rect x="-${width/2}" y="-${height/2}" width="${width}" height="${height}"/><text text-anchor="middle" y="${titleY}">${esc(node.label)}</text>${node.example?`<text class="relationship-example" text-anchor="middle" y="${exampleY}">${esc(node.example)}</text>`:''}${statuses}</g>`;
 };
 const buildBroad=node=>{
   if(node.label!=='Decapoda') broadNodes.push(broadNodeMarkup(node));
@@ -56,6 +58,7 @@ buildBroad(evolutionHierarchy);
 
 const taxonomy=SHRIMPINA_RESEARCH.taxonomyTree;
 const ecology=SHRIMPINA_RESEARCH.taxonomyEcology;
+const displayZone=zone=>zone==='Aquatic'?'Tidal':zone;
 const speciesHref=scientific=>scientific==='Tumidotheres maculatus'?`${relationshipRoot}/research.html#species-${scientific.replace(/\W+/g,'-')}`:`${relationshipRoot}/groups/shrimpina.html?species=${encodeURIComponent(scientific)}#g-species`;
 const detailRoot={rank:'Order',label:taxonomy.order,x:decapoda.x,y:decapoda.y,children:taxonomy.branches.map(branch=>({
   rank:'Infraorder',label:branch.name,note:branch.note,children:branch.families.map(family=>({
@@ -85,9 +88,9 @@ const detailNodes=[];
 const buildDetailNodes=node=>{
   if(node.rank!=='Order'){
     if(node.rank==='Species'){
-      const lines=wrapLabel(node.label),zone=esc(node.ecology.zone),invasive=node.ecology.invasive;
+      const lines=wrapLabel(node.label),zone=esc(displayZone(node.ecology.zone)),invasive=node.ecology.invasive;
       const common=lines.map((line,index)=>`<tspan x="0" dy="${index?18:0}">${esc(line)}</tspan>`).join('');
-      detailNodes.push(`<a class="relationship-node relationship-species habitat-${slug(node.ecology.zone)}${invasive?' is-invasive':''}" href="${node.href}" aria-label="${esc(node.label)}, ${esc(node.scientific)}, ${zone}${invasive?', invasive':''}" transform="translate(${node.x} ${node.y})"><rect x="-78" y="-53" width="156" height="106"/><text class="relationship-common" text-anchor="middle" y="-${lines.length>1?28:19}">${common}</text><text class="relationship-scientific" text-anchor="middle" y="${lines.length>1?12:4}">${esc(node.scientific)}</text><text class="relationship-habitat zone-${slug(node.ecology.zone)}" text-anchor="middle" y="31">${zone}</text>${invasive?`<text class="relationship-invasive" text-anchor="middle" y="45">Invasive</text>`:''}</a>`);
+      detailNodes.push(`<a class="relationship-node relationship-species habitat-${slug(displayZone(node.ecology.zone))}${invasive?' is-invasive':''}" href="${node.href}" aria-label="${esc(node.label)}, ${esc(node.scientific)}, ${zone}${invasive?', invasive':''}" transform="translate(${node.x} ${node.y})"><rect x="-78" y="-53" width="156" height="106"/><text class="relationship-common" text-anchor="middle" y="-${lines.length>1?28:19}">${common}</text><text class="relationship-scientific" text-anchor="middle" y="${lines.length>1?12:4}">${esc(node.scientific)}</text><text class="relationship-habitat zone-${slug(displayZone(node.ecology.zone))}" text-anchor="middle" y="31">${zone}</text>${invasive?`<text class="relationship-invasive" text-anchor="middle" y="45">Invasive</text>`:''}</a>`);
     }else{
       const className=`relationship-node relationship-node-${node.rank.toLowerCase()}`;
       detailNodes.push(`<g class="${className}" transform="translate(${node.x} ${node.y})"><rect x="-70" y="-24" width="140" height="48"/><text text-anchor="middle" y="${node.note?-5:5}">${esc(node.label)}</text>${node.note?`<text class="relationship-example" text-anchor="middle" y="12">${esc(node.note)}</text>`:''}</g>`);
@@ -98,7 +101,7 @@ const buildDetailNodes=node=>{
 buildDetailNodes(detailRoot);
 const rankGuides=detailLevels.slice(1).map((y,index)=>`<g class="relationship-rank"><line x1="${detailStart}" y1="${y}" x2="${detailStart+detailWidth}" y2="${y}"/><text x="${detailStart+6}" y="${y-14}">${['Infraorder','Family','Genus','Species'][index]}</text></g>`).join('');
 
-const semanticNode=node=>`<li>${node.href?`<a href="${node.href}">${esc(node.label)} — <i>${esc(node.scientific)}</i>, ${esc(node.ecology.zone)}${node.ecology.invasive?', Invasive':''}</a>`:`${esc(node.label)}${node.note?` ${esc(node.note)}`:''}`}${node.children?.length?`<ol>${node.children.map(semanticNode).join('')}</ol>`:''}</li>`;
+const semanticNode=node=>`<li>${node.href?`<a href="${node.href}">${esc(node.label)} — <i>${esc(node.scientific)}</i>, ${esc(displayZone(node.ecology.zone))}${node.ecology.invasive?', Invasive':''}</a>`:`${esc(node.label)}${node.note?` ${esc(node.note)}`:''}`}${node.children?.length?`<ol>${node.children.map(semanticNode).join('')}</ol>`:''}</li>`;
 relationshipMount.innerHTML=`<div class="relationship-frame"><svg class="relationship-canvas" role="img" aria-labelledby="relationship-svg-title relationship-svg-desc" preserveAspectRatio="xMidYMid meet"><title id="relationship-svg-title">Crab relationships</title><desc id="relationship-svg-desc">Taxonomic context from Animalia to Decapoda, continuing through the ten crab species in the collection.</desc><g class="relationship-overview-layer"><g class="relationship-lines">${broadEdges.join('')}</g>${broadNodes.join('')}</g><g class="relationship-detail-layer" aria-hidden="true"><g class="relationship-ranks">${rankGuides}</g><g class="relationship-lines">${detailEdges.join('')}</g>${detailNodes.join('')}</g><g class="relationship-anchor">${broadNodeMarkup(decapoda)}</g></svg></div><p class="tree-summary">${esc(taxonomy.summary)}</p><div class="relationship-semantic"><ol>${semanticNode(detailRoot)}</ol></div>`;
 
 const svg=relationshipMount.querySelector('.relationship-canvas');
