@@ -132,6 +132,16 @@ body.shrimpina-record-page{
 .shrimpina-record-page .sec-label .n{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border-radius:8px;background:var(--shrimp-dark);color:var(--shrimp-cream);font:600 9px/1 'DM Mono',monospace}
 .shrimpina-record-page .sec-label h3{padding:0;font-size:clamp(34px,4vw,48px);letter-spacing:-.025em}
 
+.shrimpina-record-page #speciesMap .leaflet-control-scale{margin:0 0 16px 16px}
+.shrimpina-record-page #speciesMap .leaflet-control-scale-line{border-color:var(--shrimp-dark);background:rgba(255,243,234,.9);color:var(--shrimp-dark);font:600 8px/1.25 'DM Mono',monospace}
+.shrimpina-record-page .shrimpina-map-compass{box-sizing:border-box;display:grid;grid-template-rows:auto auto;place-items:center;width:42px;height:54px;margin:14px 14px 0 0;border:1px solid rgba(74,32,44,.3);border-radius:8px;background:rgba(255,243,234,.92);color:var(--shrimp-dark);box-shadow:0 4px 14px rgba(37,27,31,.12);font-family:'DM Mono',monospace;line-height:1}
+.shrimpina-record-page .shrimpina-map-compass b{padding-top:7px;font-size:9px;letter-spacing:.12em}
+.shrimpina-record-page .shrimpina-map-compass span{margin-top:-2px;font:400 25px/1 Georgia,serif}
+.shrimpina-record-page .inat-location-meta{display:flex;align-items:baseline;gap:10px;max-width:1180px;margin:-12px auto 0;color:rgba(74,32,44,.64);font:500 9px/1.5 'DM Mono',monospace;letter-spacing:.03em}
+.shrimpina-record-page .inat-location-meta strong{color:var(--shrimp-dark);font-weight:700}
+.shrimpina-record-page .inat-location-meta a{margin-left:auto;color:#9f3049;text-decoration-thickness:1px;text-underline-offset:3px}
+.shrimpina-record-page .inat-location-unavailable{display:grid;min-height:190px;place-items:center;margin:0;border:1px solid rgba(74,32,44,.2);border-radius:12px;background:rgba(255,243,234,.55);color:rgba(74,32,44,.65);font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.04em;text-align:center}
+
 @media(max-width:760px){
   .shrimpina-record-page .shrimpina-record-nav{width:calc(100% - 36px);padding:0 14px}
   .shrimpina-record-page .record-back-long{display:none}
@@ -146,6 +156,8 @@ body.shrimpina-record-page{
   .shrimpina-record-page .profile-intro .class-tags{grid-template-columns:1fr 1fr;gap:7px}
   .shrimpina-record-page .profile-body:not(.profile-intro){padding-top:54px}
   .shrimpina-record-page .reveal-sec{margin:62px 0}
+  .shrimpina-record-page .inat-location-meta{align-items:flex-start;flex-direction:column;gap:5px;margin-top:12px}
+  .shrimpina-record-page .inat-location-meta a{margin-left:0}
 }
 @media(max-width:420px){
   .shrimpina-record-page .shrimpina-record-nav{gap:7px;padding:6px}

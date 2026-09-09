@@ -40,7 +40,7 @@ const SHRIMPINA_RESEARCH = (() => {
       original: '/Users/johnsellers/Downloads/Crabies .pdf',
       manifest: 'assets/shrimpina-research/source-manifest.json'
     },
-    researchQuestion: 'How do morphological and behavioral characteristics differ and overlap among crab species in\nLittle Sippewissett Marsh and Woodneck Beach?',
+    researchQuestion: 'How are the morphological characteristics among crab species in Little Sippewissett Marsh and Woodneck Beach results of their role and place within the community?',
     researchMedia: {
       marshFilm: {
         title:'Little Sippewissett Marsh',

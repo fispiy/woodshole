@@ -13,6 +13,7 @@
 <script src="image-slot.js"></script>
 <script src="species-data.js?v=20260902-4"></script>
 <script src="shrimpina-sample-register.js?v=20260907-2"></script>
+<script src="shrimpina-observation-locations.js?v=20260909-1"></script>
 <script src="shrimpina-research-data.js?v=20260907-3"></script>
 <script src="shrimpina-inat-media.js?v=20260908-3"></script>
 <script src="shrimpina-photo-library.js?v=20260908-3"></script>
@@ -106,7 +107,7 @@
   }
 </style>
 <link rel="stylesheet" href="exhibit.css?v=20260902-2">
-<link rel="stylesheet" href="shrimpina-record.css?v=20260908-4">
+<link rel="stylesheet" href="shrimpina-record.css?v=20260909-1">
 <link rel="stylesheet" href="shrimpina-research.css?v=20260907-10">
 <link rel="stylesheet" href="site-index.css?v=20260908-14">
 <script src="vendor/gsap/gsap.min.js"></script>
@@ -128,6 +129,7 @@
 const params = new URLSearchParams(location.search);
 const requestedSampleCode = params.get('sample')?.toUpperCase();
 const requestedSample = requestedSampleCode ? SHRIMPINA_SAMPLE_REGISTER.find(item => item.code === requestedSampleCode) : null;
+const requestedLocation = requestedSample ? SHRIMPINA_OBSERVATION_LOCATIONS[requestedSample.code] : null;
 const requestedMedia = requestedSample ? SHRIMPINA_INAT_MEDIA.find(item => item.code === requestedSample.code) : null;
 const cleanSpecimenName = name => name.replace(/ \((?:L|R|Female|Baby|tiny|big|dead)\)$/i, '').replace(/ - Baby$/i,'').replace(/ \d+$/,'');
 const exactSampleRecord = requestedSample ? SHRIMPINA_SPECIES.find(item => item.code === requestedSample.code) : null;
@@ -139,7 +141,7 @@ const speciesTemplate = requestedSample ? (exactSampleRecord || SHRIMPINA_SPECIE
 const fallbackRecord = requestedSample ? {
   id:requestedSample.code.toLowerCase(), code:requestedSample.code, sampleNumbers:[requestedSample.number], group:'crab', phylumKey:'arthropoda-crustacea', groupProject:'shrimpina',
   common:cleanSpecimenName(requestedSample.common), sci:requestedSample.sci, phylum:'Not recorded', cls:'Not recorded', order:'Not recorded', family:'Not recorded', status:'Not assessed',
-  lat:requestedSample.site.includes('Woodneck') ? 41.5885 : 41.5958, lng:requestedSample.site.includes('Woodneck') ? -70.6462 : -70.6438,
+  lat:requestedLocation?.lat ?? null, lng:requestedLocation?.lng ?? null,
   morph:'Morphology notes have not been entered for this specimen.', eco:'Ecology notes have not been entered for this specimen.', ecologyReport:['Ecology notes have not been entered for this specimen.'],
   photos:requestedMedia?.photo ? [requestedMedia.photo] : [], heroPhoto:requestedMedia?.photo || '', pop:[['2026',1]], refs:[`Shrimpina specimen register, ${requestedSample.code}, 2026.`]
 } : null;
@@ -159,7 +161,8 @@ if (requestedSample && s) {
   s = {
     ...s, id:requestedSample.code.toLowerCase(), code:requestedSample.code, sampleNumbers:[requestedSample.number], groupProject:'shrimpina',
     common:cleanSpecimenName(requestedSample.common), sci:requestedSample.sci,
-    lat:requestedSample.site.includes('Woodneck') ? 41.5885 : 41.5958, lng:requestedSample.site.includes('Woodneck') ? -70.6462 : -70.6438,
+    lat:requestedLocation?.lat ?? null, lng:requestedLocation?.lng ?? null,
+    inatPlace:requestedLocation?.place || '', inatAccuracy:requestedLocation?.accuracy ?? null,
     photos, photoLabels, heroPhoto:photos[0] || '', morphologyViews:sampleMorphologyViews || speciesMorphologyViews || (useExactStudy ? exactSampleRecord.morphologyViews : undefined),
     refs:[`Shrimpina specimen register, ${requestedSample.code}, ${requestedSample.date}.`, ...(s.refs || []).filter(ref => !ref.includes('Shrimpina specimen'))]
   };
@@ -199,6 +202,8 @@ if (!s) {
     : `<div class="profile-hero blueprint">${buildProfileHero(s)}</div>
        <div class="profile-body">${buildProfileBody(s)}`;
   document.title = s.common + ': Woods Hole Biodiversity Survey';
+  const hasPublicLocation = Number.isFinite(s.lat) && Number.isFinite(s.lng);
+  const locationMarkup = hasPublicLocation ? `<div id="speciesMap" class="blueprint"></div>${isShrimpina ? `<p class="inat-location-meta"><strong>${escapeResearchText(s.inatPlace || 'Public iNaturalist location')}</strong><span>iNaturalist public coordinates · accuracy ±${s.inatAccuracy} m</span>${requestedSample?.record ? `<a href="${requestedSample.record}" target="_blank" rel="noopener">Open observation ↗</a>` : ''}</p>` : ''}` : `<p class="inat-location-unavailable">No public iNaturalist location is available for this specimen.</p>`;
   root.innerHTML = `
     ${projectNavigation}
     <div class="breadcrumb">
@@ -209,7 +214,7 @@ if (!s) {
       <div class="stitch-divider"><span>where it's been seen →</span></div>
       <div class="reveal-sec" id="record-location">
         <div class="sec-label"><span class="n">08</span><h3>Location</h3></div>
-        <div id="speciesMap" class="blueprint"></div>
+        ${locationMarkup}
       </div>
       <div class="reveal-sec" id="record-observations">
         <div class="sec-label"><span class="n">09</span><h3>iNaturalist observations</h3></div>
@@ -231,11 +236,18 @@ if (!s) {
     window.addEventListener('load', () => window.setTimeout(alignRequestedSection, 400), { once:true });
   }
 
-  const smap = L.map('speciesMap', { zoomControl: false, attributionControl: true, scrollWheelZoom: false }).setView([s.lat, s.lng], 16);
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom: 19, minZoom: 13, attribution: 'Tiles &copy; Esri'
-  }).addTo(smap);
-  L.circleMarker([s.lat, s.lng], { radius: 9, color: isShrimpina ? '#b33c58' : (GROUP_FILL[s.group].startsWith('var') ? '#315e42' : GROUP_FILL[s.group]), fillOpacity: 0.85 }).addTo(smap);
+  if (hasPublicLocation) {
+    const smap = L.map('speciesMap', { zoomControl: true, attributionControl: true, scrollWheelZoom: false }).setView([s.lat, s.lng], 16);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19, minZoom: 2, attribution: 'Tiles &copy; Esri'
+    }).addTo(smap);
+    L.control.scale({ position:'bottomleft', metric:true, imperial:true, maxWidth:110 }).addTo(smap);
+    const compass = L.control({ position:'topright' });
+    compass.onAdd = () => { const element=L.DomUtil.create('div','shrimpina-map-compass');element.setAttribute('aria-label','North');element.innerHTML='<b>N</b><span aria-hidden="true">↑</span>';return element; };
+    compass.addTo(smap);
+    L.circleMarker([s.lat, s.lng], { radius: 9, color: isShrimpina ? '#b33c58' : (GROUP_FILL[s.group].startsWith('var') ? '#315e42' : GROUP_FILL[s.group]), fillOpacity: 0.85 }).addTo(smap);
+    if (isShrimpina && Number.isFinite(s.inatAccuracy) && s.inatAccuracy > 0) L.circle([s.lat,s.lng], { radius:s.inatAccuracy, color:'#b33c58', weight:1, opacity:.55, fillOpacity:.06, interactive:false }).addTo(smap);
+  }
 
   const grid = document.getElementById('obsGrid');
   const status = document.getElementById('obsStatus');
@@ -245,7 +257,7 @@ if (!s) {
       const sample = SHRIMPINA_SAMPLE_REGISTER.find(item => item.code === media.code);
       return `<a class="obs-card" href="${media.url}" target="_blank" rel="noopener">
         <div class="obs-photo"><img src="${media.photo}" alt="${sample?.common || media.common}" loading="lazy"></div>
-        <div class="obs-meta"><span class="obs-code">${media.code}</span><b>${sample?.common || media.common}</b><span class="obs-sci">${sample?.sci || media.taxon}</span><span class="obs-sub">${sample?.date || media.observed} · ${sample?.site || 'Woods Hole'}</span></div>
+        <div class="obs-meta"><span class="obs-code">${media.code}</span><b>${sample?.common || media.common}</b><span class="obs-sci">${sample?.sci || media.taxon}</span><span class="obs-sub">${sample?.date || media.observed} · ${escapeResearchText(requestedLocation?.place || 'iNaturalist public location')}</span></div>
       </a>`;
     }).join('');
     status.textContent = linkedMedia.length ? `${linkedMedia.length} spreadsheet-linked record${linkedMedia.length === 1 ? '' : 's'}.` : 'No iNaturalist record is linked to this SSAJ sample.';

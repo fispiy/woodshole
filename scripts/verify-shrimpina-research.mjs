@@ -37,6 +37,7 @@ function loadConst(filename, name, context = {}) {
 
 const register = loadConst('shrimpina-sample-register.js', 'SHRIMPINA_SAMPLE_REGISTER');
 const photoLibrary = loadConst('shrimpina-photo-library.js', 'SHRIMPINA_PHOTO_LIBRARY');
+const observationLocations = loadConst('shrimpina-observation-locations.js', 'SHRIMPINA_OBSERVATION_LOCATIONS');
 const researchPath = path.join(root, 'shrimpina-research-data.js');
 const research = loadConst('shrimpina-research-data.js', 'SHRIMPINA_RESEARCH', {
   document:{ currentScript:{ src:pathToFileURL(researchPath).href } }
@@ -54,6 +55,19 @@ const expectedDna = {
 
 check(register.length === 83, `Expected 83 register records, found ${register.length}`);
 check(Object.keys(research.dnaBySample).length === 14, `Expected 14 DNA entries, found ${Object.keys(research.dnaBySample).length}`);
+check(research.researchQuestion === 'How are the morphological characteristics among crab species in Little Sippewissett Marsh and Woodneck Beach results of their role and place within the community?', 'Official research question does not match the supplied wording');
+
+check(Object.keys(observationLocations).length === 47, `Expected 47 public iNaturalist locations, found ${Object.keys(observationLocations).length}`);
+for (const [code, location] of Object.entries(observationLocations)) {
+  const specimen = register.find(item => item.code === code);
+  const linkedObservation = Number(specimen?.record?.match(/observations\/(\d+)/)?.[1]);
+  check(Boolean(specimen), `${code}: iNaturalist location has no register record`);
+  check(linkedObservation === location.observation, `${code}: location observation does not match the register link`);
+  check(Number.isFinite(location.lat) && Number.isFinite(location.lng), `${code}: invalid public iNaturalist coordinates`);
+  check(Number.isFinite(location.accuracy) && location.accuracy >= 0, `${code}: invalid iNaturalist positional accuracy`);
+  check(typeof location.place === 'string' && location.place.trim().length > 0, `${code}: missing iNaturalist place label`);
+}
+check(!observationLocations.SSAJ74, 'SSAJ74 must remain unmapped while its linked iNaturalist observation is unavailable');
 
 for (const [code, [scientific, start, end]] of Object.entries(expectedDna)) {
   const dna = research.dnaBySample[code];
@@ -163,6 +177,8 @@ check(!overviewSource.includes('comparisonTables'), 'Overview still renders comp
 check(!overviewSource.includes('class="tree-row"'), 'Overview still contains the deprecated table-like taxonomy rows');
 check(overviewSource.includes('id="relationshipTree"'), 'Overview is missing the unified relationship tree');
 check(overviewSource.includes('relationship-tree.js'), 'Overview is missing the shared relationship-tree renderer');
+check(overviewSource.includes('L.control.scale(') && overviewSource.includes('shrimpina-map-compass'), 'Overview map is missing its distance scale or compass');
+check(!overviewSource.includes('accuracy <= 500'), 'Overview still drops broad public iNaturalist locations');
 check(!overviewSource.includes('id="tree-view-evolution"') && !overviewSource.includes('id="tree-view-collection"'), 'Overview still contains disconnected relationship-tree panels');
 check(labSource.includes('class="phylogeny-branch'), 'Laboratory is missing the SVG phylogeny branches');
 check(labSource.includes('class="phylogeny-leaf'), 'Laboratory is missing the linked phylogeny terminals');
@@ -239,6 +255,9 @@ check(profileSource.includes('researchGuideHref(s)'), 'Specimen morphology is mi
 const specimenPageSource = fs.readFileSync(path.join(root, 'species.html'), 'utf8');
 check(!specimenPageSource.includes(': (s.photos || [])'), 'Specimen profiles can still inherit another record’s species-level photographs');
 check(specimenPageSource.includes("heroPhoto:photos[0] || ''"), 'Specimen profiles can still inherit another record’s hero photograph');
+check(specimenPageSource.includes('shrimpina-observation-locations.js'), 'Specimen profiles do not load public iNaturalist locations');
+check(specimenPageSource.includes('L.control.scale(') && specimenPageSource.includes('shrimpina-map-compass'), 'Specimen map is missing its distance scale or compass');
+check(!specimenPageSource.includes("requestedSample.site.includes('Woodneck')"), 'Specimen profiles still use fabricated site-center coordinates');
 
 if (failures.length) {
   console.error(`Shrimpina verification failed (${failures.length}):`);
