@@ -7,17 +7,17 @@ const slug=value=>String(value).normalize('NFKD').replace(/[^a-zA-Z0-9]+/g,'-').
 const evolutionHierarchy={label:'Animalia',children:[
   {label:'Deuterostomia',children:[{label:'Chordata',children:[
     {label:'Aves',example:'Birds',statuses:['Ground']},
-    {label:'Actinopterygii',example:'Northern Pipefish',statuses:['Tidal']}
+    {label:'Actinopterygii',example:'Northern Pipefish',scientific:'Syngnathus fuscus',statuses:['Tidal'],href:`${relationshipRoot}/species.html?sample=SSAJ56`}
   ]}]},
   {label:'Protostomia',children:[
     {label:'Lophotrochozoa',children:[
-      {label:'Annelida',example:'Plumed Worm',statuses:['Intertidal']},
-      {label:'Mollusca',example:'Periwinkles · mussels · clams',statuses:['Intertidal']}
+      {label:'Annelida',example:'Plumed Worm',scientific:'Diopatra cuprea',statuses:['Intertidal'],href:`${relationshipRoot}/species.html?sample=SSAJ79`},
+      {label:'Mollusca',example:'Periwinkles · mussels · clams',scientific:'Littorina · Geukensia · Mercenaria',statuses:['Intertidal']}
     ]},
     {label:'Ecdysozoa',children:[
       {label:'Nematoda',example:'Roundworms'},
       {label:'Arthropoda',children:[
-        {label:'Chelicerata',example:'Atlantic Horseshoe Crab',statuses:['Intertidal']},
+        {label:'Chelicerata',example:'Atlantic Horseshoe Crab',scientific:'Limulus polyphemus',statuses:['Intertidal'],href:`${relationshipRoot}/species.html?sample=SSAJ57`},
         {label:'Mandibulata',children:[
           {label:'Myriapoda',example:'Centipedes · millipedes',statuses:['Ground']},
           {label:'Pancrustacea',children:[
@@ -41,10 +41,13 @@ const decapoda=findNode(evolutionHierarchy,'Decapoda');
 
 const broadEdges=[],broadNodes=[];
 const broadNodeMarkup=node=>{
-  const hasStatuses=Boolean(node.statuses?.length),height=hasStatuses?70:(node.example?52:38),width=node.example&&node.example.length>23?190:node.statuses?.length>3?210:144;
-  const titleY=node.example?(hasStatuses?-14:-7):(hasStatuses?-7:5),exampleY=hasStatuses?3:11;
-  const statuses=hasStatuses?`<text class="relationship-broad-status" text-anchor="middle" y="23">${node.statuses.map((status,index)=>`<tspan class="${status==='Invasive'?'relationship-invasive':`zone-${slug(status)}`}"${index?' dx="10"':''}>${esc(status)}</tspan>`).join('')}</text>`:'';
-  return `<g class="relationship-node relationship-node-broad${node.label==='Animalia'?' relationship-node-root':''}" transform="translate(${node.x} ${node.y})"><rect x="-${width/2}" y="-${height/2}" width="${width}" height="${height}"/><text text-anchor="middle" y="${titleY}">${esc(node.label)}</text>${node.example?`<text class="relationship-example" text-anchor="middle" y="${exampleY}">${esc(node.example)}</text>`:''}${statuses}</g>`;
+  const hasStatuses=Boolean(node.statuses?.length),hasScientific=Boolean(node.scientific),height=hasScientific?88:(hasStatuses?70:(node.example?52:38));
+  const width=node.scientific?.length>25?230:node.example&&node.example.length>23?200:node.statuses?.length>3?210:156;
+  const titleY=hasScientific?-24:node.example?(hasStatuses?-14:-7):(hasStatuses?-7:5),exampleY=hasScientific?-6:(hasStatuses?3:11),statusY=hasScientific?28:23;
+  const statuses=hasStatuses?`<text class="relationship-broad-status" text-anchor="middle" y="${statusY}">${node.statuses.map((status,index)=>`<tspan class="${status==='Invasive'?'relationship-invasive':`zone-${slug(status)}`}"${index?' dx="10"':''}>${esc(status)}</tspan>`).join('')}</text>`:'';
+  const content=`<rect x="-${width/2}" y="-${height/2}" width="${width}" height="${height}"/><text text-anchor="middle" y="${titleY}">${esc(node.label)}</text>${node.example?`<text class="relationship-example" text-anchor="middle" y="${exampleY}">${esc(node.example)}</text>`:''}${hasScientific?`<text class="relationship-broad-scientific" text-anchor="middle" y="11">${esc(node.scientific)}</text>`:''}${statuses}`;
+  const tag=node.href?'a':'g',href=node.href?` href="${node.href}" aria-label="${esc(node.example)}, ${esc(node.scientific)}, ${esc(node.statuses.join(', '))}"`:'';
+  return `<${tag} class="relationship-node relationship-node-broad${node.label==='Animalia'?' relationship-node-root':''}${node.href?' relationship-broad-link':''}"${href} transform="translate(${node.x} ${node.y})">${content}</${tag}>`;
 };
 const buildBroad=node=>{
   if(node.label!=='Decapoda') broadNodes.push(broadNodeMarkup(node));

@@ -193,6 +193,10 @@ check(relationshipSource.includes('animateCamera') && relationshipSource.include
 check(relationshipSource.includes('class="relationship-anchor"') && relationshipSource.includes("findNode(evolutionHierarchy,'Decapoda')"), 'Decapoda is not preserved as the shared zoom anchor');
 for (const status of ['Tidal','Intertidal','Transitional','Invasive']) check(relationshipSource.includes(`'${status}'`), `Evolutionary overview is missing the ${status} status label`);
 check(relationshipSource.includes("displayZone=zone=>zone==='Aquatic'?'Tidal':zone"), 'Relationship tree does not use the requested Tidal display label');
+for (const [common,scientific] of [['Northern Pipefish','Syngnathus fuscus'],['Plumed Worm','Diopatra cuprea'],['Atlantic Horseshoe Crab','Limulus polyphemus']]) {
+  check(relationshipSource.includes(`example:'${common}',scientific:'${scientific}'`), `Evolutionary overview is missing the full ${common} endpoint label`);
+}
+check(relationshipSource.includes('relationship-broad-scientific'), 'Evolutionary endpoints are missing scientific-name styling');
 
 const branches = research.taxonomyTree.branches;
 const families = new Set(branches.flatMap(branch => branch.families.map(family => family.name)));
